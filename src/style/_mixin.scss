@@ -1,0 +1,12 @@
+@mixin wh($width, $height) {  
+  width: $width;
+  height: $height;
+}
+
+@mixin position($type, $left: unset, $right: unset, $top: unset, $bottom: unset) {
+  position: $type;
+  left: $left;
+  right: $right;
+  top: $top;
+  bottom: $bottom;
+}
