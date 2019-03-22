@@ -7,6 +7,12 @@ export default class Demo extends DemoBase {
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
+
+    this.loadImage(IMG_URL)
+        .then((sprite: HTMLImageElement) => {
+          this.spritesheet = sprite;
+          // this.drawSpritesheet(sprite);
+        });
     this.listenEvents();
   }
 
@@ -14,26 +20,15 @@ export default class Demo extends DemoBase {
     return new Demo(canvas);
   }
 
+  public start() {
+    return this.draw();
+  }
+
   public draw() {
     const { context, canvas } = this;
 
     this.clearScreen();
-    this.loadImage(IMG_URL)
-        .then((sprite: HTMLImageElement) => {
-          // this.drawSpritesheet(sprite);
-        });
     return this.drawBackground();
-  }
-
-  private loadImage(src: string) {
-    this.spritesheet = new Image();
-    this.spritesheet.src = src;
-
-    return new Promise((resolve, reject) => {
-      this.spritesheet.onload = (event: Event) => {
-        resolve(event.target);
-      }
-    });
   }
 
   private drawBackground() {

@@ -22,12 +22,10 @@ export default class Demo extends DemoBase {
   }
 
   public draw() {
-    const { context, canvas } = this;
 
     return this.clearScreen()
                .drawGrid()
-               .drawCircles()
-               .startPlay();
+               .drawCircles();
   }
 
   private createCircle(
@@ -54,7 +52,7 @@ export default class Demo extends DemoBase {
     return this;
   }
 
-  private drawGrid(
+  protected drawGrid(
     color: string = 'rgba(0,0,0,0.2)',
     stepx: number = 10,
     stepy: number = 10

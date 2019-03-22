@@ -1,5 +1,5 @@
 
-import Demo from './Demo.03';
+import Demo from './Demo.04';
 
 export default class App {
 
@@ -21,13 +21,13 @@ export default class App {
     const setSize = () => {
       this.canvas.width = window.innerWidth;
       this.canvas.height = window.innerHeight;
-      this.demo && this.demo.draw();
+      this.demo && this.demo.start();
     };
     setSize();
     document.body.appendChild(this.canvas);
     window.addEventListener('resize', setSize, false);
 
-    this.demo = Demo.init(this.canvas).draw();
+    this.demo = Demo.init(this.canvas).start();
     console.log(this.demo);
     (window as any).demo = this.demo;
   }

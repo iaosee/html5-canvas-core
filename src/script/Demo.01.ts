@@ -17,14 +17,12 @@ export default class Demo extends DemoBase {
   }
 
   public draw() {
-    const { context, canvas } = this;
 
-    this.clearScreen();
-    return this.drawCircle()
+    return this.clearScreen()
+               .drawCircle()
                .drawNumerals()
                .drawCenter()
-               .drawHands()
-               .startPlay();
+               .drawHands();
   }
 
   private drawCircle() {

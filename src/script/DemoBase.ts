@@ -26,7 +26,15 @@ export default class DemoBase {
     return canvas.width < canvas.height ? canvas.width : canvas.height;
   }
 
-  public draw() {
+  public start() {
+    return this.startPlay();
+  }
+
+  public stop() {
+    return this.stopPlay();
+  }
+
+  protected draw() {
     const { context, canvas } = this;
 
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -39,16 +47,16 @@ export default class DemoBase {
       this.centerY,
     );
 
-    return this.startPlay();
+    return this;
   }
 
-  public clearScreen() {
+  protected clearScreen() {
     const { context, canvas } = this;
     context.clearRect(0, 0, canvas.width, canvas.height);
     return this;
   }
 
-  public startPlay() {
+  protected startPlay() {
     let then = 0;
     const tick = (now: number) => {
       let deltaTime = now - then;
@@ -65,9 +73,46 @@ export default class DemoBase {
     return this;
   }
 
-  public stopPlay() {
+  protected stopPlay() {
     cancelAnimationFrame(this.player);
     return this;
+  }
+
+  protected drawGrid(
+    color: string = 'rgba(0,0,0,0.2)',
+    stepx: number = 10,
+    stepy: number = 10
+  ) {
+    const { context, canvas } = this;
+
+    context.strokeStyle = color;
+    context.lineWidth = 0.5;
+
+    for ( let i = stepx + 0.5, len = canvas.width; i < len; i += stepx ) {
+      context.beginPath();
+      context.moveTo(i, 0);
+      context.lineTo(i, canvas.height);
+      context.stroke();
+    }
+
+    for ( let i = stepy + 0.5, len = canvas.height; i < len; i += stepy ) {
+      context.beginPath();
+      context.moveTo(0, i);
+      context.lineTo(canvas.width, i);
+      context.stroke();
+    }
+
+    return this;
+  }
+
+  protected loadImage(url: string) {
+    return new Promise((resolve, reject) => {
+      const spritesheet = new Image();
+      spritesheet.src = url;
+      spritesheet.onload = (event: Event) => {
+        resolve(event.target);
+      }
+    });
   }
 
   /** ******* Utils ******* */
