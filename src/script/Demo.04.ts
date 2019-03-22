@@ -4,6 +4,9 @@ const IMG_URL = require('../asset/images/presta_illustration_20.jpg');
 
 export default class Demo extends DemoBase {
 
+  public mousedownPosition: Point;
+
+
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
@@ -13,9 +16,18 @@ export default class Demo extends DemoBase {
     return new Demo(canvas);
   }
 
-  public draw() {
+  protected draw() {
     return this.clearScreen()
                .drawGrid();
+  }
+
+  private rubberbandStart(x: number, y: number) {
+    this.mousedownPosition = {
+      x: x,
+      y: y
+    };
+
+
   }
 
 }
