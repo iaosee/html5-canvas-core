@@ -13,7 +13,7 @@ export default class Demo extends DemoBase {
       x: this.centerX,
       y: this.centerY
     }
-    this.createCircle(pos, 300)
+    this.createCircle(pos, 0)
         .listenEvents();
   }
 
@@ -44,9 +44,9 @@ export default class Demo extends DemoBase {
       };
       this.circles.push({
         position: point,
-        velocityX: Math.random() * (this.random.range(-5, 5).getOne() || 5),
-        velocityY: Math.random() * (this.random.range(-5, 5).getOne() || 5),
-        radius: Math.random() * 50,
+        velocityX: Math.random() * (this.random.range(-8, 8).getOne() || 8),
+        velocityY: Math.random() * (this.random.range(-8, 8).getOne() || 8),
+        radius: Math.random() * 20,
         color: this.randomRgba(),
       });
     }
@@ -125,13 +125,15 @@ export default class Demo extends DemoBase {
 
   private listenEvents() {
     const { canvas } = this;
-
-    canvas.addEventListener('click', (e: MouseEvent) => {
+    const mouseHandler = (e: MouseEvent) => {
       const coordinate: Point = this.CoordinateTransformation(e.clientX, e.clientY);
-
+      e.type === 'click' && this.circles.splice(0, Math.floor(this.circles.length / 2));
       this.createCircle(coordinate, 100, false);
 
-    }, false);
+    };
+
+    canvas.addEventListener('mousemove', this.throttle(mouseHandler, 100), false);
+    canvas.addEventListener('click', mouseHandler, false);
 
   }
 }
