@@ -5,12 +5,12 @@ const IMG_URL = require('../asset/images/presta_illustration_20.jpg');
 export default class Demo extends DemoBase {
   public spritesheet: HTMLImageElement;
 
-  constructor(public canvas: HTMLCanvasElement) {
+  public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
     this.listenEvents();
   }
 
-  static init(canvas: HTMLCanvasElement): Demo {
+  public static init(canvas: HTMLCanvasElement): Demo {
     return new Demo(canvas);
   }
 

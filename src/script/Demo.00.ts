@@ -2,11 +2,11 @@ import DemoBase from "./DemoBase";
 
 export default class Demo extends DemoBase {
 
-  constructor(public canvas: HTMLCanvasElement) {
+  public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
-  static init(canvas: HTMLCanvasElement): Demo {
+  public static init(canvas: HTMLCanvasElement): Demo {
     return new Demo(canvas);
   }
 

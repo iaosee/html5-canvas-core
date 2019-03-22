@@ -92,4 +92,12 @@ export default class DemoBase {
     }
   }
 
+  public randomRgba() {
+    return 'rgba(' +
+    (Math.random()*255).toFixed(0) + ', ' +
+    (Math.random()*255).toFixed(0) + ', ' +
+    (Math.random()*255).toFixed(0) + ', ' +
+    (Math.random()).toFixed(1) + ')';
+  }
+
 }
