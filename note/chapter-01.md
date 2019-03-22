@@ -63,3 +63,18 @@ Canvas 元素实际上有两套尺寸，一个是元素本身的大小，一个�
 在进行绘图操作的时候，需要频繁的设置 `context` 的属性值，但是有时候只想临时改变这些属性，用完恢复之前的状态。`context` 提供了两个 `save()` 和 `store()` 的 API。在开始做临时属性改变之前调用 `save()` 完成临时绘制之后调用 `store()` 就可以恢复到上一次调用 `save()` 之前的状态了。
 
 `save()` 与 `store()` 方法可以嵌套使用，`save()` 方法会将当前的绘图环境压入栈顶，`store()` 方法则会从栈顶弹出上次绘图环境。
+
+
+## Canvas 坐标系统
+
+浏览器的事件对象中的鼠标坐标，是相对于浏览器窗口的坐标，并非实际 Canvas 自身的坐标系统。而我们通常需要知道鼠标发生在 Canvas 中的坐标，而不是相对于窗口的坐标，所以就需要坐标转换。
+
+``` js
+function CoordinateTransformation(canvas: HTMLCanvasElement, x: number, y: number) {
+  const bbox = canvas.getBoundingClientRect();
+  return {
+    x: x - bbox.left * (canvas.width  / bbox.width),
+    y: y - bbox.top  * (canvas.height / bbox.height)
+  };
+}
+```

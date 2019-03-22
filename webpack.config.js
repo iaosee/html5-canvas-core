@@ -102,12 +102,12 @@ module.exports = {
           },
           // {
           //   loader: 'file-loader',
-          //   options: { name: '[name].[hash].[ext]', outputPath: 'images/' },
+          //   options: { name: '[name].[hash].[ext]', outputPath: 'asset/images/' },
           // },
-          // {
-          //   loader: 'image-webpack-loader',
-          //   options: { bypassOnDebug: true },
-          // },
+          {
+            loader: 'image-webpack-loader',
+            options: { bypassOnDebug: true },
+          },
         ],
       },
       {

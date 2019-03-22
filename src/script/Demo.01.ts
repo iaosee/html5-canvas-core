@@ -1,8 +1,7 @@
+import DemoBase from "./DemoBase";
 
-export default class Demo {
+export default class Demo extends DemoBase {
 
-  public player: any = null;
-  public context: CanvasRenderingContext2D;
   public config = {
     FONT_HEIGHT: 15,
     MARGIN: 40,
@@ -10,34 +9,17 @@ export default class Demo {
   };
 
   constructor(public canvas: HTMLCanvasElement) {
-    if ( !canvas ) {
-      throw new Error('Occur Error');
-    }
-
-    this.context = this.canvas.getContext('2d');
+    super(canvas);
   }
 
   static init(canvas: HTMLCanvasElement): Demo {
     return new Demo(canvas);
   }
 
-  get centerX() {
-    return this.canvas.width / 2;
-  }
-
-  get centerY() {
-    return this.canvas.height / 2;
-  }
-
-  get viewMin() {
-    const {  canvas } = this;
-    return canvas.width < canvas.height ? canvas.width : canvas.height;
-  }
-
   public draw() {
     const { context, canvas } = this;
-    context.clearRect(0, 0, canvas.width, canvas.height);
 
+    this.clearScreen();
     return this.drawCircle()
                .drawNumerals()
                .drawCenter()
@@ -45,7 +27,7 @@ export default class Demo {
                .startPlay();
   }
 
-  public drawCircle() {
+  private drawCircle() {
     const { canvas, context, config } = this;
     const radius = this.viewMin / 2 - config.MARGIN;
     const startRadian = 0;
@@ -60,7 +42,7 @@ export default class Demo {
     return this;
   }
 
-  public drawNumerals() {
+  private drawNumerals() {
     const { context, config } = this;
     const numerals = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
 
@@ -84,7 +66,7 @@ export default class Demo {
     return this;
   }
 
-  public drawCenter() {
+  private drawCenter() {
     const { context } = this;
 
     context.beginPath();
@@ -113,7 +95,7 @@ export default class Demo {
     return this;
   }
 
-  public drawHands() {
+  private drawHands() {
     const date = new Date();
     const hour = date.getHours();
     const h = hour > 12 ? hour - 12 : hour;
@@ -122,27 +104,6 @@ export default class Demo {
     this.drawHand(date.getMinutes(), false);
     this.drawHand(date.getSeconds(), false);
 
-    return this;
-  }
-
-  public startPlay() {
-    let then = 0;
-    const tick = (now: number) => {
-      let deltaTime = now - then;
-      then = now;
-      deltaTime *= 0.001;
-
-      this.draw();
-      this.player = requestAnimationFrame(tick);
-    }
-
-    this.stopPlay();
-    this.player = requestAnimationFrame(tick);
-    return this;
-  }
-
-  public stopPlay() {
-    cancelAnimationFrame(this.player);
     return this;
   }
 

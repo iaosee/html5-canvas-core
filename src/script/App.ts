@@ -1,5 +1,5 @@
 
-import Demo from './Demo.01';
+import Demo from './Demo.02';
 
 export default class App {
 
@@ -25,13 +25,11 @@ export default class App {
     };
     setSize();
     document.body.appendChild(this.canvas);
-
     window.addEventListener('resize', setSize, false);
 
     this.demo = Demo.init(this.canvas).draw();
     console.log(this.demo);
     (window as any).demo = this.demo;
-
   }
 
 }
