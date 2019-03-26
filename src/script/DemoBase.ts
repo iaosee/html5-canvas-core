@@ -79,23 +79,23 @@ export default class DemoBase {
   }
 
   protected drawGrid(
-    color: string = 'rgba(0,0,0,0.2)',
-    stepx: number = 10,
-    stepy: number = 10
+    stepX: number = 10,
+    stepY: number = 10,
+    color: string = 'rgba(0,0,0,0.2)'
   ) {
     const { context, canvas } = this;
 
     context.strokeStyle = color;
     context.lineWidth = 0.5;
 
-    for ( let i = stepx + 0.5, len = canvas.width; i < len; i += stepx ) {
+    for ( let i = stepX + 0.5, len = canvas.width; i < len; i += stepX ) {
       context.beginPath();
       context.moveTo(i, 0);
       context.lineTo(i, canvas.height);
       context.stroke();
     }
 
-    for ( let i = stepy + 0.5, len = canvas.height; i < len; i += stepy ) {
+    for ( let i = stepY + 0.5, len = canvas.height; i < len; i += stepY ) {
       context.beginPath();
       context.moveTo(0, i);
       context.lineTo(canvas.width, i);
