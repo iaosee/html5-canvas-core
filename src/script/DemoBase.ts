@@ -105,12 +105,12 @@ export default class DemoBase {
     return this;
   }
 
-  protected loadImage(url: string) {
+  protected loadImage(url: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       const spritesheet = new Image();
       spritesheet.src = url;
       spritesheet.onload = (event: Event) => {
-        resolve(event.target);
+        resolve((event.target as HTMLImageElement));
       }
     });
   }

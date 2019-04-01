@@ -40,6 +40,7 @@ export default class Demo extends DemoBase {
         x: position.x || this.centerX,
         y: position.y || this.centerY
       };
+
       this.circles.push({
         position: point,
         velocityX: Math.random() * (this.random.range(-8, 8).getOne() || 8),
@@ -118,6 +119,7 @@ export default class Demo extends DemoBase {
 
     circle.position.x += circle.velocityX;
     circle.position.y += circle.velocityY;
+
     return this;
   }
 

@@ -1,5 +1,5 @@
 
-import Demo from './Demo.03';
+import Demo from './Demo.04';
 
 export default class App {
 
@@ -7,7 +7,7 @@ export default class App {
   public static instance: App;
   public demo: Demo;
 
-  constructor() {
+  public constructor() {
 
   }
 
