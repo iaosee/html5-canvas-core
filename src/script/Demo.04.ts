@@ -127,8 +127,8 @@ export default class Demo extends DemoBase {
     }
 
     canvas.addEventListener('mousedown', this.mousedownHandler(), false);
-    window.addEventListener('mousemove', this.mousemoveHandler(), false);
-    window.addEventListener('mouseup', this.mouseupHandler(), false);
+    document.addEventListener('mousemove', this.mousemoveHandler(), false);
+    document.addEventListener('mouseup', this.mouseupHandler(), false);
     window.addEventListener('keyup', this.keyupHandler(), false);
 
     return this;
@@ -148,12 +148,9 @@ export default class Demo extends DemoBase {
     return (e: MouseEvent) => {
       const x = e.x || e.clientX;
       const y = e.y || e.clientY;
-      const coordinate: Point = this.CoordinateTransformation(e.clientX, e.clientY);
 
       e.preventDefault();
-      if ( this.dragging ) {
-        this.rubberbandStretch(x, y);
-      }
+      this.dragging && this.rubberbandStretch(x, y);
     }
   }
 

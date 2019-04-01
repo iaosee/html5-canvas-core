@@ -58,33 +58,6 @@ export default class Demo extends DemoBase {
     return this;
   }
 
-  private drawGuidelines(x: number, y: number) {
-    const { context } = this;
-    context.strokeStyle = 'rgba(43,134,66,0.8)';
-    context.lineWidth = 0.5;
-
-    return this.drawVerticalLine(x)
-               .drawHorizontalLine(y);
-  }
-
-  private drawVerticalLine(x: number) {
-    const { context } = this;
-    context.beginPath();
-    context.moveTo(x + 0.5, 0);
-    context.lineTo(x + 0.5, context.canvas.height);
-    context.stroke();
-    return this;
-  }
-
-  private drawHorizontalLine(y: number) {
-    const { context } = this;
-    context.beginPath();
-    context.moveTo(0,y + 0.5);
-    context.lineTo(context.canvas.width, y + 0.5);
-    context.stroke();
-    return this;
-  }
-
   private drawSpritesheet(spritesheet: HTMLImageElement) {
     const { context } = this;
     context.drawImage(spritesheet, 0, 0);

@@ -81,7 +81,7 @@ export default class DemoBase {
   protected drawGrid(
     stepX: number = 10,
     stepY: number = 10,
-    color: string = 'rgba(0,0,0,0.2)'
+    color: string = 'rgba(0,0,0,0.1)'
   ) {
     const { context, canvas } = this;
 
@@ -115,7 +115,33 @@ export default class DemoBase {
     });
   }
 
-  /** ******* Utils ******* */
+
+  protected drawGuidelines(x: number, y: number, color: string = 'rgba(43,134,66,1)') {
+    const { context } = this;
+    context.strokeStyle = color;
+    context.lineWidth = 0.5;
+
+    return this.drawVerticalLine(x)
+               .drawHorizontalLine(y);
+  }
+
+  protected drawVerticalLine(x: number) {
+    const { context } = this;
+    context.beginPath();
+    context.moveTo(x + 0.5, 0);
+    context.lineTo(x + 0.5, context.canvas.height);
+    context.stroke();
+    return this;
+  }
+
+  protected drawHorizontalLine(y: number) {
+    const { context } = this;
+    context.beginPath();
+    context.moveTo(0,y + 0.5);
+    context.lineTo(context.canvas.width, y + 0.5);
+    context.stroke();
+    return this;
+  }
 
   public CoordinateTransformation(x: number, y: number): Point {
     const { canvas } = this;
