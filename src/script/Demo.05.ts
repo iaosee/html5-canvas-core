@@ -136,9 +136,9 @@ export default class Demo extends DemoBase {
       this.draggingMove(coordinate.x, coordinate.y);
       this.clearScreen()
           .drawGrid()
+          .drawRectangles()
           .drawRectangleFill(this.draggingRect)
-          .drawGuidelines(coordinate.x, coordinate.y)
-          .drawRectangles();
+          .drawGuidelines(coordinate.x, coordinate.y);
     }
   }
 
