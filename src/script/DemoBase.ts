@@ -13,6 +13,13 @@ export default class DemoBase {
     this.context = this.canvas.getContext('2d');
   }
 
+  get center(): Point {
+    return {
+      x: this.centerX,
+      y: this.centerY,
+    };
+  }
+
   get centerX() {
     return this.canvas.width / 2;
   }

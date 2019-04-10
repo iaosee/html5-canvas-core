@@ -1,5 +1,5 @@
 
-import Demo from './Demo.05';
+import Demo from './Demo.06';
 
 export default class App {
 
