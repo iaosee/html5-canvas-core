@@ -74,7 +74,7 @@ export default class Demo extends DemoBase {
     document.body.appendChild(tips);
 
     canvas.addEventListener('mousemove', this.throttle((e: MouseEvent) => {
-      const coordinate: Point = this.CoordinateTransformation(e.clientX, e.clientY);
+      const coordinate: Point = this.coordinateTransformation(e.clientX, e.clientY);
       console.log(coordinate);
 
       this.clearScreen()

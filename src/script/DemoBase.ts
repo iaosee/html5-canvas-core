@@ -150,7 +150,7 @@ export default class DemoBase {
     return this;
   }
 
-  public CoordinateTransformation(x: number, y: number): Point {
+  public coordinateTransformation(x: number, y: number): Point {
     const { canvas } = this;
     const bbox = canvas.getBoundingClientRect();
     return {
@@ -170,7 +170,7 @@ export default class DemoBase {
     }
   }
 
-  public randomRgba() {
+  public randomRgba(): string {
     return 'rgba(' +
     (Math.random()*255).toFixed(0) + ', ' +
     (Math.random()*255).toFixed(0) + ', ' +

@@ -4,6 +4,12 @@ export interface Point {
   y: number;
 };
 
+export interface LineSegment {
+  start: Point;
+  end: Point,
+}
+
+export type Polyline = Array<Point>;
 
 export interface Circle {
   position: Point;

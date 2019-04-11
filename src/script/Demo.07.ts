@@ -197,11 +197,11 @@ export default class Demo extends DemoBase {
   private listenEvents() {
     const { canvas } = this;
     const clickHandler = (e: MouseEvent) => {
-      const coordinate: Point = this.CoordinateTransformation(e.clientX, e.clientY);
+      const coordinate: Point = this.coordinateTransformation(e.clientX, e.clientY);
       this.createLetter(coordinate, 20, false);
     };
     const moveHandler = (e: MouseEvent) => {
-      const coordinate: Point = this.CoordinateTransformation(e.clientX, e.clientY);
+      const coordinate: Point = this.coordinateTransformation(e.clientX, e.clientY);
       this.mousePosition = coordinate;
     };
 

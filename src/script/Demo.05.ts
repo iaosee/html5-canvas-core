@@ -115,7 +115,7 @@ export default class Demo extends DemoBase {
     return (e: MouseEvent) => {
       const x = e.x || e.clientX;
       const y = e.y || e.clientY;
-      const coordinate: Point = this.CoordinateTransformation(x, y);
+      const coordinate: Point = this.coordinateTransformation(x, y);
 
       e.preventDefault();
       this.draggingStart(coordinate.x, coordinate.y);
@@ -126,7 +126,7 @@ export default class Demo extends DemoBase {
     return (e: MouseEvent) => {
       const x = e.x || e.clientX;
       const y = e.y || e.clientY;
-      const coordinate: Point = this.CoordinateTransformation(x, y);
+      const coordinate: Point = this.coordinateTransformation(x, y);
 
       e.preventDefault();
       if ( !this.dragging ) {

@@ -46,7 +46,7 @@ export default class Demo extends DemoBase {
       config.circleQuantity = Number(v);
       this.createCircle(this.center, config.circleQuantity, true);
     });
-    gui.add(config, 'lineType', { none: 0, ligature: 1, connection: 2, breaking: 3 }).onFinishChange((v: any) => {
+    gui.add(config, 'lineType', { none: 0, ligature: 1, breaking: 2, connection: 3 }).onFinishChange((v: any) => {
       config.lineType = Number(v);
     });
 
@@ -152,21 +152,6 @@ export default class Demo extends DemoBase {
         for ( let i = 0, iLen = circles.length; i < iLen; i++ ) {
           context.strokeStyle = circles[i].color;
           for ( let j = i + 1, jLen = circles.length; j < jLen; j++ ) {
-            context.moveTo(circles[i].position.x, circles[i].position.y);
-            context.lineTo(circles[j].position.x, circles[j].position.y);
-          }
-        }
-        context.closePath();
-        context.stroke();
-
-        break;
-
-      case 3:
-
-        context.beginPath();
-        for ( let i = 0, iLen = circles.length; i < iLen; i++ ) {
-          context.strokeStyle = circles[i].color;
-          for ( let j = i + 1, jLen = circles.length; j < jLen; j++ ) {
             const xDistance = Math.pow(circles[j].position.x - circles[i].position.x, 2);
             const yDistance = Math.pow(circles[j].position.y - circles[i].position.y, 2)
             const distance = Math.sqrt(xDistance + yDistance);
@@ -186,6 +171,20 @@ export default class Demo extends DemoBase {
         context.closePath();
         context.stroke();
 
+        break;
+
+      case 3:
+
+        context.beginPath();
+        for ( let i = 0, iLen = circles.length; i < iLen; i++ ) {
+          context.strokeStyle = circles[i].color;
+          for ( let j = i + 1, jLen = circles.length; j < jLen; j++ ) {
+            context.moveTo(circles[i].position.x, circles[i].position.y);
+            context.lineTo(circles[j].position.x, circles[j].position.y);
+          }
+        }
+        context.closePath();
+        context.stroke();
         break;
 
       case 0:
@@ -217,11 +216,11 @@ export default class Demo extends DemoBase {
   private listenEvents() {
     const { canvas } = this;
     const clickHandler = (e: MouseEvent) => {
-      const coordinate: Point = this.CoordinateTransformation(e.clientX, e.clientY);
+      const coordinate: Point = this.coordinateTransformation(e.clientX, e.clientY);
       this.createCircle(coordinate, 20, false);
     };
     const moveHandler = (e: MouseEvent) => {
-      const coordinate: Point = this.CoordinateTransformation(e.clientX, e.clientY);
+      const coordinate: Point = this.coordinateTransformation(e.clientX, e.clientY);
       this.mousePosition = coordinate;
     };
 
