@@ -55,7 +55,7 @@ Canvas 元素实际上有两套尺寸，一个是元素本身的大小，一个�
 ![](./images/canvas-rendering-context-2d-method.png)
 
 
-参考：https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
+详细文档参考：https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 
 
 ## Canvas 状态的保存和恢复
@@ -63,6 +63,17 @@ Canvas 元素实际上有两套尺寸，一个是元素本身的大小，一个�
 在进行绘图操作的时候，需要频繁的设置 `context` 的属性值，但是有时候只想临时改变这些属性，用完恢复之前的状态。`context` 提供了两个 `save()` 和 `store()` 的 API。在开始做临时属性改变之前调用 `save()` 完成临时绘制之后调用 `store()` 就可以恢复到上一次调用 `save()` 之前的状态了。
 
 `save()` 与 `store()` 方法可以嵌套使用，`save()` 方法会将当前的绘图环境压入栈顶，`store()` 方法则会从栈顶弹出上次绘图环境。
+
+#### **立即模式** 和 **保留模式** 绘图系统
+
+`Canvas` 是采用 **立即模式** 的绘图形式, 意思就是它会立即将指定的内容绘制到 canvas 上, 然后就会忘记刚才绘制的内容,意味着 canvas 中不会包含将要绘制的图像列表.
+
+`SVG` 则是采用 **保留模式** 的绘图系统, svg 中会维护一份所绘制图形对象的列表.
+
+
+**立即模式** 绘图系统不维护所绘制的图形队形列表, **保留模式** 绘图系统会维护所绘制的图形对象列表. **立即模式** 相对 **保留模式** 来说, 是一种更加底层的绘图模式, 立即模式更为灵活.
+
+**立即模式** 适合制作 "绘画应用程序", **保留模式** 适合制作 "画图应用程序".
 
 
 ## Canvas 坐标系统
@@ -78,5 +89,7 @@ function coordinateTransformation(canvas: HTMLCanvasElement, x: number, y: numbe
   };
 }
 ```
+
+
 
 
