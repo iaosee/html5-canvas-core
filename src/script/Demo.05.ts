@@ -1,10 +1,11 @@
 import DemoBase from './DemoBase';
 import { Point, Rectangle } from './declare';
 
-
+/**
+ * @description 拖拽绘制矩形
+ */
 export default class Demo extends DemoBase {
-
-  public dragging: Boolean = false;
+  public dragging: boolean = false;
   public rectangles: Array<Rectangle> = [];
   public mousedownPosition: Point = { x: 0, y: 0 };
   public draggingRect: Rectangle = {
@@ -12,7 +13,7 @@ export default class Demo extends DemoBase {
     y: 0,
     width: 0,
     height: 0,
-    color: this.randomRgba(),
+    color: this.randomRgba()
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -26,17 +27,15 @@ export default class Demo extends DemoBase {
   }
 
   public start() {
-    return this.draw()
-               .drawRectangles();
+    return this.draw().drawRectangles();
   }
 
   protected draw() {
-    return this.clearScreen()
-               .drawGrid();
+    return this.clearScreen().drawGrid();
   }
 
   private drawRectangles() {
-    for ( let i = 0, len = this.rectangles.length; i < len; i++ ) {
+    for (let i = 0, len = this.rectangles.length; i < len; i++) {
       this.drawRectangleFill(this.rectangles[i]);
     }
 
@@ -47,12 +46,7 @@ export default class Demo extends DemoBase {
     const { context } = this;
 
     context.strokeStyle = rect.color;
-    context.strokeRect(
-      rect.x,
-      rect.y,
-      rect.width,
-      rect.height
-    );
+    context.strokeRect(rect.x, rect.y, rect.width, rect.height);
     context.stroke();
 
     return this;
@@ -62,12 +56,7 @@ export default class Demo extends DemoBase {
     const { context } = this;
 
     context.fillStyle = rect.color;
-    context.fillRect(
-      rect.x,
-      rect.y,
-      rect.width,
-      rect.height
-    );
+    context.fillRect(rect.x, rect.y, rect.width, rect.height);
     context.fill();
 
     return this;
@@ -83,7 +72,6 @@ export default class Demo extends DemoBase {
   }
 
   private draggingStart(x: number, y: number) {
-
     this.dragging = true;
     this.draggingRect.x = this.mousedownPosition.x = x;
     this.draggingRect.y = this.mousedownPosition.y = y;
@@ -93,17 +81,15 @@ export default class Demo extends DemoBase {
   }
 
   private draggingMove(x: number, y: number) {
-
     this.draggingRect.x = x < this.mousedownPosition.x ? x : this.mousedownPosition.x;
     this.draggingRect.y = y < this.mousedownPosition.y ? y : this.mousedownPosition.y;
-    this.draggingRect.width  = Math.abs(x - this.mousedownPosition.x),
-    this.draggingRect.height = Math.abs(y - this.mousedownPosition.y);
+    (this.draggingRect.width = Math.abs(x - this.mousedownPosition.x)),
+      (this.draggingRect.height = Math.abs(y - this.mousedownPosition.y));
 
     return this;
   }
 
   private draggingEnd() {
-
     this.dragging = false;
     this.drawRectangleFill(this.draggingRect);
     this.rectangles.push(Object.assign({}, this.draggingRect));
@@ -119,7 +105,7 @@ export default class Demo extends DemoBase {
 
       e.preventDefault();
       this.draggingStart(coordinate.x, coordinate.y);
-    }
+    };
   }
 
   private mousemoveHandler() {
@@ -129,33 +115,36 @@ export default class Demo extends DemoBase {
       const coordinate: Point = this.coordinateTransformation(x, y);
 
       e.preventDefault();
-      if ( !this.dragging ) {
+      if (!this.dragging) {
         return;
       }
 
       this.draggingMove(coordinate.x, coordinate.y);
       this.clearScreen()
-          .drawGrid()
-          .drawRectangles()
-          .drawRectangleFill(this.draggingRect)
-          .drawGuidelines(coordinate.x, coordinate.y);
-    }
+        .drawGrid()
+        .drawRectangles()
+        .drawRectangleFill(this.draggingRect)
+        .drawGuidelines(coordinate.x, coordinate.y);
+    };
   }
 
   private mouseupHandler() {
     return (e: MouseEvent) => {
-
       e.preventDefault();
-      this.clearScreen().drawGrid().draggingEnd().drawRectangles();
-    }
+      this.clearScreen()
+        .drawGrid()
+        .draggingEnd()
+        .drawRectangles();
+    };
   }
 
   private keyupHandler() {
     return (e: KeyboardEvent) => {
       e.preventDefault();
       this.rectangles.splice(0, this.rectangles.length);
-      this.clearScreen().drawGrid().drawRectangles();
-    }
+      this.clearScreen()
+        .drawGrid()
+        .drawRectangles();
+    };
   }
-
 }

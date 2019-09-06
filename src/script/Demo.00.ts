@@ -1,7 +1,9 @@
-import DemoBase from "./DemoBase";
+import DemoBase from './DemoBase';
 
+/**
+ * @description Hello World
+ */
 export default class Demo extends DemoBase {
-
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
   }
@@ -13,5 +15,4 @@ export default class Demo extends DemoBase {
   public start() {
     return this.draw();
   }
-
 }

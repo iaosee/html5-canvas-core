@@ -1,21 +1,21 @@
-import DemoBase from "./DemoBase";
+import DemoBase from './DemoBase';
 import { Point } from './declare';
 const IMG_URL = require('../asset/images/presta_illustration_20.jpg');
 
+/**
+ * @description 图像裁剪
+ */
 export default class Demo extends DemoBase {
-
   public dragging: boolean = false;
   public mousedownPosition: Point = { x: 0, y: 0 };
   public rubberbandDiv: HTMLElement = document.createElement('div');
   public rubberbandRectangle: any = {};
   public image: HTMLImageElement;
 
-
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.addRubberbandToScene()
-        .listenEvents();
+    this.addRubberbandToScene().listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -33,7 +33,7 @@ export default class Demo extends DemoBase {
       position: 'absolute',
       zIndex: '5',
       border: '2px solid red',
-      cursor: 'crosshair',
+      cursor: 'crosshair'
     });
     document.body.appendChild(this.rubberbandDiv);
     return this;
@@ -50,13 +50,13 @@ export default class Demo extends DemoBase {
   }
 
   private moveRubberbandDiv() {
-    this.rubberbandDiv.style.top  = this.rubberbandRectangle.top  + 'px';
+    this.rubberbandDiv.style.top = this.rubberbandRectangle.top + 'px';
     this.rubberbandDiv.style.left = this.rubberbandRectangle.left + 'px';
     return this;
   }
 
   private resizeRubberbandDiv() {
-    this.rubberbandDiv.style.width  = this.rubberbandRectangle.width  + 'px';
+    this.rubberbandDiv.style.width = this.rubberbandRectangle.width + 'px';
     this.rubberbandDiv.style.height = this.rubberbandRectangle.height + 'px';
     return this;
   }
@@ -74,8 +74,8 @@ export default class Demo extends DemoBase {
     this.rubberbandRectangle.left = x < this.mousedownPosition.x ? x : this.mousedownPosition.x;
     this.rubberbandRectangle.top = y < this.mousedownPosition.y ? y : this.mousedownPosition.y;
 
-    this.rubberbandRectangle.width  = Math.abs(x - this.mousedownPosition.x),
-    this.rubberbandRectangle.height = Math.abs(y - this.mousedownPosition.y);
+    (this.rubberbandRectangle.width = Math.abs(x - this.mousedownPosition.x)),
+      (this.rubberbandRectangle.height = Math.abs(y - this.mousedownPosition.y));
 
     this.moveRubberbandDiv();
     this.resizeRubberbandDiv();
@@ -83,18 +83,23 @@ export default class Demo extends DemoBase {
 
   private rubberbandEnd() {
     const { context, canvas } = this;
-    var bbox = canvas.getBoundingClientRect();
+    const bbox = canvas.getBoundingClientRect();
 
     try {
-      context.drawImage(canvas,
+      context.drawImage(
+        canvas,
         this.rubberbandRectangle.left - bbox.left,
         this.rubberbandRectangle.top - bbox.top,
         this.rubberbandRectangle.width,
         this.rubberbandRectangle.height,
-        0, 0, canvas.width, canvas.height
+        0,
+        0,
+        canvas.width,
+        canvas.height
       );
-    } catch (e) { console.log(e); }
-
+    } catch (e) {
+      console.log(e);
+    }
 
     this.rubberbandDiv.style.width = String(0);
     this.rubberbandDiv.style.height = String(0);
@@ -141,7 +146,7 @@ export default class Demo extends DemoBase {
 
       e.preventDefault();
       this.rubberbandStart(x, y);
-    }
+    };
   }
 
   private mousemoveHandler() {
@@ -151,25 +156,24 @@ export default class Demo extends DemoBase {
 
       e.preventDefault();
       this.dragging && this.rubberbandStretch(x, y);
-    }
+    };
   }
 
   private mouseupHandler() {
     return (e: MouseEvent) => {
       e.preventDefault();
       this.rubberbandEnd();
-    }
+    };
   }
 
   private keyupHandler() {
     return (e: KeyboardEvent) => {
-      if ( !e || e.keyCode !== 32 ) {
+      if (!e || e.keyCode !== 32) {
         return;
       }
       this.clearScreen().drawImage();
-    }
+    };
   }
-
 }
 
 function renderStyle(elem: HTMLElement, style: any) {
