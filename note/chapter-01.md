@@ -76,20 +76,3 @@ Canvas 元素实际上有两套尺寸，一个是元素本身的大小，一个�
 **立即模式** 适合制作 "绘画应用程序", **保留模式** 适合制作 "画图应用程序".
 
 
-## Canvas 坐标系统
-
-浏览器的事件对象中的鼠标坐标，是相对于浏览器窗口的坐标，并非实际 Canvas 自身的坐标系统。而我们通常需要知道鼠标发生在 Canvas 中的坐标，而不是相对于窗口的坐标，所以就需要坐标转换。
-
-``` js
-function coordinateTransformation(canvas: HTMLCanvasElement, x: number, y: number) {
-  const bbox = canvas.getBoundingClientRect();
-  return {
-    x: x - bbox.left * (canvas.width  / bbox.width),
-    y: y - bbox.top  * (canvas.height / bbox.height)
-  };
-}
-```
-
-
-
-

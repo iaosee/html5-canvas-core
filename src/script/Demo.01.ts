@@ -1,7 +1,9 @@
-import DemoBase from "./DemoBase";
+import DemoBase from './DemoBase';
 
+/**
+ * @description 时钟
+ */
 export default class Demo extends DemoBase {
-
   public config = {
     FONT_HEIGHT: 15,
     MARGIN: 40,
@@ -17,12 +19,11 @@ export default class Demo extends DemoBase {
   }
 
   public draw() {
-
     return this.clearScreen()
-               .drawCircle()
-               .drawNumerals()
-               .drawCenter()
-               .drawHands();
+      .drawCircle()
+      .drawNumerals()
+      .drawCenter()
+      .drawHands();
   }
 
   private drawCircle() {
@@ -42,23 +43,19 @@ export default class Demo extends DemoBase {
 
   private drawNumerals() {
     const { context, config } = this;
-    const numerals = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
+    const numerals = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
     context.font = '20px Palatino';
     context.fillStyle = 'rgba(35, 154, 59, 1.0)';
-    numerals.map((numeral) => {
-      let radian = Math.PI / 6 * (numeral - 3);
-      let textNumeral = numeral.toString();
-      let numeralWidth = context.measureText(textNumeral).width;
-      let viewMinHalf = this.viewMin / 2 - 20;
-      let textOffsetX = Math.cos(radian) * viewMinHalf - numeralWidth / 2;
-      let textOffsetY = Math.sin(radian) * viewMinHalf + config.FONT_HEIGHT / 3;
+    numerals.map(numeral => {
+      const radian = (Math.PI / 6) * (numeral - 3);
+      const textNumeral = numeral.toString();
+      const numeralWidth = context.measureText(textNumeral).width;
+      const viewMinHalf = this.viewMin / 2 - 20;
+      const textOffsetX = Math.cos(radian) * viewMinHalf - numeralWidth / 2;
+      const textOffsetY = Math.sin(radian) * viewMinHalf + config.FONT_HEIGHT / 3;
 
-      context.fillText(
-        textNumeral,
-        this.centerX + textOffsetX,
-        this.centerY + textOffsetY,
-      );
+      context.fillText(textNumeral, this.centerX + textOffsetX, this.centerY + textOffsetY);
     });
 
     return this;
@@ -76,7 +73,7 @@ export default class Demo extends DemoBase {
 
   private drawHand(loc: number, isHour: boolean = false) {
     const { context, canvas, config } = this;
-    const radian = (Math.PI * 2) * (loc / 60) - Math.PI / 2;
+    const radian = Math.PI * 2 * (loc / 60) - Math.PI / 2;
     const radius = this.viewMin / 2 - config.MARGIN;
     const handRadius = isHour ? radius - canvas.width / 25 - canvas.width / 10 : radius - canvas.width / 25;
 
@@ -84,10 +81,7 @@ export default class Demo extends DemoBase {
     context.strokeStyle = isHour ? 'rgba(61, 126, 154, 1.0)' : 'rgba(61, 126, 154, 0.5)';
     context.moveTo(this.centerX, this.centerY);
     context.lineWidth = isHour ? 4 : 2;
-    context.lineTo(
-      this.centerX + Math.cos(radian) * handRadius,
-      this.centerY + Math.sin(radian) * handRadius
-    );
+    context.lineTo(this.centerX + Math.cos(radian) * handRadius, this.centerY + Math.sin(radian) * handRadius);
     context.stroke();
 
     return this;
@@ -104,5 +98,4 @@ export default class Demo extends DemoBase {
 
     return this;
   }
-
 }

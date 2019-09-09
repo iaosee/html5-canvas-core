@@ -1,12 +1,14 @@
 import { Point } from './declare';
 
+/**
+ * @description DemoBase
+ */
 export default class DemoBase {
-
   public player: any = null;
   public context: CanvasRenderingContext2D;
 
   constructor(public canvas: HTMLCanvasElement) {
-    if ( !canvas ) {
+    if (!canvas) {
       throw new Error('Occur Error');
     }
 
@@ -16,7 +18,7 @@ export default class DemoBase {
   get center(): Point {
     return {
       x: this.centerX,
-      y: this.centerY,
+      y: this.centerY
     };
   }
 
@@ -29,7 +31,7 @@ export default class DemoBase {
   }
 
   get viewMin() {
-    const {  canvas } = this;
+    const { canvas } = this;
     return canvas.width < canvas.height ? canvas.width : canvas.height;
   }
 
@@ -48,11 +50,7 @@ export default class DemoBase {
     context.font = '50px Palatino';
     context.textAlign = 'center';
     context.fillStyle = 'rgba(64,158,255,1.0)';
-    context.fillText(
-      'Hello World, Hello Canvas !',
-      this.centerX,
-      this.centerY,
-    );
+    context.fillText('Hello World, Hello Canvas !', this.centerX, this.centerY);
 
     return this;
   }
@@ -72,7 +70,7 @@ export default class DemoBase {
 
       this.draw();
       this.player = requestAnimationFrame(tick);
-    }
+    };
 
     this.player && this.stopPlay();
     this.player = requestAnimationFrame(tick);
@@ -85,24 +83,20 @@ export default class DemoBase {
     return this;
   }
 
-  protected drawGrid(
-    stepX: number = 10,
-    stepY: number = 10,
-    color: string = 'rgba(0,0,0,0.1)'
-  ) {
+  protected drawGrid(stepX: number = 10, stepY: number = 10, color: string = 'rgba(0,0,0,0.1)') {
     const { context, canvas } = this;
 
     context.strokeStyle = color;
     context.lineWidth = 0.5;
 
-    for ( let i = stepX + 0.5, len = canvas.width; i < len; i += stepX ) {
+    for (let i = stepX + 0.5, len = canvas.width; i < len; i += stepX) {
       context.beginPath();
       context.moveTo(i, 0);
       context.lineTo(i, canvas.height);
       context.stroke();
     }
 
-    for ( let i = stepY + 0.5, len = canvas.height; i < len; i += stepY ) {
+    for (let i = stepY + 0.5, len = canvas.height; i < len; i += stepY) {
       context.beginPath();
       context.moveTo(0, i);
       context.lineTo(canvas.width, i);
@@ -117,19 +111,17 @@ export default class DemoBase {
       const spritesheet = new Image();
       spritesheet.src = url;
       spritesheet.onload = (event: Event) => {
-        resolve((event.target as HTMLImageElement));
-      }
+        resolve(event.target as HTMLImageElement);
+      };
     });
   }
-
 
   protected drawGuidelines(x: number, y: number, color: string = 'rgba(43,134,66,1)') {
     const { context } = this;
     context.strokeStyle = color;
     context.lineWidth = 0.5;
 
-    return this.drawVerticalLine(x)
-               .drawHorizontalLine(y);
+    return this.drawVerticalLine(x).drawHorizontalLine(y);
   }
 
   protected drawVerticalLine(x: number) {
@@ -144,7 +136,7 @@ export default class DemoBase {
   protected drawHorizontalLine(y: number) {
     const { context } = this;
     context.beginPath();
-    context.moveTo(0,y + 0.5);
+    context.moveTo(0, y + 0.5);
     context.lineTo(context.canvas.width, y + 0.5);
     context.stroke();
     return this;
@@ -154,28 +146,33 @@ export default class DemoBase {
     const { canvas } = this;
     const bbox = canvas.getBoundingClientRect();
     return {
-      x: x - bbox.left * (canvas.width  / bbox.width),
-      y: y - bbox.top  * (canvas.height / bbox.height)
+      x: x - bbox.left * (canvas.width / bbox.width),
+      y: y - bbox.top * (canvas.height / bbox.height)
     };
   }
 
-  public throttle(fn: Function, gapTime: number) {
+  public throttle(fn: (...args: any) => void, gapTime: number) {
     let _lastTime: any = null;
-    return function () {
-      let _nowTime = + new Date()
-      if (!_lastTime || _nowTime - _lastTime > gapTime ) {
+    return function() {
+      const _nowTime = +new Date();
+      if (!_lastTime || _nowTime - _lastTime > gapTime) {
         fn.apply(this, arguments);
-        _lastTime = _nowTime
+        _lastTime = _nowTime;
       }
-    }
+    };
   }
 
   public randomRgba(): string {
-    return 'rgba(' +
-    (Math.random()*255).toFixed(0) + ', ' +
-    (Math.random()*255).toFixed(0) + ', ' +
-    (Math.random()*255).toFixed(0) + ', ' +
-    (Math.random()).toFixed(1) + ')';
+    return (
+      'rgba(' +
+      (Math.random() * 255).toFixed(0) +
+      ', ' +
+      (Math.random() * 255).toFixed(0) +
+      ', ' +
+      (Math.random() * 255).toFixed(0) +
+      ', ' +
+      Math.random().toFixed(1) +
+      ')'
+    );
   }
-
 }

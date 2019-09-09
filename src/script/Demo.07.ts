@@ -4,24 +4,26 @@ import DemoBase from './DemoBase';
 import Random from './tools/Random';
 import { Point, Letter } from './declare';
 
+/**
+ * @description 字母连接
+ */
 export default class Demo extends DemoBase {
-
   private letters: Array<Letter> = [];
   private random: Random = Random.init(-5, 5);
-  private letterString: String = 'abcdefghijklmnopqrstuvwxyz~!@#$%^&*()_+`1234567890-=[];\',./<>?:"{}';
+  private letterString: string = 'abcdefghijklmnopqrstuvwxyz~!@#$%^&*()_+`1234567890-=[];\',./<>?:"{}';
   private mousePosition: Point = { x: 0, y: 0 };
   public config: any = {
     quantity: 100,
     lineType: 1,
-    displayLetter: true,
+    displayLetter: true
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl()
-        .createLetter(null, this.config.quantity)
-        .listenEvents();
+      .createLetter(null, this.config.quantity)
+      .listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -29,21 +31,25 @@ export default class Demo extends DemoBase {
   }
 
   public draw() {
-
     return this.clearScreen()
-               .drawGrid()
-               .drawLines()
-               .drawLetters();
+      .drawGrid()
+      .drawLines()
+      .drawLetters();
   }
 
   private createControl() {
     const { config } = this;
     const gui = new dat.GUI();
 
-    gui.add(config, 'quantity').min(5).max(500).step(5).onFinishChange((v: any) => {
-      config.quantity = Number(v);
-      this.createLetter(this.center, config.quantity, true);
-    });
+    gui
+      .add(config, 'quantity')
+      .min(5)
+      .max(500)
+      .step(5)
+      .onFinishChange((v: any) => {
+        config.quantity = Number(v);
+        this.createLetter(this.center, config.quantity, true);
+      });
     gui.add(config, 'lineType', { none: 0, ligature: 1, breaking: 2, connection: 3 }).onFinishChange((v: any) => {
       config.lineType = Number(v);
     });
@@ -54,24 +60,20 @@ export default class Demo extends DemoBase {
     return this;
   }
 
-  private createLetter(
-    position?: Point,
-    quantity: number = 50,
-    clean: boolean = false
-  ) {
-    position = position || { 
-        x: this.random.range(0, this.canvas.width).getOne(),
-        y: this.random.range(0, this.canvas.height).getOne(),
+  private createLetter(position?: Point, quantity: number = 50, clean: boolean = false) {
+    position = position || {
+      x: this.random.range(0, this.canvas.width).getOne(),
+      y: this.random.range(0, this.canvas.height).getOne()
     };
 
     clean && this.letters.splice(0, this.letters.length);
 
-    for ( let i = 0; i < quantity; i++ ) {
-      let point: Point = {
+    for (let i = 0; i < quantity; i++) {
+      const point: Point = {
         x: position.x || this.centerX,
         y: position.y || this.centerY
       };
-      let randIndex = this.random.range(0, this.letterString.length - 1).getOne();
+      const randIndex = this.random.range(0, this.letterString.length - 1).getOne();
 
       this.letters.push({
         position: point,
@@ -79,7 +81,7 @@ export default class Demo extends DemoBase {
         velocityY: Math.random() * (this.random.range(-4, 4).getOne() || 4),
         color: this.randomRgba(),
         size: this.random.range(12, 50).getOne(),
-        symbol: this.letterString[randIndex],
+        symbol: this.letterString[randIndex]
       });
     }
 
@@ -89,62 +91,62 @@ export default class Demo extends DemoBase {
   private drawLetters() {
     const { letters, config, context } = this;
 
-    for ( let i = 0, len = letters.length; i < len; i++ ) {
-
+    for (let i = 0, len = letters.length; i < len; i++) {
       this.updatePosition(letters[i]);
 
-      if ( !config.displayLetter ) { continue; }
+      if (!config.displayLetter) {
+        continue;
+      }
 
       context.fillStyle = letters[i].color;
       context.font = `${letters[i].size}px Palatino`;
       context.textAlign = 'center';
       context.textBaseline = 'middle';
-      context.fillText(
-        letters[i].symbol,
-        letters[i].position.x,
-        letters[i].position.y
-      );
-
+      context.fillText(letters[i].symbol, letters[i].position.x, letters[i].position.y);
     }
 
-   return this;
+    return this;
   }
 
   private drawLines() {
     const { config, context, letters } = this;
 
-    switch ( config.lineType ) {
+    switch (config.lineType) {
       case 1:
-
         context.beginPath();
         context.moveTo(letters[0].position.x, letters[0].position.y);
-        for ( let i = 1, iLen = letters.length; i < iLen; i++ ) {
-            context.strokeStyle = letters[i].color;
-            context.lineTo(letters[i].position.x, letters[i].position.y)
+        for (let i = 1, iLen = letters.length; i < iLen; i++) {
+          context.strokeStyle = letters[i].color;
+          context.lineTo(letters[i].position.x, letters[i].position.y);
         }
         context.closePath();
         context.stroke();
 
         break;
       case 2:
-
         context.beginPath();
-        for ( let i = 0, iLen = letters.length; i < iLen; i++ ) {
+        for (let i = 0, iLen = letters.length; i < iLen; i++) {
           context.strokeStyle = letters[i].color;
-          for ( let j = i + 1, jLen = letters.length; j < jLen; j++ ) {
+          for (let j = i + 1, jLen = letters.length; j < jLen; j++) {
             const xDistance = Math.pow(letters[j].position.x - letters[i].position.x, 2);
-            const yDistance = Math.pow(letters[j].position.y - letters[i].position.y, 2)
+            const yDistance = Math.pow(letters[j].position.y - letters[i].position.y, 2);
             const distance = Math.sqrt(xDistance + yDistance);
-            if ( Math.abs(distance) > 100 ) { continue; };
+            if (Math.abs(distance) > 100) {
+              continue;
+            }
             context.moveTo(letters[i].position.x, letters[i].position.y);
             context.lineTo(letters[j].position.x, letters[j].position.y);
           }
 
-          if ( this.mousePosition.x === 0 && this.mousePosition.y === 0 ) { continue; }
+          if (this.mousePosition.x === 0 && this.mousePosition.y === 0) {
+            continue;
+          }
           const xMouseDistance = Math.pow(this.mousePosition.x - letters[i].position.x, 2);
           const yMouseDistance = Math.pow(this.mousePosition.y - letters[i].position.y, 2);
           const mDistance = Math.sqrt(xMouseDistance + yMouseDistance);
-          if ( Math.abs(mDistance) > 150 ) { continue; }
+          if (Math.abs(mDistance) > 150) {
+            continue;
+          }
           context.moveTo(this.mousePosition.x, this.mousePosition.y);
           context.lineTo(letters[i].position.x, letters[i].position.y);
         }
@@ -154,11 +156,10 @@ export default class Demo extends DemoBase {
         break;
 
       case 3:
-
         context.beginPath();
-        for ( let i = 0, iLen = letters.length; i < iLen; i++ ) {
+        for (let i = 0, iLen = letters.length; i < iLen; i++) {
           context.strokeStyle = letters[i].color;
-          for ( let j = i + 1, jLen = letters.length; j < jLen; j++ ) {
+          for (let j = i + 1, jLen = letters.length; j < jLen; j++) {
             context.moveTo(letters[i].position.x, letters[i].position.y);
             context.lineTo(letters[j].position.x, letters[j].position.y);
           }
@@ -177,14 +178,12 @@ export default class Demo extends DemoBase {
   }
 
   private updatePosition(letter: Letter) {
-    const { canvas }  = this;
+    const { canvas } = this;
 
-    if ( letter.position.x + letter.velocityX > canvas.width ||
-         letter.position.x + letter.velocityX < 0 ) {
+    if (letter.position.x + letter.velocityX > canvas.width || letter.position.x + letter.velocityX < 0) {
       letter.velocityX = -letter.velocityX;
     }
-    if ( letter.position.y + letter.velocityY > canvas.height ||
-         letter.position.y + letter.velocityY < 0 ) {
+    if (letter.position.y + letter.velocityY > canvas.height || letter.position.y + letter.velocityY < 0) {
       letter.velocityY = -letter.velocityY;
     }
 
@@ -207,6 +206,5 @@ export default class Demo extends DemoBase {
 
     canvas.addEventListener('mousemove', moveHandler, false);
     canvas.addEventListener('click', clickHandler, false);
-
   }
 }

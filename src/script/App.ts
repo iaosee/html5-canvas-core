@@ -1,29 +1,22 @@
-
 import Demo from './Demo.08';
 
 export default class App {
-
-  public canvas: HTMLCanvasElement;
+  public constructor() {}
   public static instance: App;
+  public canvas: HTMLCanvasElement;
   public demo: Demo;
 
-  public constructor() {
-
-  }
-
   static init() {
-    return App.instance ? App.instance : App.instance = new App();
+    return App.instance ? App.instance : (App.instance = new App());
   }
 
   run() {
-    this
-      .createCanvas()
+    this.createCanvas()
       .initMenuList()
       .initDemo();
   }
 
   createCanvas() {
-
     this.canvas = document.createElement('canvas');
     const setSize = () => {
       this.canvas.width = window.innerWidth;
@@ -46,8 +39,6 @@ export default class App {
   }
 
   initMenuList() {
-
     return this;
   }
-
 }
