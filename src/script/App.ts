@@ -1,6 +1,6 @@
-import Demo from './Demo.08';
+import { Demo } from './Demo.08';
 
-export default class App {
+export class App {
   public constructor() {}
   public static instance: App;
   public canvas: HTMLCanvasElement;

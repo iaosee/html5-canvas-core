@@ -1,9 +1,9 @@
 import { Point } from './declare';
 
 /**
- * @description DemoBase
+ * @description BaseDemo
  */
-export default class DemoBase {
+export default class BaseDemo {
   public player: any = null;
   public context: CanvasRenderingContext2D;
 

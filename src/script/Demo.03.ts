@@ -1,11 +1,11 @@
-import DemoBase from './DemoBase';
+import DemoBase from './BaseDemo';
 import Random from './tools/Random';
 import { Point, Circle } from './declare';
 
 /**
  * @description 好多泡泡
  */
-export default class Demo extends DemoBase {
+export class Demo extends DemoBase {
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
 

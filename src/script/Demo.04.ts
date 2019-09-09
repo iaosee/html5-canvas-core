@@ -1,11 +1,11 @@
-import DemoBase from './DemoBase';
+import DemoBase from './BaseDemo';
 import { Point } from './declare';
 const IMG_URL = require('../asset/images/presta_illustration_20.jpg');
 
 /**
  * @description 图像裁剪
  */
-export default class Demo extends DemoBase {
+export class Demo extends DemoBase {
   public dragging: boolean = false;
   public mousedownPosition: Point = { x: 0, y: 0 };
   public rubberbandDiv: HTMLElement = document.createElement('div');

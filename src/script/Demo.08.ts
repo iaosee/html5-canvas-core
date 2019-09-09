@@ -1,10 +1,10 @@
-import DemoBase from './DemoBase';
+import DemoBase from './BaseDemo';
 import { Point, Polyline } from './declare';
 
 /**
  * @description 线条连接
  */
-export default class Demo extends DemoBase {
+export class Demo extends DemoBase {
   private polylineList: Array<Polyline> = [];
   private paths: Polyline = [];
   private mousePosition: Point = { x: 0, y: 0 };

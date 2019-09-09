@@ -1,11 +1,11 @@
-import DemoBase from './DemoBase';
+import DemoBase from './BaseDemo';
 import { Point } from './declare';
 const IMG_URL = require('../asset/images/presta_illustration_20.jpg');
 
 /**
  * @description 鼠标坐标
  */
-export default class Demo extends DemoBase {
+export class Demo extends DemoBase {
   public spritesheet: HTMLImageElement;
 
   public constructor(public canvas: HTMLCanvasElement) {
