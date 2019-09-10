@@ -42,7 +42,35 @@ Canvas 渲染图像步骤：
 
 ### 创建渐变
 
-canvas 支持 `先行渐变(linear)` 和 `径向渐变(radial)` 使用 `createLinearGradient(x ,y)` 方法创建渐变，返回一个 `CanvasGradient` 实例，通过它的 `addColorStop(percentage, color)` 方法添加 `颜色停止点`。
+
+canvas 支持 `线性渐变(linear)` 和 `径向渐变(radial)` 。
+
+
+**线性渐变** 
+
+需要两个点的坐标，canvas 会根据两点之间的连线来建立渐变效果。
+
+使用 `createLinearGradient(x0, y0, x1, y1)` 方法创建渐变，返回一个 `CanvasGradient` 实例，通过它的 `addColorStop(percentage, color)` 方法添加 `颜色停止点`。
+
+
+``` js
+const gradient = context.createLinearGradient(0, 0, this.centerX, 0);
+gradient.addColorStop(0.00, 'blue');
+gradient.addColorStop(0.50, 'red');
+gradient.addColorStop(1.00, 'yellow');
+context.fillStyle = gradient;
+context.fillRect(0, 0, canvas.width / 2,  canvas.height / 2);
+```
+
+
+**径向渐变** 
+
+
+需要两个圆形，canvas 会根据两个圆之间的范围来建立渐变效果。
+
+
+
+
 
 
 
