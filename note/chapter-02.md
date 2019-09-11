@@ -13,6 +13,20 @@ Canvas 的坐标系统默认左上角为原点， `X` 轴坐标向右延伸， `
 - 自定义变换
 
 
+
+浏览器的事件对象中的鼠标坐标，是相对于浏览器窗口的坐标，并非实际 Canvas 自身的坐标系统。而我们通常需要知道鼠标发生在 Canvas 中的坐标，而不是相对于窗口的坐标，所以就需要坐标转换。
+
+``` js
+function coordinateTransformation(canvas: HTMLCanvasElement, x: number, y: number) {
+  const bbox = canvas.getBoundingClientRect();
+  return {
+    x: x - bbox.left * (canvas.width  / bbox.width),
+    y: y - bbox.top  * (canvas.height / bbox.height)
+  };
+}
+```
+
+
 ## Canvas 绘制模型
 
 Canvas 渲染图像步骤：
@@ -40,8 +54,10 @@ Canvas 渲染图像步骤：
 - `miterLimit`    —— 斜接面限制比例 默认 10.0 
 
 
-### 创建渐变
+## 渐变 和  图案
 
+
+### 创建渐变
 
 canvas 支持 `线性渐变(linear)` 和 `径向渐变(radial)` 。
 
@@ -69,27 +85,37 @@ context.fillRect(0, 0, canvas.width / 2,  canvas.height / 2);
 需要两个圆形，canvas 会根据两个圆之间的范围来建立渐变效果。
 
 
+使用 `createRadialGradient(x0, y0, r0, x1, y1, r1)` 方法创建渐变实例，返回一个 `CanvasGradient` 实例
 
-
-
-
-
-
-
-
-
-
-浏览器的事件对象中的鼠标坐标，是相对于浏览器窗口的坐标，并非实际 Canvas 自身的坐标系统。而我们通常需要知道鼠标发生在 Canvas 中的坐标，而不是相对于窗口的坐标，所以就需要坐标转换。
 
 ``` js
-function coordinateTransformation(canvas: HTMLCanvasElement, x: number, y: number) {
-  const bbox = canvas.getBoundingClientRect();
-  return {
-    x: x - bbox.left * (canvas.width  / bbox.width),
-    y: y - bbox.top  * (canvas.height / bbox.height)
-  };
-}
+const gradient = context.createRadialGradient(
+  this.centerX / 2, canvas.height / 2 * 1.5, 20,
+  this.centerX / 2, canvas.height / 2 * 1.5, 200
+);
+gradient.addColorStop(0.0, 'blue');
+gradient.addColorStop(0.5, 'yellow');
+gradient.addColorStop(1.0, 'white');
+context.fillStyle = gradient;
+context.fillRect(0, this.centerY, canvas.width / 2, canvas.height / 2);
 ```
+
+
+### 创建图案
+
+
+Canvas 允许使用图案来对图形和文本进行填充和描边，图案可以为这些类型：
+
+- image 元素
+- canvas 元素
+- video 元素
+
+使用 `createPattern()` 方法创建图案，
+
+
+
+
+
 
 
 
