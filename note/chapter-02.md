@@ -117,15 +117,25 @@ Canvas 允许使用图案来对图形和文本进行填充和描边，图案可�
 
 
 
-### 阴影
+### 创建阴影
 
 可以通过下列 4 个属性值来指定 图形、图像、文本 阴影效果：
 
 - `shadowColor` CSS3 格式支持的颜色值
-- `shadowOffsetX` 阴影的水平像素偏移
-- `shadowOffsetY` 阴影的垂直像素偏移
-- `shadowBlur` 阴影模糊值
+- `shadowOffsetX` 阴影的水平像素偏移，像素为单位，默认 0
+- `shadowOffsetY` 阴影的垂直像素偏移，像素为单位，默认 0
+- `shadowBlur` 阴影模糊值，默认 0
 
-将 `shadowColor` 设置为 `underfined` 可以禁用阴影效果。
+- 将 `shadowColor` 设置为 `underfined` 可以禁用阴影效果。
+- 将 `shadowOffsetX` 和 `shadowOffsetY` 可以为负值，以显示内阴影效果。
+
+
+阴影效果的绘制可能会比较耗时，特别是动画效果运用阴影效果。
+
+
+
+### 路径、描边、填充
+
+
 
 
