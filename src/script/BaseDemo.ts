@@ -3,7 +3,7 @@ import { Point } from './declare';
 /**
  * @description BaseDemo
  */
-export default class BaseDemo {
+export class BaseDemo {
   public player: any = null;
   public context: CanvasRenderingContext2D;
 

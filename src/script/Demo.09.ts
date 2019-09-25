@@ -1,4 +1,4 @@
-import BaseDemo from './BaseDemo';
+import { BaseDemo } from './BaseDemo';
 
 /**
  * @description 创建渐变 - 线性渐变

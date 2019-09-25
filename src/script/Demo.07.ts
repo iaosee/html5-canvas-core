@@ -1,13 +1,13 @@
 import * as dat from 'dat.gui';
 
-import DemoBase from './BaseDemo';
-import Random from './tools/Random';
+import { Random } from './tools/Random';
+import { BaseDemo } from './BaseDemo';
 import { Point, Letter } from './declare';
 
 /**
  * @description 字母连接
  */
-export class Demo extends DemoBase {
+export class Demo extends BaseDemo {
   private letters: Array<Letter> = [];
   private random: Random = Random.init(-5, 5);
   private letterString: string = 'abcdefghijklmnopqrstuvwxyz~!@#$%^&*()_+`1234567890-=[];\',./<>?:"{}';

@@ -1,5 +1,5 @@
-import BaseDemo from './BaseDemo';
 import { Point } from './declare';
+import { BaseDemo } from './BaseDemo';
 
 /**
  * @description 路径、描边、填充

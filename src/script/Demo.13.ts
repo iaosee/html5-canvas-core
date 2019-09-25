@@ -1,4 +1,4 @@
-import BaseDemo from './BaseDemo';
+import { BaseDemo } from './BaseDemo';
 
 /**
  * @description 路径、描边、填充

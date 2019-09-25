@@ -1,4 +1,4 @@
-import BaseDemo from './BaseDemo';
+import { BaseDemo } from './BaseDemo';
 
 /**
  * @description 创建图案
