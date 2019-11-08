@@ -86,6 +86,7 @@ export class BaseDemo {
   protected drawGrid(stepX: number = 10, stepY: number = 10, color: string = 'rgba(0,0,0,0.1)') {
     const { context, canvas } = this;
 
+    context.save();
     context.strokeStyle = color;
     context.lineWidth = 0.5;
 
@@ -102,6 +103,7 @@ export class BaseDemo {
       context.lineTo(canvas.width, i);
       context.stroke();
     }
+    context.restore();
 
     return this;
   }
@@ -126,19 +128,24 @@ export class BaseDemo {
 
   protected drawVerticalLine(x: number) {
     const { context } = this;
+    context.save();
     context.beginPath();
     context.moveTo(x + 0.5, 0);
     context.lineTo(x + 0.5, context.canvas.height);
     context.stroke();
+    context.restore();
+
     return this;
   }
 
   protected drawHorizontalLine(y: number) {
     const { context } = this;
+    context.save();
     context.beginPath();
     context.moveTo(0, y + 0.5);
     context.lineTo(context.canvas.width, y + 0.5);
     context.stroke();
+    context.restore();
     return this;
   }
 
