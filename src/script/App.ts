@@ -6,17 +6,17 @@ export class App {
   public canvas: HTMLCanvasElement;
   public demo: Demo;
 
-  static init() {
+  public static init() {
     return App.instance ? App.instance : (App.instance = new App());
   }
 
-  run() {
+  public run() {
     this.createCanvas()
       .initMenuList()
       .initDemo();
   }
 
-  createCanvas() {
+  public createCanvas() {
     this.canvas = document.createElement('canvas');
     const setSize = () => {
       this.canvas.width = window.innerWidth;
@@ -30,7 +30,7 @@ export class App {
     return this;
   }
 
-  initDemo() {
+  public initDemo() {
     this.demo = Demo.init(this.canvas).start();
     console.log(this.demo);
     (window as any).demo = this.demo;
@@ -38,7 +38,7 @@ export class App {
     return this;
   }
 
-  initMenuList() {
+  public initMenuList() {
     return this;
   }
 }
