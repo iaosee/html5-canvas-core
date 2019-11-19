@@ -178,7 +178,7 @@ export class BaseDemo {
       ', ' +
       (Math.random() * 255).toFixed(0) +
       ', ' +
-      Math.random().toFixed(1) +
+      (Math.random() + 0.4).toFixed(1) +
       ')'
     );
   }

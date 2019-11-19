@@ -1,8 +1,8 @@
-import { BaseDemo } from './BaseDemo';
 import { Point } from './declare';
+import { BaseDemo } from './BaseDemo';
 
 /**
- * @description 路径、描边、填充
+ * @description 线条
  */
 export class Demo extends BaseDemo {
   public dragging: boolean = false;
@@ -65,6 +65,7 @@ export class Demo extends BaseDemo {
     context.moveTo(mousedown.x, mousedown.y);
     context.lineTo(loc.x, loc.y);
     context.stroke();
+    context.closePath();
 
     return this;
   }
@@ -116,6 +117,7 @@ export class Demo extends BaseDemo {
     canvas.addEventListener('mousemove', mousemoveHandler);
     canvas.addEventListener('mouseup', mouseupHandler);
     canvas.addEventListener('contextmenu', e => e.preventDefault());
+    window.addEventListener('keydown', e => e.key === 'c' && this.clearScreen());
 
     return this;
   }
