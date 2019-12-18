@@ -3,6 +3,10 @@ import { Point } from './declare';
 
 const moveToFucntion = CanvasRenderingContext2D.prototype.moveTo;
 
+/**
+ * @description 给 Context2D 对象上添加绘制虚线的方法，早期 Canvas 规范中没有绘制虚线的方法
+ */
+
 CanvasRenderingContext2D.prototype.moveTo = function(x, y) {
   moveToFucntion.apply(this, [x, y]);
   this.lastMoveToLocation.x = x;
@@ -78,6 +82,29 @@ export class Demo extends BaseDemo {
         y: 0
       }
     );
+    context.closePath();
+
+    context.strokeStyle = this.randomRgba();
+    context.beginPath();
+    context.moveTo(0, this.centerY);
+    context.dashedLineTo(this.centerX, this.centerY, 10);
+    context.closePath();
+    context.stroke();
+
+    context.strokeStyle = this.randomRgba();
+    context.beginPath();
+    context.moveTo(this.centerX, this.centerY);
+    context.dashedLineTo(this.centerX, canvas.height, 10);
+    context.closePath();
+    context.stroke();
+
+    // Canvas 规范中绘制虚线
+    context.setLineDash([10, 20]);
+    context.strokeStyle = this.randomRgba();
+    context.beginPath();
+    context.moveTo(this.centerX, 0);
+    context.lineTo(this.centerX, this.centerY);
+    context.stroke();
     context.closePath();
 
     return this;
