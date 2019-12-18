@@ -10,7 +10,11 @@ export interface LineSegment {
 
 export type Polyline = Array<Point>;
 
-export interface Velocity {
+export interface Accelerator {
+  gravity?: number;
+}
+
+export interface Velocity extends Accelerator {
   velocityX: number;
   velocityY: number;
 }
