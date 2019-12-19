@@ -4,15 +4,17 @@ import { Random } from './tools/Random';
 import { Point, Circle } from './declare';
 
 /**
- * @description 好多泡泡
+ * @description 好多球球
  */
 export class Demo extends BaseDemo {
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
   public config: any = {
-    circleQuantity: 5,
-    circleMaxRadius: 100,
-    throttleValue: 100
+    circleQuantity: 10,
+    circleMinRadius: 5,
+    circleMaxRadius: 50,
+    throttleValue: 100,
+    collisionDetection: false
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -23,7 +25,7 @@ export class Demo extends BaseDemo {
     };
 
     this.createControl()
-      .createCircle(pos, this.config.circleQuantity)
+      .createCircle()
       .listenEvents();
   }
 
@@ -43,18 +45,27 @@ export class Demo extends BaseDemo {
 
     gui
       .add(config, 'circleQuantity')
-      .min(5)
-      .max(500)
-      .step(5)
+      .min(0)
+      .max(100)
+      .step(1)
       .onFinishChange((v: any) => {
         config.circleQuantity = Number(v);
-        this.createCircle(this.center, config.circleQuantity, true);
+        this.createCircle();
+      });
+
+    gui
+      .add(config, 'circleMinRadius')
+      .min(1)
+      .max(50)
+      .step(1)
+      .onFinishChange((v: any) => {
+        config.circleMinRadius = Number(v);
       });
 
     gui
       .add(config, 'circleMaxRadius')
       .min(5)
-      .max(50)
+      .max(100)
       .step(1)
       .onFinishChange((v: any) => {
         config.circleMaxRadius = Number(v);
@@ -69,26 +80,35 @@ export class Demo extends BaseDemo {
         config.throttleValue = Number(v);
       });
 
+    gui.add(config, 'collisionDetection').onFinishChange((v: any) => {
+      config.displayLetter = Boolean(v);
+    });
+
     return this;
   }
 
-  private createCircle(position: Point, quantity: number = 100, clean: boolean = false) {
-    const { config } = this;
+  private createCircle(
+    position: Point = this.center,
+    quantity: number = this.config.circleQuantity,
+    clean: boolean = false
+  ) {
+    const { canvas, config } = this;
 
     clean && this.circles.splice(0, this.circles.length);
     for (let i = 0; i < quantity; i++) {
       const point: Point = {
-        x: position.x || this.centerX,
-        y: position.y || this.centerY
+        x: position.x || Math.random() * canvas.width,
+        y: position.y || Math.random() * canvas.height
       };
 
+      const radius = Random.init(config.circleMinRadius, config.circleMaxRadius).getOne();
       this.circles.push({
         position: point,
-        velocityX: Math.random() * (this.random.range(-8, 8).getOne() || 8),
-        velocityY: Math.random() * (this.random.range(-8, 8).getOne() || 8),
-        radius: Math.random() * config.circleMaxRadius,
         color: this.randomRgba(),
-        gravity: Math.random() * 5
+        velocityX: Math.random() * (this.random.range(-20, 20).getOne() || 20),
+        velocityY: Math.random() * (this.random.range(-20, 20).getOne() || 20),
+        radius: radius,
+        gravity: Math.random() * (radius / config.circleMaxRadius)
       });
     }
 
@@ -137,35 +157,49 @@ export class Demo extends BaseDemo {
   }
 
   private updatePosition(circle: Circle) {
-    const { canvas } = this;
+    const { canvas, config } = this;
 
-    /*
     if (
-      circle.position.x + circle.velocityX + circle.radius >= canvas.width ||
-      circle.position.x + circle.velocityX - circle.radius <= 0
+      circle.position.x + circle.velocityX + circle.radius > canvas.width ||
+      circle.position.x + circle.velocityX - circle.radius < 0
     ) {
-      circle.velocityX = -circle.velocityX;
-    }
-    if (
-      circle.position.y + circle.velocityY + circle.radius >= canvas.height ||
-      circle.position.y + circle.velocityY - circle.radius <= 0
-    ) {
-      circle.velocityY = -circle.velocityY;
-    }
-*/
-
-    if (circle.position.x + circle.velocityX - circle.radius <= 0) {
-      circle.position.x = 0;
       circle.velocityX = -circle.velocityX * 0.8;
     }
-    if (circle.position.x + circle.velocityX + circle.radius >= canvas.width) {
-      circle.velocityX = -circle.position.x + circle.velocityX + circle.radius;
-      circle.velocityX = -circle.velocityX * 0.8;
+    if (
+      circle.position.y + circle.velocityY + circle.radius > canvas.height ||
+      circle.position.y + circle.velocityY - circle.radius < 0
+    ) {
+      circle.velocityY = -circle.velocityY * 0.8;
     }
+
+    config.collisionDetection && this.collisionDetection(circle);
 
     circle.position.x += circle.velocityX;
     circle.position.y += circle.velocityY;
     circle.velocityY += circle.gravity || 0;
+
+    return this;
+  }
+
+  public collisionDetection(circle: Circle) {
+    const { circles } = this;
+
+    for (let i = 0, len = circles.length; i < len; i++) {
+      if (circles[i] === circle) {
+        break;
+      }
+
+      if (
+        Math.pow(circle.position.x - circles[i].position.x, 2) +
+          Math.pow(circle.position.y - circles[i].position.y, 2) <=
+        Math.pow(circle.radius + circles[i].radius, 2)
+      ) {
+        circle.velocityX = -circle.velocityX;
+        circle.velocityY = -circle.velocityY;
+        circles[i].velocityX = -circles[i].velocityX;
+        circles[i].velocityY = -circles[i].velocityY;
+      }
+    }
 
     return this;
   }

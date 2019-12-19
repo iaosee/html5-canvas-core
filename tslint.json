@@ -40,6 +40,7 @@
       "ignore-params",
       "ignore-properties"
     ],
+    "prefer-for-of": false,
     "variable-name": false,
     "no-unused-expression": false,
     "no-non-null-assertion": false,
