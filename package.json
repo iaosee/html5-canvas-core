@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run server",
     "build": "./node_modules/.bin/webpack",
-    "server": "./node_modules/.bin/webpack-serve ./webpack.config.js --open --host=0.0.0.0"
+    "server": "./node_modules/.bin/webpack-serve ./webpack.config.js --open --host=127.0.0.1"
   },
   "repository": {
     "type": "git"
