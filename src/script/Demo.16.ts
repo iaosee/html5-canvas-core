@@ -1,4 +1,4 @@
-import { Point } from './declare';
+import { Point, Rectangle } from './declare';
 import { BaseDemo } from './BaseDemo';
 
 /**
@@ -7,13 +7,16 @@ import { BaseDemo } from './BaseDemo';
 export class Demo extends BaseDemo {
   public dragging: boolean = false;
   public guidewires: boolean = true;
-  public mousedown: Point = { x: 0, y: 0 };
+
+  public mousedownPos: Point = { x: 0, y: 0 };
+  public mousemovePos: Point = { x: 0, y: 0 };
+
   public drawingSurfaceImageData: ImageData;
-  public rubberbandRect = {
+  public rubberbandRect: Rectangle = {
     width: 0,
     height: 0,
-    left: 0,
-    top: 0
+    x: 0,
+    y: 0
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -47,25 +50,12 @@ export class Demo extends BaseDemo {
   }
 
   public updateRubberbandRectangle(loc: Point) {
-    const { context, rubberbandRect, mousedown } = this;
+    const { rubberbandRect, mousedownPos } = this;
 
-    rubberbandRect.width = Math.abs(loc.x - mousedown.x);
-    rubberbandRect.height = Math.abs(loc.y - mousedown.y);
-    rubberbandRect.left = loc.x > mousedown.x ? mousedown.x : loc.x;
-    rubberbandRect.top = loc.y > mousedown.y ? mousedown.y : loc.y;
-    context.strokeStyle = 'blue';
-
-    return this;
-  }
-
-  public drawRubberbandShape(loc: Point) {
-    const { context, mousedown } = this;
-
-    context.beginPath();
-    context.moveTo(mousedown.x, mousedown.y);
-    context.lineTo(loc.x, loc.y);
-    context.stroke();
-    context.closePath();
+    rubberbandRect.width = Math.abs(loc.x - mousedownPos.x);
+    rubberbandRect.height = Math.abs(loc.y - mousedownPos.y);
+    rubberbandRect.x = loc.x > mousedownPos.x ? mousedownPos.x : loc.x;
+    rubberbandRect.y = loc.y > mousedownPos.y ? mousedownPos.y : loc.y;
 
     return this;
   }
@@ -76,49 +66,65 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public listenEvents() {
-    const { canvas, mousedown } = this;
-    let pos: Point = { x: 0, y: 0 };
+  public drawRubberbandShape(loc: Point) {
+    const { context, mousedownPos } = this;
 
-    const mousedownHandler = (e: MouseEvent) => {
-      pos = this.coordinateTransformation(e.clientX, e.clientY);
-      e.preventDefault();
-
-      this.saveDrawingSurface();
-      mousedown.x = pos.x;
-      mousedown.y = pos.y;
-      this.dragging = true;
-    };
-
-    const mousemoveHandler = (e: MouseEvent) => {
-      if (this.dragging) {
-        e.preventDefault();
-        pos = this.coordinateTransformation(e.clientX, e.clientY);
-        this.restoreDrawingSurface();
-        this.updateRubberband(pos);
-
-        if (this.guidewires) {
-          this.drawGuidelines(pos.x, pos.y, 'green');
-        }
-      }
-    };
-
-    const mouseupHandler = (e: MouseEvent) => {
-      if (this.dragging) {
-        e.preventDefault();
-        pos = this.coordinateTransformation(e.clientX, e.clientY);
-        this.restoreDrawingSurface();
-        this.updateRubberband(pos);
-        this.dragging = false;
-      }
-    };
-
-    canvas.addEventListener('mousedown', mousedownHandler);
-    canvas.addEventListener('mousemove', mousemoveHandler);
-    canvas.addEventListener('mouseup', mouseupHandler);
-    canvas.addEventListener('contextmenu', e => e.preventDefault());
-    window.addEventListener('keydown', e => e.key === 'c' && this.clearScreen());
+    context.strokeStyle = 'blue';
+    context.beginPath();
+    context.moveTo(mousedownPos.x, mousedownPos.y);
+    context.lineTo(loc.x, loc.y);
+    context.stroke();
+    context.closePath();
 
     return this;
+  }
+
+  public listenEvents() {
+    const { canvas } = this;
+
+    canvas.addEventListener('mousedown', this.onMousedownHandler.bind(this));
+    canvas.addEventListener('mousemove', this.onMousemoveHandler.bind(this));
+    canvas.addEventListener('mouseup', this.onMouseupHandler.bind(this));
+    canvas.addEventListener('contextmenu', event => event.preventDefault());
+    window.addEventListener('keydown', event => event.key === 'c' && this.clearScreen());
+
+    return this;
+  }
+
+  public onMousedownHandler(event: MouseEvent) {
+    const { mousedownPos } = this;
+
+    this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
+    event.preventDefault();
+
+    this.saveDrawingSurface();
+    mousedownPos.x = this.mousemovePos.x;
+    mousedownPos.y = this.mousemovePos.y;
+    this.dragging = true;
+  }
+
+  public onMousemoveHandler(event: MouseEvent) {
+    if (!this.dragging) {
+      return;
+    }
+    event.preventDefault();
+    this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
+    this.restoreDrawingSurface();
+    this.updateRubberband(this.mousemovePos);
+
+    if (this.guidewires) {
+      this.drawGuidelines(this.mousemovePos.x, this.mousemovePos.y, 'green');
+    }
+  }
+
+  public onMouseupHandler(event: MouseEvent) {
+    if (!this.dragging) {
+      return;
+    }
+    event.preventDefault();
+    this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
+    this.restoreDrawingSurface();
+    this.updateRubberband(this.mousemovePos);
+    this.dragging = false;
   }
 }

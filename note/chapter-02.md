@@ -167,3 +167,29 @@ Canvas 允许使用图案来对图形和文本进行填充和描边，图案可�
 
 
 若在像素边界处绘制 1 像素宽的线，那么该线会占据 2 个像素宽度。
+
+
+绘制虚线：
+
+- `setLineDash([10, 20])`  设置虚线间断
+
+
+
+### 圆形与圆弧
+
+Canvas 提供两个方法：
+
+- `arc(x, y, startAngle, radius, endAngle, counterClockwise)`
+  - `x` 圆心 x 坐标
+  - `y` 圆心 y 坐标
+  - `radius` 圆半径
+  - `startAngle` 起始弧度
+  - `endAngle`  结束弧度
+  - `counterClockwise` 绘制方向 `true` | `false`
+
+- `arcTo(x1, y1, x2, y2, radius)`
+
+`arcTo` 方法参数为 两个点以及圆半径，以指定的半径绘制一条弧线，此圆弧与第一个点连线相切，与第一个点到第二个点的连线也相切，。
+
+
+

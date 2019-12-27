@@ -56,6 +56,9 @@ export class Demo extends BaseDemo {
   public start() {
     const { canvas, context } = this;
 
+    context.lineWidth = 2;
+    context.lineCap = 'butt'; // default
+
     context.beginPath();
     context.strokeStyle = this.randomRgba();
     this.drawDashLine(
@@ -70,6 +73,8 @@ export class Demo extends BaseDemo {
     );
     context.closePath();
 
+    context.lineCap = 'round';
+
     context.beginPath();
     context.strokeStyle = this.randomRgba();
     this.drawDashLine(
@@ -83,6 +88,8 @@ export class Demo extends BaseDemo {
       }
     );
     context.closePath();
+
+    context.lineCap = 'square';
 
     context.strokeStyle = this.randomRgba();
     context.beginPath();
