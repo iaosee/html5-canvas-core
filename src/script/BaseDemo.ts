@@ -122,6 +122,7 @@ export class BaseDemo {
     const { context } = this;
     context.strokeStyle = color;
     context.lineWidth = 0.5;
+    context.setLineDash([4, 2]);
 
     return this.drawVerticalLine(x).drawHorizontalLine(y);
   }
@@ -178,7 +179,7 @@ export class BaseDemo {
       ', ' +
       (Math.random() * 255).toFixed(0) +
       ', ' +
-      (Math.random() + 0.4).toFixed(1) +
+      (Math.random() + 0.0).toFixed(1) +
       ')'
     );
   }

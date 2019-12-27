@@ -86,7 +86,7 @@ export class Demo extends BaseDemo {
     canvas.addEventListener('mousemove', this.onMousemoveHandler.bind(this));
     canvas.addEventListener('mouseup', this.onMouseupHandler.bind(this));
     canvas.addEventListener('contextmenu', event => event.preventDefault());
-    window.addEventListener('keydown', event => event.key === 'c' && this.clearScreen());
+    window.addEventListener('keydown', event => event.key === 'c' && this.clearScreen().drawGrid());
 
     return this;
   }
@@ -94,9 +94,9 @@ export class Demo extends BaseDemo {
   public onMousedownHandler(event: MouseEvent) {
     const { mousedownPos } = this;
 
-    this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
     event.preventDefault();
 
+    this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
     this.saveDrawingSurface();
     mousedownPos.x = this.mousemovePos.x;
     mousedownPos.y = this.mousemovePos.y;
