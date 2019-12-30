@@ -14,7 +14,23 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.drawRoundedRect('blue', 'yellow', 50, 40, 100, 100, 10);
+    const { context } = this;
+
+    context.beginPath();
+    context.moveTo(this.centerX - 100, this.centerY);
+    context.arcTo(this.centerX, this.centerY, this.centerX + 100, this.centerY + 100, 50);
+    context.stroke();
+    // context.fill();
+
+    return this.drawRoundedRect(this.randomRgba(), this.randomRgba(), 50, 40, 100, 100, 10).drawRoundedRect(
+      this.randomRgba(),
+      this.randomRgba(),
+      this.centerX,
+      50,
+      300,
+      300,
+      20
+    );
   }
 
   public roundedRect(cornerX: number, cornerY: number, width: number, height: number, cornerRadius: number) {
