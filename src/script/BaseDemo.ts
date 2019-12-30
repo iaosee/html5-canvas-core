@@ -122,7 +122,6 @@ export class BaseDemo {
     const { context } = this;
     context.strokeStyle = color;
     context.lineWidth = 0.5;
-    context.setLineDash([4, 2]);
 
     return this.drawVerticalLine(x).drawHorizontalLine(y);
   }

@@ -64,20 +64,24 @@ export class Demo extends BaseDemo {
 
     return this;
   }
+
   public drawRubberbandShape(loc: Point) {
     const { context, mousedownPos, mousemovePos, rubberbandRect } = this;
-    let angle = 0;
-    let radius = 0;
+    let angle;
+    let radius;
 
+    // For horizontal lines
     if (mousedownPos.y === mousemovePos.y) {
       radius = Math.abs(loc.x - mousedownPos.x);
     } else {
-      (angle = Math.atan(rubberbandRect.height / rubberbandRect.width)),
-        (radius = rubberbandRect.height / Math.sin(angle));
+      // The if block above catches horizontal lines.
+      angle = Math.atan(rubberbandRect.height / rubberbandRect.width);
+      radius = rubberbandRect.height / Math.sin(angle);
     }
 
     context.beginPath();
     context.arc(mousedownPos.x, mousedownPos.y, radius, 0, Math.PI * 2, false);
+    // context.fillRect(rubberbandRect.x, rubberbandRect.y, rubberbandRect.width, rubberbandRect.height);
     context.stroke();
     context.fill();
 
@@ -94,15 +98,13 @@ export class Demo extends BaseDemo {
   }
 
   public onMousedownHandler(event: MouseEvent) {
-    const { context, mousedownPos } = this;
+    const { context } = this;
 
-    this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
+    this.mousemovePos = this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
 
     context.fillStyle = this.randomRgba();
     event.preventDefault();
     this.saveDrawingSurface();
-    mousedownPos.x = this.mousemovePos.x;
-    mousedownPos.y = this.mousemovePos.y;
     this.dragging = true;
   }
 
@@ -110,6 +112,7 @@ export class Demo extends BaseDemo {
     if (!this.dragging) {
       return;
     }
+    const { context } = this;
 
     event.preventDefault();
     this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
@@ -117,7 +120,9 @@ export class Demo extends BaseDemo {
     this.updateRubberband(this.mousemovePos);
 
     if (this.guidewires) {
+      context.setLineDash([4, 2]);
       this.drawGuidelines(this.mousemovePos.x, this.mousemovePos.y, 'green');
+      context.setLineDash([]);
     }
   }
 
