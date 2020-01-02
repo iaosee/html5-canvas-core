@@ -71,9 +71,7 @@ export class Demo extends BaseDemo {
     width > 0 ? context.moveTo(cornerX + cornerRadius, cornerY) : context.moveTo(cornerX - cornerRadius, cornerY);
 
     context.arcTo(cornerX + width, cornerY, cornerX + width, cornerY + height, cornerRadius);
-
     context.arcTo(cornerX + width, cornerY + height, cornerX, cornerY + height, cornerRadius);
-
     context.arcTo(cornerX, cornerY + height, cornerX, cornerY, cornerRadius);
 
     width > 0
