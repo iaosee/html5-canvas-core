@@ -1,9 +1,9 @@
-import DemoBase from './DemoBase';
+import { BaseDemo } from './BaseDemo';
 
 /**
  * @description Hello World
  */
-export default class Demo extends DemoBase {
+export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
   }

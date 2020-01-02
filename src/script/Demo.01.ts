@@ -1,9 +1,9 @@
-import DemoBase from './DemoBase';
+import { BaseDemo } from './BaseDemo';
 
 /**
  * @description 时钟
  */
-export default class Demo extends DemoBase {
+export class Demo extends BaseDemo {
   public config = {
     FONT_HEIGHT: 15,
     MARGIN: 40,

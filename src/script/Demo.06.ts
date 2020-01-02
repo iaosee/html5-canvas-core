@@ -1,13 +1,13 @@
 import * as dat from 'dat.gui';
 
-import DemoBase from './DemoBase';
-import Random from './tools/Random';
+import { Random } from './tools/Random';
+import { BaseDemo } from './BaseDemo';
 import { Point, Circle } from './declare';
 
 /**
  * @description 小球连接
  */
-export default class Demo extends DemoBase {
+export class Demo extends BaseDemo {
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
   private mousePosition: Point = { x: 0, y: 0 };

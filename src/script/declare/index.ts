@@ -1,37 +1,42 @@
-
 export interface Point {
   x: number;
   y: number;
-};
+}
 
 export interface LineSegment {
   start: Point;
-  end: Point,
+  end: Point;
 }
 
 export type Polyline = Array<Point>;
 
-export interface Circle {
-  position: Point;
-  velocityX: number;
-  velocityY: number;
-  radius: number;
-  color: string;
+export interface Colorable {
+  color?: string;
 }
 
-export interface Letter {
-  position: Point;
+export interface Accelerator {
+  gravity?: number;
+}
+
+export interface Velocity extends Accelerator {
   velocityX: number;
   velocityY: number;
+}
+
+export interface Circle extends Colorable, Velocity {
+  position: Point;
+  radius: number;
+}
+
+export interface Letter extends Colorable, Velocity {
+  position: Point;
   symbol: string;
   size: number;
-  color: string;
 }
 
-export interface Rectangle {
+export interface Rectangle extends Colorable {
   x: number;
-  y: number,
+  y: number;
   width: number;
   height: number;
-  color: string;
 }

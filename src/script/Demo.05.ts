@@ -1,10 +1,10 @@
-import DemoBase from './DemoBase';
+import { BaseDemo } from './BaseDemo';
 import { Point, Rectangle } from './declare';
 
 /**
  * @description 拖拽绘制矩形
  */
-export default class Demo extends DemoBase {
+export class Demo extends BaseDemo {
   public dragging: boolean = false;
   public rectangles: Array<Rectangle> = [];
   public mousedownPosition: Point = { x: 0, y: 0 };
