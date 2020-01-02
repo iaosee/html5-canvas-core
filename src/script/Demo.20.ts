@@ -1,7 +1,7 @@
 import { BaseDemo } from './BaseDemo';
 
 /**
- * @description
+ * @description arcTo 绘制圆角矩形
  */
 export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {

@@ -1,6 +1,9 @@
 import { Point, Rectangle } from './declare';
 import { BaseDemo } from './BaseDemo';
 
+/**
+ * @description 拖拽画圆
+ */
 export class Demo extends BaseDemo {
   public dragging: boolean = false;
   public guidewires: boolean = true;

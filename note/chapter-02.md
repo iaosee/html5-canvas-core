@@ -1,6 +1,9 @@
 # Chapter 02 —— 绘制
 
 
+Canvas API 中支出绘制的基本图形: 线段、矩形、圆弧、贝塞尔曲线，可以根据这些基本图形组合成任意需要的图形。
+
+
 ## Canvas 坐标系统
 
 Canvas 的坐标系统默认左上角为原点， `X` 轴坐标向右延伸， `Y` 轴坐标向下延伸。
@@ -198,4 +201,18 @@ Canvas 提供两个方法：
 - https://codeplayer.vip/p/j7scu
 
 
+### 贝赛尔曲线
+
+- `quadraticCurveTo(cpx, cpy, x, y)` 创建一条表示二次贝塞尔曲线的路径，前两个参数控制点坐标，后两个是锚点坐标。
+- `bezierCurveTo(cpx, cpy, cp2x, cp2y, x, y)` 创建一条表示三次贝塞尔曲线的路径，参数为三个点坐标，前两个点为曲线控制点，最后一个为锚点。
+
+
+贝塞尔曲线原理参考：
+
+- https://pomax.github.io/bezierinfo/zh-CN/
+- https://myst729.github.io/posts/2013/bezier-curve-literacy/
+- https://zh.wikipedia.org/wiki/%E8%B2%9D%E8%8C%B2%E6%9B%B2%E7%B7%9A
+
+
+### 绘制多边形
 
