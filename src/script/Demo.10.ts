@@ -13,7 +13,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.createGradient();
+    return this.clearScreen().createGradient();
   }
 
   public createGradient() {

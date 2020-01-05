@@ -23,7 +23,7 @@ export class Demo extends BaseDemo {
   }
 
   public start() {
-    return this.draw();
+    return this;
   }
 
   public draw() {

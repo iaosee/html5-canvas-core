@@ -1,5 +1,5 @@
-import { BaseDemo } from './BaseDemo';
 import { Point } from './declare';
+import { BaseDemo } from './BaseDemo';
 
 /**
  * @description 贝塞尔曲线

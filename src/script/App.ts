@@ -1,4 +1,4 @@
-import { Demo } from './Demo.22';
+import { Demo } from './Demo.23';
 
 export class App {
   public constructor() {}
@@ -18,27 +18,44 @@ export class App {
 
   public createCanvas() {
     this.canvas = document.createElement('canvas');
-    const setSize = () => {
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight;
-      this.demo && this.demo.start();
-    };
-    setSize();
     document.body.appendChild(this.canvas);
-    window.addEventListener('resize', setSize, false);
-
     return this;
   }
 
   public initDemo() {
-    this.demo = Demo.init(this.canvas).start();
-    console.log(this.demo);
-    (window as any).demo = this.demo;
-
+    (window as any).demo = this.demo = Demo.init(this.canvas);
+    this.setViewport();
+    this.demo.start();
+    window.addEventListener('resize', () => this.setViewport(), false);
     return this;
   }
 
   public initMenuList() {
+    return this;
+  }
+
+  public setViewport() {
+    const { canvas } = this;
+    const context = this.demo.context;
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    const backingStoreRatio = (context as any).webkitBackingStorePixelRatio || 1;
+    const ratio = devicePixelRatio / backingStoreRatio;
+    const innerWidth = window.innerWidth;
+    const innerHeight = window.innerHeight;
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+
+    if (ratio !== 1) {
+      console.log(devicePixelRatio, backingStoreRatio, ratio);
+      canvas.width = innerWidth * ratio;
+      canvas.height = innerHeight * ratio;
+      canvas.style.width = innerWidth + 'px';
+      canvas.style.height = innerHeight + 'px';
+      context.scale(ratio, ratio);
+    }
+
+    this.demo.start();
+
     return this;
   }
 }

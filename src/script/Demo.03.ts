@@ -15,7 +15,7 @@ export class Demo extends BaseDemo {
       x: this.centerX,
       y: this.centerY
     };
-    this.createCircle(pos, 0).listenEvents();
+    this.createCircle(pos, 50).listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -43,29 +43,6 @@ export class Demo extends BaseDemo {
         radius: Math.random() * 20,
         color: this.randomRgba()
       });
-    }
-
-    return this;
-  }
-
-  protected drawGrid(stepX: number = 10, stepY: number = 10, color: string = 'rgba(0,0,0,0.2)') {
-    const { context, canvas } = this;
-
-    context.lineWidth = 0.5;
-    context.strokeStyle = color;
-
-    for (let i = stepX + 0.5, len = canvas.width; i < len; i += stepX) {
-      context.beginPath();
-      context.moveTo(i, 0);
-      context.lineTo(i, canvas.height);
-      context.stroke();
-    }
-
-    for (let i = stepY + 0.5, len = canvas.height; i < len; i += stepY) {
-      context.beginPath();
-      context.moveTo(0, i);
-      context.lineTo(canvas.width, i);
-      context.stroke();
     }
 
     return this;

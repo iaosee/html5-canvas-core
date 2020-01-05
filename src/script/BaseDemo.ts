@@ -13,6 +13,7 @@ export class BaseDemo {
     }
 
     this.context = this.canvas.getContext('2d');
+    // this.setViewport();
   }
 
   get center(): Point {
@@ -43,10 +44,11 @@ export class BaseDemo {
     return this.stopPlay();
   }
 
-  protected draw() {
-    const { context, canvas } = this;
+  public draw() {
+    const { context } = this;
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    this.clearScreen();
+
     context.font = '50px Palatino';
     context.textAlign = 'center';
     context.fillStyle = 'rgba(64,158,255,1.0)';
@@ -55,14 +57,15 @@ export class BaseDemo {
     return this;
   }
 
-  protected clearScreen() {
+  public clearScreen() {
     const { context, canvas } = this;
     context.clearRect(0, 0, canvas.width, canvas.height);
     return this;
   }
 
-  protected startPlay() {
+  public startPlay() {
     let then = 0;
+    console.log('play animate.');
     const tick = (now: number) => {
       let deltaTime = now - then;
       then = now;
@@ -78,12 +81,12 @@ export class BaseDemo {
     return this;
   }
 
-  protected stopPlay() {
+  public stopPlay() {
     cancelAnimationFrame(this.player);
     return this;
   }
 
-  protected drawGrid(stepX: number = 10, stepY: number = 10, color: string = 'rgba(0,0,0,0.1)') {
+  public drawGrid(stepX: number = 20, stepY: number = 20, color: string = 'rgba(0,0,0,0.1)') {
     const { context, canvas } = this;
 
     context.save();
@@ -108,7 +111,7 @@ export class BaseDemo {
     return this;
   }
 
-  protected loadImage(url: string): Promise<HTMLImageElement> {
+  public loadImage(url: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       const spritesheet = new Image();
       spritesheet.src = url;
@@ -118,15 +121,15 @@ export class BaseDemo {
     });
   }
 
-  protected drawGuidelines(x: number, y: number, color: string = 'rgba(43,134,66,1)') {
+  public drawGuidelines(x: number, y: number, color: string = 'rgba(43,134,66,0.6)') {
     const { context } = this;
     context.strokeStyle = color;
-    context.lineWidth = 0.5;
+    context.lineWidth = 1;
 
     return this.drawVerticalLine(x).drawHorizontalLine(y);
   }
 
-  protected drawVerticalLine(x: number) {
+  public drawVerticalLine(x: number) {
     const { context } = this;
     context.save();
     context.beginPath();
@@ -138,7 +141,7 @@ export class BaseDemo {
     return this;
   }
 
-  protected drawHorizontalLine(y: number) {
+  public drawHorizontalLine(y: number) {
     const { context } = this;
     context.save();
     context.beginPath();

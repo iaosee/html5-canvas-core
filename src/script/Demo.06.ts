@@ -79,29 +79,6 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  protected drawGrid(stepX: number = 10, stepY: number = 10, color: string = 'rgba(0,0,0,0.2)') {
-    const { context, canvas } = this;
-
-    context.lineWidth = 0.5;
-    context.strokeStyle = color;
-
-    for (let i = stepX + 0.5, len = canvas.width; i < len; i += stepX) {
-      context.beginPath();
-      context.moveTo(i, 0);
-      context.lineTo(i, canvas.height);
-      context.stroke();
-    }
-
-    for (let i = stepY + 0.5, len = canvas.height; i < len; i += stepY) {
-      context.beginPath();
-      context.moveTo(0, i);
-      context.lineTo(canvas.width, i);
-      context.stroke();
-    }
-
-    return this;
-  }
-
   private drawCircles() {
     const { context } = this;
     this.circles.forEach(circle => {
