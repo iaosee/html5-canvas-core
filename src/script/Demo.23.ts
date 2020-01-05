@@ -2,7 +2,7 @@ import { Point } from './declare';
 import { Rubberband } from './Rubberband';
 
 /**
- * @description 画多边形
+ * @description 拖拽画多边形
  */
 export class Demo extends Rubberband {
   public constructor(public canvas: HTMLCanvasElement) {
@@ -26,9 +26,10 @@ export class Demo extends Rubberband {
   public drawRubberbandShape(loc: Point) {
     const { context, mousedownPos, rubberbandRect } = this;
 
+    context.strokeStyle = 'blue';
     this.drawPolygonPath(mousedownPos, rubberbandRect.width, 7, (Math.PI / 180) * 0);
     context.stroke();
-    // context.fill();
+    context.fill();
 
     return this;
   }

@@ -22,7 +22,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  protected draw() {
+  public draw() {
     return this;
     // return this.clearScreen()
     //            .drawGrid();

@@ -30,7 +30,7 @@ export class Demo extends BaseDemo {
     return this.draw().drawRectangles();
   }
 
-  protected draw() {
+  public draw() {
     return this.clearScreen().drawGrid();
   }
 

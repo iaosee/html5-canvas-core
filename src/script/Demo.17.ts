@@ -16,6 +16,10 @@ export class Demo extends BaseDemo {
   }
 
   public start() {
+    return this.draw();
+  }
+
+  public draw() {
     const { canvas, context } = this;
 
     context.lineWidth = 2;
