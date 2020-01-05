@@ -91,7 +91,7 @@ export class BaseDemo {
 
     context.save();
     context.strokeStyle = color;
-    context.lineWidth = 1;
+    context.lineWidth = 0.5;
 
     for (let i = stepX + 0.5, len = canvas.width; i < len; i += stepX) {
       context.beginPath();
