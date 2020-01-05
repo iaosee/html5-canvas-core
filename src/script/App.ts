@@ -19,14 +19,16 @@ export class App {
   public createCanvas() {
     this.canvas = document.createElement('canvas');
     document.body.appendChild(this.canvas);
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
     return this;
   }
 
   public initDemo() {
-    (window as any).demo = this.demo = Demo.init(this.canvas);
-    this.setViewport();
-    this.demo.start();
-    window.addEventListener('resize', () => this.setViewport(), false);
+    (window as any).demo = this.demo = Demo.init(this.canvas).start();
+    // this.setViewport();
+    // this.demo.start();
+    // window.addEventListener('resize', () => this.setViewport(), false);
     return this;
   }
 
