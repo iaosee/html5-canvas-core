@@ -9,7 +9,7 @@ import { Point, Circle } from './declare';
 export class Demo extends BaseDemo {
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
-  public config: any = {
+  public config = {
     circleQuantity: 10,
     circleMinRadius: 5,
     circleMaxRadius: 50,
@@ -47,42 +47,27 @@ export class Demo extends BaseDemo {
       .add(config, 'circleQuantity')
       .min(0)
       .max(100)
-      .step(1)
-      .onFinishChange((v: any) => {
-        config.circleQuantity = Number(v);
-        this.createCircle();
-      });
+      .step(1);
 
     gui
       .add(config, 'circleMinRadius')
       .min(1)
       .max(50)
-      .step(1)
-      .onFinishChange((v: any) => {
-        config.circleMinRadius = Number(v);
-      });
+      .step(1);
 
     gui
       .add(config, 'circleMaxRadius')
       .min(5)
       .max(100)
-      .step(1)
-      .onFinishChange((v: any) => {
-        config.circleMaxRadius = Number(v);
-      });
+      .step(1);
 
     gui
       .add(config, 'throttleValue')
       .min(0)
       .max(1000)
-      .step(10)
-      .onFinishChange((v: any) => {
-        config.throttleValue = Number(v);
-      });
+      .step(10);
 
-    gui.add(config, 'collisionDetection').onFinishChange((v: any) => {
-      config.displayLetter = Boolean(v);
-    });
+    gui.add(config, 'collisionDetection');
 
     return this;
   }

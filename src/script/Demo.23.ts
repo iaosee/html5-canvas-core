@@ -1,3 +1,4 @@
+import * as dat from 'dat.gui';
 import { Point } from './declare';
 import { Rubberband } from './Rubberband';
 
@@ -5,10 +6,15 @@ import { Rubberband } from './Rubberband';
  * @description 拖拽画多边形
  */
 export class Demo extends Rubberband {
+  public config = {
+    sides: 5,
+    startAngle: 0
+  };
+
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.listenEvents();
+    this.createControl().listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -23,11 +29,30 @@ export class Demo extends Rubberband {
     return this;
   }
 
+  private createControl() {
+    const { config } = this;
+    const gui = new dat.GUI();
+
+    gui
+      .add(config, 'sides')
+      .min(3)
+      .max(50)
+      .step(1);
+
+    gui
+      .add(config, 'startAngle')
+      .min(0)
+      .max(180)
+      .step(15);
+
+    return this;
+  }
+
   public drawRubberbandShape(loc: Point) {
-    const { context, mousedownPos, rubberbandRect } = this;
+    const { context, config, mousedownPos, rubberbandRect } = this;
 
     context.strokeStyle = 'blue';
-    this.drawPolygonPath(mousedownPos, rubberbandRect.width, 7, (Math.PI / 180) * 0);
+    this.drawPolygonPath(mousedownPos, rubberbandRect.width, config.sides, this.angle2radian(config.startAngle));
     context.stroke();
     context.fill();
 

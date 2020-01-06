@@ -185,4 +185,12 @@ export class BaseDemo {
       ')'
     );
   }
+
+  public angle2radian(angle: number) {
+    return (Math.PI / 180) * angle;
+  }
+
+  public radian2angle(radian: number) {
+    return radian / (Math.PI / 180);
+  }
 }

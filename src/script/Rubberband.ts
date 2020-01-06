@@ -92,6 +92,7 @@ export abstract class Rubberband extends BaseDemo {
     this.updateRubberband(this.mousemovePos);
 
     if (this.guidewires) {
+      this.drawGuidelines(this.mousedownPos.x, this.mousedownPos.y, 'rgba(0,0,255,0.2)');
       context.setLineDash([4, 2]);
       this.drawGuidelines(this.mousemovePos.x, this.mousemovePos.y);
       context.setLineDash([]);
