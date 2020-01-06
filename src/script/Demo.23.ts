@@ -8,7 +8,9 @@ import { Rubberband } from './Rubberband';
 export class Demo extends Rubberband {
   public config = {
     sides: 5,
-    startAngle: 0
+    startAngle: 0,
+    fillStyle: [71, 163, 56, 0.2],
+    strokeStyle: [0, 128, 255, 0.8]
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -45,13 +47,17 @@ export class Demo extends Rubberband {
       .max(180)
       .step(15);
 
+    gui.addColor(config, 'fillStyle');
+    gui.addColor(config, 'strokeStyle');
+
     return this;
   }
 
   public drawRubberbandShape(loc: Point) {
     const { context, config, mousedownPos, rubberbandRect } = this;
 
-    context.strokeStyle = 'blue';
+    context.fillStyle = this.rgbaFormArr(config.fillStyle);
+    context.strokeStyle = this.rgbaFormArr(config.strokeStyle);
     this.drawPolygonPath(mousedownPos, rubberbandRect.width, config.sides, this.angle2radian(config.startAngle));
     context.stroke();
     context.fill();

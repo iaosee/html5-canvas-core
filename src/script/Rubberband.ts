@@ -70,11 +70,11 @@ export abstract class Rubberband extends BaseDemo {
   }
 
   protected onMousedownHandler(event: MouseEvent) {
-    const { context } = this;
+    const { context, config } = this;
 
     this.mousemovePos = this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
 
-    context.fillStyle = this.randomRgba();
+    context.fillStyle = this.rgbaFormArr(config.fillStyle) || this.randomRgba();
     event.preventDefault();
     this.saveDrawingSurface();
     this.dragging = true;

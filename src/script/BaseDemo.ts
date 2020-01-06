@@ -4,6 +4,7 @@ import { Point } from './declare';
  * @description BaseDemo
  */
 export class BaseDemo {
+  public config: any = {};
   public player: any = null;
   public context: CanvasRenderingContext2D;
 
@@ -184,6 +185,10 @@ export class BaseDemo {
       (Math.random() + 0.0).toFixed(1) +
       ')'
     );
+  }
+
+  public rgbaFormArr(rgba: number[]) {
+    return rgba && rgba.length ? `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]})` : null;
   }
 
   public angle2radian(angle: number) {
