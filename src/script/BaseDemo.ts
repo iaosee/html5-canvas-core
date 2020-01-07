@@ -1,9 +1,10 @@
-import { Point } from './declare';
+import { Point } from './geometry/Point';
 
 /**
  * @description BaseDemo
  */
 export class BaseDemo {
+  public config: any = {};
   public player: any = null;
   public context: CanvasRenderingContext2D;
 
@@ -17,10 +18,7 @@ export class BaseDemo {
   }
 
   get center(): Point {
-    return {
-      x: this.centerX,
-      y: this.centerY
-    };
+    return new Point(this.centerX, this.centerY);
   }
 
   get centerX() {
@@ -155,10 +153,11 @@ export class BaseDemo {
   public coordinateTransformation(x: number, y: number): Point {
     const { canvas } = this;
     const bbox = canvas.getBoundingClientRect();
-    return {
-      x: x - bbox.left * (canvas.width / bbox.width),
-      y: y - bbox.top * (canvas.height / bbox.height)
-    };
+    return new Point(x - bbox.left * (canvas.width / bbox.width), y - bbox.top * (canvas.height / bbox.height));
+    // return {
+    //   x: x - bbox.left * (canvas.width / bbox.width),
+    //   y: y - bbox.top * (canvas.height / bbox.height)
+    // };
   }
 
   public throttle(fn: (...args: any) => void, gapTime: number) {
@@ -184,5 +183,17 @@ export class BaseDemo {
       (Math.random() + 0.0).toFixed(1) +
       ')'
     );
+  }
+
+  public rgbaFormArr(rgba: number[]) {
+    return rgba && rgba.length ? `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]})` : null;
+  }
+
+  public angle2radian(angle: number) {
+    return (Math.PI / 180) * angle;
+  }
+
+  public radian2angle(radian: number) {
+    return radian / (Math.PI / 180);
   }
 }
