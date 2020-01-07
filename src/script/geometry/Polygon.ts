@@ -85,6 +85,7 @@ export interface OnEventListenerOptions extends EventListenerOptions {
 }
 
 export interface CanvasEventMap {
+  click: MouseEvent;
   mousedown: MouseEvent;
   mousemove: MouseEvent;
   mouseover: MouseEvent;

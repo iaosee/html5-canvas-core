@@ -86,11 +86,14 @@ export class Demo extends Rubberband {
 
     const _this = this;
     if (!this.dragging && !mousedownPos.equals(loc)) {
-      polygon.on('mousedown', function(e: MouseEvent) {
+      polygon.on('click', function(e: MouseEvent) {
         console.log(this);
         console.log(e);
-        this.createPath();
-        this.fill(_this.randomRgba());
+        this.fillStyle = _this.randomRgba();
+        _this
+          .clearScreen()
+          .drawGrid()
+          .drawPolygons();
       });
 
       this.polygons.push(polygon);
