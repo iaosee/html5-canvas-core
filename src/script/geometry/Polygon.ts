@@ -3,6 +3,7 @@ import { Geometry } from './Geometry';
 
 export class Polygon extends Geometry {
   public constructor(
+    public context: CanvasRenderingContext2D,
     public position: Point,
     public radius: number,
     public sides: number,
@@ -28,7 +29,9 @@ export class Polygon extends Geometry {
     return points;
   }
 
-  public createPath(context: CanvasRenderingContext2D) {
+  public createPath() {
+    const { context } = this;
+
     const points = this.getPoints();
     context.beginPath();
     context.moveTo(points[0].x, points[0].y);
@@ -39,22 +42,54 @@ export class Polygon extends Geometry {
     context.closePath();
   }
 
-  public stroke(context: CanvasRenderingContext2D) {
+  public stroke(strokeStyle?: string) {
+    const { context } = this;
     context.save();
-    this.createPath(context);
-    context.strokeStyle = this.strokeStyle;
+    this.createPath();
+    context.strokeStyle = strokeStyle || this.strokeStyle;
     context.stroke();
     context.restore();
   }
 
-  public fill(context: CanvasRenderingContext2D) {
+  public fill(fillStyle?: string) {
+    const { context } = this;
+
     if (!this.filled) {
       return;
     }
     context.save();
-    this.createPath(context);
-    context.fillStyle = this.fillStyle;
+    this.createPath();
+    context.fillStyle = fillStyle || this.fillStyle;
     context.fill();
     context.restore();
   }
+
+  public on<K extends keyof CanvasEventMap>(
+    eventType: K,
+    listener: (this: Polygon, ev: CanvasEventMap[K]) => any,
+    options?: boolean | OnEventListenerOptions
+  ): void {
+    const { context } = this;
+    context.canvas.addEventListener(eventType, (event: MouseEvent) => {
+      this.createPath();
+      if (context.isPointInPath(event.clientX, event.clientY)) {
+        listener.call(this, event);
+      }
+    });
+  }
+}
+
+export interface OnEventListenerOptions extends EventListenerOptions {
+  once?: boolean;
+  passive?: boolean;
+}
+
+export interface CanvasEventMap {
+  mousedown: MouseEvent;
+  mousemove: MouseEvent;
+  mouseover: MouseEvent;
+  mouseup: MouseEvent;
+  mouseout: MouseEvent;
+  mouseenter: MouseEvent;
+  mouseleave: MouseEvent;
 }

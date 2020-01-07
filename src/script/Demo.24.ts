@@ -70,6 +70,7 @@ export class Demo extends Rubberband {
   public drawRubberbandShape(loc: Point) {
     const { context, config, mousedownPos, rubberbandRect } = this;
     const polygon = new Polygon(
+      context,
       new Point(mousedownPos.x, mousedownPos.y),
       rubberbandRect.width,
       config.sides,
@@ -79,13 +80,19 @@ export class Demo extends Rubberband {
       config.filled
     );
 
-    context.beginPath();
-    polygon.createPath(context);
-    polygon.stroke(context);
-    polygon.fill(context);
+    polygon.createPath();
+    polygon.stroke();
+    polygon.fill();
 
-    console.log(this.dragging);
+    const _this = this;
     if (!this.dragging && !mousedownPos.equals(loc)) {
+      polygon.on('mousedown', function(e: MouseEvent) {
+        console.log(this);
+        console.log(e);
+        this.createPath();
+        this.fill(_this.randomRgba());
+      });
+
       this.polygons.push(polygon);
     }
     return this;
@@ -94,9 +101,9 @@ export class Demo extends Rubberband {
   public drawPolygons() {
     const { context } = this;
     this.polygons.forEach(polygon => {
-      polygon.stroke(context);
+      polygon.stroke();
       if (polygon.filled) {
-        polygon.fill(context);
+        polygon.fill();
       }
     });
 
