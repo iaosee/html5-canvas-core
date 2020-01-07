@@ -15,7 +15,13 @@ export class Demo extends Rubberband {
     startAngle: 0,
     fillStyle: [71, 163, 56, 0.2],
     strokeStyle: [0, 128, 255, 0.8],
-    filled: true
+    filled: true,
+    redraw: () => {
+      console.log('redraw');
+      this.clearScreen()
+        .drawGrid()
+        .drawPolygons();
+    }
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -56,6 +62,8 @@ export class Demo extends Rubberband {
     gui.addColor(config, 'fillStyle');
     gui.addColor(config, 'strokeStyle');
 
+    gui.add(config, 'redraw');
+
     return this;
   }
 
@@ -76,7 +84,8 @@ export class Demo extends Rubberband {
     polygon.stroke(context);
     polygon.fill(context);
 
-    if (!this.dragging) {
+    console.log(this.dragging);
+    if (!this.dragging && !mousedownPos.equals(loc)) {
       this.polygons.push(polygon);
     }
     return this;
@@ -92,5 +101,10 @@ export class Demo extends Rubberband {
     });
 
     return this;
+  }
+
+  public listenEvents() {
+    super.listenEvents();
+    window.addEventListener('keydown', e => e.key === 'c' && (this.polygons = []));
   }
 }

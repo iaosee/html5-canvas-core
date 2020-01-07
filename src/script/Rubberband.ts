@@ -1,12 +1,13 @@
 import { BaseDemo } from './BaseDemo';
-import { Point, Rectangle } from './declare';
+import { Rectangle } from './declare';
+import { Point } from './geometry/Point';
 
 export abstract class Rubberband extends BaseDemo {
   protected dragging: boolean = false;
   protected guidewires: boolean = true;
 
-  protected mousedownPos: Point = { x: 0, y: 0 };
-  protected mousemovePos: Point = { x: 0, y: 0 };
+  protected mousedownPos: Point = new Point(0, 0);
+  protected mousemovePos: Point = new Point(0, 0);
 
   protected drawingSurfaceImageData: ImageData;
   protected rubberbandRect: Rectangle = {
@@ -81,10 +82,11 @@ export abstract class Rubberband extends BaseDemo {
   }
 
   protected onMousemoveHandler(event: MouseEvent) {
+    const { context } = this;
+
     if (!this.dragging) {
       return;
     }
-    const { context } = this;
 
     event.preventDefault();
     this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
@@ -105,9 +107,9 @@ export abstract class Rubberband extends BaseDemo {
     }
 
     event.preventDefault();
+    this.dragging = false;
     this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
     this.restoreDrawingSurface();
     this.updateRubberband(this.mousemovePos);
-    this.dragging = false;
   }
 }

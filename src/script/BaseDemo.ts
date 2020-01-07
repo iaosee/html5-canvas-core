@@ -1,4 +1,4 @@
-import { Point } from './declare';
+import { Point } from './geometry/Point';
 
 /**
  * @description BaseDemo
@@ -18,10 +18,7 @@ export class BaseDemo {
   }
 
   get center(): Point {
-    return {
-      x: this.centerX,
-      y: this.centerY
-    };
+    return new Point(this.centerX, this.centerY);
   }
 
   get centerX() {
@@ -156,10 +153,11 @@ export class BaseDemo {
   public coordinateTransformation(x: number, y: number): Point {
     const { canvas } = this;
     const bbox = canvas.getBoundingClientRect();
-    return {
-      x: x - bbox.left * (canvas.width / bbox.width),
-      y: y - bbox.top * (canvas.height / bbox.height)
-    };
+    return new Point(x - bbox.left * (canvas.width / bbox.width), y - bbox.top * (canvas.height / bbox.height));
+    // return {
+    //   x: x - bbox.left * (canvas.width / bbox.width),
+    //   y: y - bbox.top * (canvas.height / bbox.height)
+    // };
   }
 
   public throttle(fn: (...args: any) => void, gapTime: number) {

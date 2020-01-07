@@ -1,6 +1,7 @@
 import { Point } from './Point';
+import { Geometry } from './Geometry';
 
-export class Polygon {
+export class Polygon extends Geometry {
   public constructor(
     public position: Point,
     public radius: number,
@@ -9,30 +10,8 @@ export class Polygon {
     public fillStyle: string,
     public strokeStyle: string,
     public filled: boolean
-  ) {}
-
-  public set x(v: number) {
-    this.position.x = v;
-  }
-
-  public get x() {
-    return this.position.x;
-  }
-
-  public set y(v: number) {
-    this.position.y = v;
-  }
-
-  public get y() {
-    return this.position.y;
-  }
-
-  public getPposition() {
-    return this.position;
-  }
-
-  public setPposition(p: Point) {
-    return (this.position = p);
+  ) {
+    super(position);
   }
 
   public getPoints(): Point[] {
@@ -77,9 +56,5 @@ export class Polygon {
     context.fillStyle = this.fillStyle;
     context.fill();
     context.restore();
-  }
-
-  public move(p: Point) {
-    this.setPposition(p);
   }
 }
