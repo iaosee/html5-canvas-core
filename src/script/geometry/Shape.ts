@@ -1,6 +1,6 @@
 import { Point } from './Point';
 
-export class Geometry {
+export class Shape {
   public constructor(public position: Point) {}
 
   public set x(v: number) {

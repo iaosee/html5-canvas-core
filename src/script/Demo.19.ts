@@ -29,17 +29,14 @@ export class Demo extends Rubberband {
 
   public drawRubberbandShape(loc: Point) {
     const { context, mousedownPos, mousemovePos, rubberbandRect } = this;
-    let angle;
-    let radius;
 
     // For horizontal lines
-    if (mousedownPos.y === mousemovePos.y) {
-      radius = Math.abs(loc.x - mousedownPos.x);
-    } else {
-      // The if block above catches horizontal lines.
-      angle = Math.atan(rubberbandRect.height / rubberbandRect.width);
-      radius = rubberbandRect.height / Math.sin(angle);
-    }
+    const radius = mousedownPos.equals(mousemovePos)
+      ? Math.abs(loc.x - mousedownPos.x)
+      : rubberbandRect.height / Math.sin(Math.atan(rubberbandRect.height / rubberbandRect.width));
+
+    // 以上代码等价于：
+    // const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
 
     context.beginPath();
     context.arc(mousedownPos.x, mousedownPos.y, radius, 0, Math.PI * 2, false);

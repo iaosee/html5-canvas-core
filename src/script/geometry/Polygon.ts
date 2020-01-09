@@ -1,7 +1,7 @@
 import { Point } from './Point';
-import { Geometry } from './Geometry';
+import { Shape } from './Shape';
 
-export class Polygon extends Geometry {
+export class Polygon extends Shape {
   public constructor(
     public context: CanvasRenderingContext2D,
     public position: Point,
