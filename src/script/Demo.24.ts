@@ -68,11 +68,23 @@ export class Demo extends Rubberband {
   }
 
   public drawRubberbandShape(loc: Point) {
-    const { context, config, mousedownPos, rubberbandRect } = this;
+    const { context, config, mousedownPos, mousemovePos, rubberbandRect } = this;
+    let radius = rubberbandRect.width > rubberbandRect.height ? rubberbandRect.width : rubberbandRect.height;
+
+    if (mousedownPos.y === mousemovePos.y) {
+      radius = Math.abs(loc.x - mousedownPos.x);
+    } else {
+      // The if block above catches horizontal lines.
+      const angle = Math.atan(rubberbandRect.height / rubberbandRect.width);
+      radius = rubberbandRect.height / Math.sin(angle);
+    }
+
+    const r = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
+
     const polygon = new Polygon(
       context,
       new Point(mousedownPos.x, mousedownPos.y),
-      rubberbandRect.width,
+      radius,
       config.sides,
       this.angle2radian(config.startAngle),
       this.rgbaFormArr(config.fillStyle),
@@ -86,6 +98,9 @@ export class Demo extends Rubberband {
 
     const _this = this;
     if (!this.dragging && !mousedownPos.equals(loc)) {
+      console.log(radius);
+      console.log(r);
+
       polygon.on('click', function(e: MouseEvent) {
         console.log(this);
         console.log(e);
