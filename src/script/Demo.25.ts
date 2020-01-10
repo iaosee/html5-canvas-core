@@ -143,10 +143,11 @@ export class Demo extends Rubberband {
     this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
 
     if (config.editing && this.dragging) {
-      this.draggingPolygon.x = this.mousemovePos.x - this.draggingOffsetPos.x;
-      this.draggingPolygon.y = this.mousemovePos.y - this.draggingOffsetPos.y;
+      this.draggingPolygon &&
+        this.draggingPolygon.setPposition(
+          new Point(this.mousemovePos.x - this.draggingOffsetPos.x, this.mousemovePos.y - this.draggingOffsetPos.y)
+        );
 
-      console.log(this.draggingPolygon.x, this.draggingPolygon.y);
       this.clearScreen()
         .drawGrid()
         .drawPolygons();
