@@ -70,10 +70,21 @@ export abstract class Rubberband extends BaseDemo {
     window.addEventListener('keydown', e => e.key === 'c' && this.clearScreen().drawGrid());
   }
 
+  public drawBandGuidelines() {
+    const { context } = this;
+
+    this.drawGuidelines(this.mousedownPos.x, this.mousedownPos.y, 'rgba(0,0,255,0.2)');
+    context.setLineDash([4, 2]);
+    this.drawGuidelines(this.mousemovePos.x, this.mousemovePos.y);
+    context.setLineDash([]);
+
+    return this;
+  }
+
   protected onMousedownHandler(event: MouseEvent) {
     const { context, config } = this;
 
-    this.mousemovePos = this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
+    this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
 
     context.fillStyle = this.rgbaFormArr(config.fillStyle) || this.randomRgba();
     event.preventDefault();
@@ -92,13 +103,7 @@ export abstract class Rubberband extends BaseDemo {
     this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
     this.restoreDrawingSurface();
     this.updateRubberband(this.mousemovePos);
-
-    if (this.guidewires) {
-      this.drawGuidelines(this.mousedownPos.x, this.mousedownPos.y, 'rgba(0,0,255,0.2)');
-      context.setLineDash([4, 2]);
-      this.drawGuidelines(this.mousemovePos.x, this.mousemovePos.y);
-      context.setLineDash([]);
-    }
+    this.guidewires && this.drawBandGuidelines();
   }
 
   protected onMouseupHandler(event: MouseEvent) {

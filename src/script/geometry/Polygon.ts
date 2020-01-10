@@ -77,6 +77,12 @@ export class Polygon extends Shape {
       }
     });
   }
+
+  public pointInPath(p: Point) {
+    const { context } = this;
+    this.createPath();
+    return context.isPointInPath(p.x, p.y);
+  }
 }
 
 export interface OnEventListenerOptions extends EventListenerOptions {

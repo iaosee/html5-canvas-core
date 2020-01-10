@@ -1,12 +1,36 @@
-import { BaseDemo } from './BaseDemo';
-import { Canvas2DContext } from './core/Canvas2DContext';
+import * as dat from 'dat.gui';
+import { Rubberband } from './Rubberband';
 
-export class Demo extends BaseDemo {
-  public ctx: Canvas2DContext;
+import { Point } from './geometry/Point';
+import { Polygon } from './geometry/Polygon';
+
+/**
+ * @description 拖拽绘制的对象
+ */
+export class Demo extends Rubberband {
+  public polygons: Polygon[] = [];
+  public draggingPolygon: Polygon;
+  public draggingOffsetPos: Point = new Point();
+
+  public config = {
+    sides: 5,
+    startAngle: 0,
+    fillStyle: [71, 163, 56, 0.2],
+    strokeStyle: [0, 128, 255, 0.8],
+    filled: true,
+    editing: false,
+    redraw: () => {
+      console.log('redraw');
+      this.clearScreen()
+        .drawGrid()
+        .drawPolygons();
+    }
+  };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
-    this.ctx = new Canvas2DContext(canvas);
+
+    this.createControl().listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -14,39 +38,136 @@ export class Demo extends BaseDemo {
   }
 
   public start() {
-    return this.drawGrid().drawScene();
+    return this.drawGrid().drawPolygons();
   }
 
   public draw() {
     return this;
   }
 
-  public drawScene() {
-    const { ctx } = this;
+  private createControl() {
+    const { config } = this;
+    const gui = new dat.GUI();
 
-    console.log(ctx);
-    const c = (ctx as any)
-      .lineWidth(5)
-      .lineJoin('round')
-      .strokeStyle(this.randomRgba())
-      .fillStyle(this.randomRgba())
-      .beginPath()
-      .moveTo(25, 25)
-      .lineTo(150, 150)
-      .lineTo(150, 25)
-      .closePath()
-      .stroke()
-      .fill().context;
+    gui
+      .add(config, 'sides')
+      .min(3)
+      .max(50)
+      .step(1);
 
-    const strokeStyle = (ctx as any)
-      .strokeStyle(this.randomRgba())
-      .fillStyle(this.randomRgba())
-      .fillRect(this.centerX, this.centerY, 100, 100)
-      .strokeStyle();
+    gui
+      .add(config, 'startAngle')
+      .min(0)
+      .max(180)
+      .step(15);
 
-    console.log(c);
-    console.log(strokeStyle);
+    gui.add(config, 'filled');
+    gui.addColor(config, 'fillStyle');
+    gui.addColor(config, 'strokeStyle');
+
+    gui.add(config, 'redraw');
+    gui.add(config, 'editing');
 
     return this;
+  }
+
+  public drawRubberbandShape(loc: Point) {
+    const { context, config, mousedownPos, mousemovePos, rubberbandRect } = this;
+    const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
+
+    const polygon = new Polygon(
+      context,
+      new Point(mousedownPos.x, mousedownPos.y),
+      radius,
+      config.sides,
+      this.angle2radian(config.startAngle),
+      this.rgbaFormArr(config.fillStyle),
+      this.rgbaFormArr(config.strokeStyle),
+      config.filled
+    );
+
+    this.drawPolygon(polygon);
+
+    if (!this.dragging && !mousedownPos.equals(loc)) {
+      this.polygons.push(polygon);
+    }
+    return this;
+  }
+
+  public drawPolygon(polygon: Polygon) {
+    polygon.createPath();
+    polygon.stroke();
+    polygon.filled && polygon.fill();
+    return this;
+  }
+
+  public drawPolygons() {
+    this.polygons.forEach(polygon => this.drawPolygon(polygon));
+    return this;
+  }
+
+  public listenEvents() {
+    super.listenEvents();
+    window.addEventListener('keydown', e => e.key === 'c' && (this.polygons = []));
+  }
+
+  protected onMousedownHandler(event: MouseEvent) {
+    const { context, config } = this;
+
+    event.preventDefault();
+    this.dragging = true;
+    this.mousemovePos = this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
+    context.fillStyle = this.rgbaFormArr(config.fillStyle) || this.randomRgba();
+
+    if (config.editing) {
+      // this.drawPolygons();
+      this.polygons.forEach(polygon => {
+        if (!polygon.pointInPath(new Point(event.clientX, event.clientY))) {
+          return;
+        }
+
+        console.log('dragging', polygon);
+        this.draggingPolygon = polygon;
+
+        this.draggingOffsetPos = new Point(this.mousedownPos.x - polygon.x, this.mousedownPos.y - polygon.y);
+      });
+    } else {
+      this.saveDrawingSurface();
+    }
+  }
+
+  protected onMousemoveHandler(event: MouseEvent) {
+    const { context, config } = this;
+
+    event.preventDefault();
+    this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
+
+    if (config.editing && this.dragging) {
+      this.draggingPolygon.x = this.mousemovePos.x - this.draggingOffsetPos.x;
+      this.draggingPolygon.y = this.mousemovePos.y - this.draggingOffsetPos.y;
+
+      console.log(this.draggingPolygon.x, this.draggingPolygon.y);
+      this.clearScreen()
+        .drawGrid()
+        .drawPolygons();
+    } else if (this.dragging) {
+      this.restoreDrawingSurface();
+      this.updateRubberband(this.mousemovePos);
+      this.guidewires && this.drawBandGuidelines();
+    }
+  }
+
+  protected onMouseupHandler(event: MouseEvent) {
+    const { config } = this;
+
+    event.preventDefault();
+    this.dragging = false;
+    this.draggingPolygon = null;
+    this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
+    if (config.editing) {
+      return;
+    }
+    this.restoreDrawingSurface();
+    this.updateRubberband(this.mousemovePos);
   }
 }
