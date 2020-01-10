@@ -31,9 +31,10 @@ export class Demo extends Rubberband {
     const { context, mousedownPos, mousemovePos, rubberbandRect } = this;
 
     // For horizontal lines
-    const radius = mousedownPos.equals(mousemovePos)
-      ? Math.abs(loc.x - mousedownPos.x)
-      : rubberbandRect.height / Math.sin(Math.atan(rubberbandRect.height / rubberbandRect.width));
+    const radius =
+      mousedownPos.y === mousemovePos.y
+        ? Math.abs(loc.x - mousedownPos.x)
+        : rubberbandRect.height / Math.sin(Math.atan(rubberbandRect.height / rubberbandRect.width));
 
     // 以上代码等价于：
     // const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
