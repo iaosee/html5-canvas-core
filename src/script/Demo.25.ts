@@ -126,9 +126,8 @@ export class Demo extends Rubberband {
           return;
         }
 
-        console.log('dragging', polygon);
+        // console.log('dragging', polygon);
         this.draggingPolygon = polygon;
-
         this.draggingOffsetPos = new Point(this.mousedownPos.x - polygon.x, this.mousedownPos.y - polygon.y);
       });
     } else {
