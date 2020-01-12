@@ -57,6 +57,7 @@ export class Polygon extends Shape {
     if (!this.filled) {
       return;
     }
+
     context.save();
     this.createPath();
     context.fillStyle = fillStyle || this.fillStyle;

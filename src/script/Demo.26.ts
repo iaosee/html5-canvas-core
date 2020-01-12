@@ -2,11 +2,9 @@ import * as dat from 'dat.gui';
 import { Point } from './geometry/Point';
 import { Rubberband } from './Rubberband';
 
-enum CurveType {
-  QuadraticCurve,
-  CubeBezier
-}
-
+/**
+ * @description 拖拽绘制二/三次次贝塞尔曲线
+ */
 export class Demo extends Rubberband {
   public config = {
     fillStyle: [71, 163, 56, 0.2],

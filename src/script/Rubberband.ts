@@ -68,6 +68,8 @@ export abstract class Rubberband extends BaseDemo {
     canvas.addEventListener('mouseup', this.onMouseupHandler.bind(this));
     canvas.addEventListener('contextmenu', e => e.preventDefault());
     window.addEventListener('keydown', e => e.key === 'c' && this.clearScreen().drawGrid());
+
+    return this;
   }
 
   public drawBandGuidelines() {

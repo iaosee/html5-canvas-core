@@ -125,5 +125,7 @@ export class Demo extends Rubberband {
   public listenEvents() {
     super.listenEvents();
     window.addEventListener('keydown', e => e.key === 'c' && (this.polygons = []));
+
+    return this;
   }
 }

@@ -5,7 +5,7 @@ import { Point } from './geometry/Point';
 import { Polygon } from './geometry/Polygon';
 
 /**
- * @description 拖拽绘制的对象
+ * @description 拖拽绘制的物体
  */
 export class Demo extends Rubberband {
   public polygons: Polygon[] = [];
@@ -109,6 +109,8 @@ export class Demo extends Rubberband {
   public listenEvents() {
     super.listenEvents();
     window.addEventListener('keydown', e => e.key === 'c' && (this.polygons = []));
+
+    return this;
   }
 
   protected onMousedownHandler(event: MouseEvent) {
