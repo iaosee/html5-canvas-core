@@ -45,6 +45,8 @@ export class Demo extends Rubberband {
     const { context, config, mousedownPos, mousemovePos, rubberbandRect } = this;
     const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
 
+    context.lineWidth = 2;
+    context.strokeStyle = this.rgbaFormArr(config.strokeStyle);
     config.curveType === 'QuadraticCurve' ? this.drawQuadraticCurve() : this.drawCubeBezier();
 
     return this;
@@ -52,7 +54,6 @@ export class Demo extends Rubberband {
 
   public drawQuadraticCurve() {
     const { context, rubberbandRect } = this;
-    context.lineWidth = 2;
     context.beginPath();
     context.moveTo(rubberbandRect.x, rubberbandRect.y);
     context.quadraticCurveTo(
@@ -67,7 +68,6 @@ export class Demo extends Rubberband {
   public drawCubeBezier() {
     const { context, rubberbandRect } = this;
 
-    context.lineWidth = 2;
     context.beginPath();
     context.moveTo(rubberbandRect.x, rubberbandRect.y);
     context.bezierCurveTo(
