@@ -63,6 +63,7 @@ export abstract class Rubberband extends BaseDemo {
 
   protected listenEvents() {
     const { canvas } = this;
+
     canvas.addEventListener('mousedown', this.onMousedownHandler.bind(this));
     canvas.addEventListener('mousemove', this.onMousemoveHandler.bind(this));
     canvas.addEventListener('mouseup', this.onMouseupHandler.bind(this));
