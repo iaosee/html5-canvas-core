@@ -30,8 +30,7 @@ export abstract class Rubberband extends BaseDemo {
   }
 
   protected updateRubberband(loc: Point) {
-    this.updateRubberbandRectangle(loc);
-    this.drawRubberbandShape(loc);
+    this.updateRubberbandRectangle(loc).drawRubberbandShape(loc);
     return this;
   }
 
@@ -85,19 +84,13 @@ export abstract class Rubberband extends BaseDemo {
   }
 
   protected onMousedownHandler(event: MouseEvent) {
-    const { context, config } = this;
-
     this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
-
-    context.fillStyle = this.rgbaFormArr(config.fillStyle) || this.randomRgba();
     event.preventDefault();
     this.saveDrawingSurface();
     this.dragging = true;
   }
 
   protected onMousemoveHandler(event: MouseEvent) {
-    const { context } = this;
-
     if (!this.dragging) {
       return;
     }
@@ -115,9 +108,9 @@ export abstract class Rubberband extends BaseDemo {
     }
 
     event.preventDefault();
-    this.dragging = false;
     this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
     this.restoreDrawingSurface();
     this.updateRubberband(this.mousemovePos);
+    this.dragging = false;
   }
 }

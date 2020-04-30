@@ -267,3 +267,8 @@ globalCompositeOperation 参考
 - https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
 - https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Compositing
 
+
+## 剪辑区域
+
+剪辑区域，是一个非常有用的功能，由路径定义一块区域，会将所有绘制操作限制在此区域内执行，默认剪辑区域与 Canvas 大小一致，设置剪辑区域后，绘制的所有内容都将局限在该区域，在该区域以外绘制是没有效果的。
+
