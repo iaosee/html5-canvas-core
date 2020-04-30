@@ -223,6 +223,27 @@ Canvas 坐标系统可以进行移动/旋转/缩放等操作。
 - `scale(x, y)` 在 x, y 方向上分别按照给定的值缩放坐标系
 - `rotate(radian)` 旋转坐标系统
 
+
+坐标变换代数方程：
+
+``` js
+// 平移 
+x' = x + dx
+y' = y + dy
+
+
+// 缩放
+x' = x * sx
+y' = y * sy
+
+
+// 旋转
+x' = x * cos(angle) - y * sin(angle)
+y' = y * cos(angle) + x * sin(angle)
+
+```
+
+
 自定义坐标系变换：
 
 无论绘制任何图像，绘图环境都会在所绘制的物体上运用变换矩阵，变换矩阵默认是单位矩阵，当调用了 `translate()/scale()/rotate()` 之后变换矩阵就会被修改。有时候我们需要直接操作变换矩阵，Canvas 绘图环境提供了两个直接操作变换矩阵的方法：
@@ -237,4 +258,12 @@ x' = ax + cy + e
 y' = bx + dy + f
 ```
 
+## 图像合成
+
+图像合成 是将一个物体绘制在另一个物体之上，绘图对象的 `globalCompositeOperation` 属性指定合成模式，`globalAlpha` 设置图形透明度
+  
+globalCompositeOperation 参考 
+
+- https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation
+- https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Compositing
 
