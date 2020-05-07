@@ -1,21 +1,34 @@
+import * as dat from 'dat.gui';
 import { BaseDemo } from './BaseDemo';
 import { Point } from './geometry/Point';
 
+enum ShapeStyle {
+  Linellae = 'linellae',
+  Circle = 'circle'
+}
+
 /**
- * @description 鼠标跟随，带拖尾鲜果
+ * @description 鼠标跟随，带拖尾效果
  */
 export class Demo extends BaseDemo {
   public stars: Star[] = [];
   public mousePos: Point = new Point(this.centerX, this.centerY);
   public config = {
-    pointCount: 500
+    pointCount: 300,
+    shapeStyle: ShapeStyle.Linellae,
+    isFill: false,
+    maxRangeRadius: 300,
+    maxStarRadius: 5
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
     this.context.fillStyle = 'rgba(0,0,0,1)';
     this.context.fillRect(0, 0, canvas.width, canvas.height);
-    this.generatePoint().listenEvents();
+
+    this.createControl()
+      .generatePoint()
+      .listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -25,7 +38,7 @@ export class Demo extends BaseDemo {
   public clearScreen() {
     const { context, canvas } = this;
     context.globalAlpha = 0.8;
-    context.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    context.fillStyle = 'rgba(0, 0, 0, 0.1)';
     context.fillRect(0, 0, canvas.width, canvas.height);
     return this;
   }
@@ -34,16 +47,54 @@ export class Demo extends BaseDemo {
     return this.clearScreen().drawScene();
   }
 
-  public generatePoint() {
+  private createControl() {
     const { config } = this;
+    const gui = new dat.GUI();
+
+    gui.add(config, 'shapeStyle', {
+      linellae: ShapeStyle.Linellae,
+      circle: ShapeStyle.Circle
+    });
+    gui
+      .add(config, 'pointCount')
+      .min(10)
+      .max(5000)
+      .step(10)
+      .onChange(() => this.resetScene());
+    gui
+      .add(config, 'maxStarRadius')
+      .min(1)
+      .max(50)
+      .step(1)
+      .onChange(() => this.resetScene());
+    gui
+      .add(config, 'maxRangeRadius')
+      .min(100)
+      .max(1200)
+      .step(10)
+      .onChange(() => this.resetScene());
+    gui.add(config, 'isFill');
+
+    return this;
+  }
+
+  public resetScene() {
+    this.stars.length = 0;
+    this.generatePoint();
+    return this;
+  }
+
+  public generatePoint() {
+    const { config, mousePos } = this;
 
     for (let i = 0; i < config.pointCount; i++) {
       this.stars.push(
         new Star(
-          new Point(this.centerX, this.centerY),
-          Math.random() * 10,
+          new Point(mousePos.x, mousePos.y),
+          Math.random() * config.maxStarRadius,
           this.randomRgba(),
-          Math.random() / 100 + 0.001
+          Math.random() / 100 + 0.001,
+          Math.random() * config.maxRangeRadius + 10
         )
       );
     }
@@ -52,10 +103,8 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene() {
-    const { context, stars, mousePos } = this;
-
-    stars.forEach(star => star.draw(context, mousePos));
-
+    const { stars } = this;
+    stars.forEach(star => star.draw(this));
     return this;
   }
 
@@ -71,14 +120,14 @@ export class Demo extends BaseDemo {
 }
 
 class Star {
-  public maxRadius = Math.random() * 500;
   public theta = Math.random() * Math.PI * 2;
 
   public constructor(
     public position: Point,
     public radius: number,
     public color: string,
-    public speed: number = 0.01
+    public speed: number = 0.01,
+    public maxRangeRadius: number = Math.random() * 500 + 10
   ) {}
 
   public set x(v: number) {
@@ -97,20 +146,29 @@ class Star {
     return this.position.y;
   }
 
-  public draw(c: CanvasRenderingContext2D, m: Point) {
+  public draw(demo: Demo) {
+    const { context, mousePos, config } = demo;
     const old = { x: this.x, y: this.y };
     this.theta += this.speed;
-    this.x = m.x + Math.cos(this.theta) * this.maxRadius;
-    this.y = m.y + Math.sin(this.theta) * this.maxRadius;
+    this.x = mousePos.x + Math.cos(this.theta) * this.maxRangeRadius;
+    this.y = mousePos.y + Math.sin(this.theta) * this.maxRangeRadius;
 
-    c.beginPath();
-    c.lineCap = 'round';
-    c.lineWidth = this.radius;
-    c.strokeStyle = this.color;
-    c.moveTo(old.x, old.y);
-    c.lineTo(this.x, this.y);
-    // c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    c.stroke();
-    c.closePath();
+    context.beginPath();
+    context.lineCap = 'round';
+    context.strokeStyle = this.color;
+
+    if (config.shapeStyle === ShapeStyle.Linellae) {
+      context.lineWidth = this.radius;
+      context.moveTo(old.x, old.y);
+      context.lineTo(this.x, this.y);
+      context.stroke();
+    } else if (config.shapeStyle === ShapeStyle.Circle) {
+      context.lineWidth = 1;
+      context.fillStyle = this.color;
+      context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+      context.stroke();
+      config.isFill && context.fill();
+    }
+    context.closePath();
   }
 }
