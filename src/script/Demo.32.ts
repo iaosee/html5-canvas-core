@@ -14,10 +14,10 @@ export class Demo extends BaseDemo {
   public stars: Star[] = [];
   public mousePos: Point = new Point(this.centerX, this.centerY);
   public config = {
-    pointCount: 300,
+    pointQuantity: 300,
     shapeStyle: ShapeStyle.Linellae,
     isFill: false,
-    maxRangeRadius: 300,
+    maxRangeRadius: 500,
     maxStarRadius: 5
   };
 
@@ -56,7 +56,7 @@ export class Demo extends BaseDemo {
       circle: ShapeStyle.Circle
     });
     gui
-      .add(config, 'pointCount')
+      .add(config, 'pointQuantity')
       .min(10)
       .max(5000)
       .step(10)
@@ -87,7 +87,7 @@ export class Demo extends BaseDemo {
   public generatePoint() {
     const { config, mousePos } = this;
 
-    for (let i = 0; i < config.pointCount; i++) {
+    for (let i = 0; i < config.pointQuantity; i++) {
       this.stars.push(
         new Star(
           new Point(mousePos.x, mousePos.y),
