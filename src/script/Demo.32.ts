@@ -12,12 +12,12 @@ enum ShapeStyle {
  */
 export class Demo extends BaseDemo {
   public stars: Star[] = [];
-  public mousePos: Point = new Point(this.centerX, this.centerY);
+  public mousePos: Point = new Point(this.centerX, this.canvas.height);
   public config = {
-    pointQuantity: 300,
+    pointQuantity: 500,
     shapeStyle: ShapeStyle.Linellae,
     isFill: false,
-    maxRangeRadius: 500,
+    maxRangeRadius: 800,
     maxStarRadius: 5
   };
 
