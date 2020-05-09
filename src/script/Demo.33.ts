@@ -12,7 +12,9 @@ enum ShapeStyle {
 export class Demo extends BaseDemo {
   public K: number = 2;
   public F: number = 6;
-  public noise: number = 0.05;
+  public MAX = this.canvas.height / 2;
+
+  public noise: number = Math.min(0.1, 1) * this.MAX;
   public speed: number = 0.2;
   public phase: number = 0.1;
 
@@ -24,6 +26,7 @@ export class Demo extends BaseDemo {
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
+    console.log(this.noise);
 
     this.createControl();
   }

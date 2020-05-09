@@ -7,6 +7,11 @@ enum ShapeStyle {
   Circle = 'circle'
 }
 
+enum BackgroundColor {
+  Light = 'light',
+  Dark = 'dark'
+}
+
 /**
  * @description 鼠标跟随，带拖尾效果
  */
@@ -15,16 +20,15 @@ export class Demo extends BaseDemo {
   public mousePos: Point = new Point(this.centerX, this.canvas.height);
   public config = {
     pointQuantity: 500,
-    shapeStyle: ShapeStyle.Linellae,
     isFill: false,
     maxRangeRadius: 800,
-    maxStarRadius: 5
+    maxStarRadius: 5,
+    shapeStyle: ShapeStyle.Linellae,
+    backgroundColor: BackgroundColor.Dark
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
-    this.context.fillStyle = 'rgba(0,0,0,1)';
-    this.context.fillRect(0, 0, canvas.width, canvas.height);
 
     this.createControl()
       .generatePoint()
@@ -36,9 +40,10 @@ export class Demo extends BaseDemo {
   }
 
   public clearScreen() {
-    const { context, canvas } = this;
+    const { context, canvas, config } = this;
     context.globalAlpha = 0.8;
-    context.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    context.fillStyle =
+      config.backgroundColor === BackgroundColor.Dark ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
     context.fillRect(0, 0, canvas.width, canvas.height);
     return this;
   }
@@ -51,10 +56,6 @@ export class Demo extends BaseDemo {
     const { config } = this;
     const gui = new dat.GUI();
 
-    gui.add(config, 'shapeStyle', {
-      linellae: ShapeStyle.Linellae,
-      circle: ShapeStyle.Circle
-    });
     gui
       .add(config, 'pointQuantity')
       .min(10)
@@ -73,6 +74,15 @@ export class Demo extends BaseDemo {
       .max(1200)
       .step(10)
       .onChange(() => this.resetScene());
+
+    gui.add(config, 'shapeStyle', {
+      linellae: ShapeStyle.Linellae,
+      circle: ShapeStyle.Circle
+    });
+    gui.add(config, 'backgroundColor', {
+      light: BackgroundColor.Light,
+      dark: BackgroundColor.Dark
+    });
     gui.add(config, 'isFill');
 
     return this;
