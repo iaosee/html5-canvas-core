@@ -11,22 +11,18 @@ enum ShapeStyle {
  */
 export class Demo extends BaseDemo {
   public K: number = 2;
-  public F: number = 6;
+  public F: number = 1;
   public MAX = this.canvas.height / 2;
 
-  public noise: number = Math.min(0.1, 1) * this.MAX;
-  public speed: number = 0.2;
   public phase: number = 0.1;
 
   public config = {
-    noise: 0.05,
-    speed: 0.2,
-    phase: 0.1
+    noise: 20,
+    speed: 0.2
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
-    console.log(this.noise);
 
     this.createControl();
   }
@@ -57,15 +53,15 @@ export class Demo extends BaseDemo {
 
     gui
       .add(config, 'noise')
-      .min(0.01)
-      .max(1.0)
-      .step(0.01);
+      .min(1)
+      .max(500)
+      .step(1);
 
     gui
       .add(config, 'speed')
-      .min(0.1)
-      .max(1.0)
-      .step(0.1);
+      .min(0.01)
+      .max(0.5)
+      .step(0.01);
 
     return this;
   }
@@ -75,7 +71,7 @@ export class Demo extends BaseDemo {
   }
 
   public drawLine(attenuation: number, color: string, width: number = 1) {
-    const { canvas, context } = this;
+    const { canvas, context, config } = this;
 
     context.moveTo(0, 0);
     context.beginPath();
@@ -85,7 +81,9 @@ export class Demo extends BaseDemo {
       const x = canvas.width * ((i + this.K) / (this.K * 2));
       const y =
         canvas.height / 2 +
-        this.noise * this.globalAttenuationFn(i) * (1 / attenuation) * Math.sin(this.F * i - this.phase);
+        config.noise * this.globalAttenuationFn(i) * (1 / attenuation) * Math.sin(this.F * i - this.phase);
+
+      // console.log(x, y);
       context.lineTo(x, y);
     }
 
@@ -94,7 +92,9 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene() {
-    this.phase = (this.phase + this.speed) % (Math.PI * 64);
+    const { config } = this;
+
+    this.phase = (this.phase + config.speed) % (Math.PI * 64);
 
     this.drawLine(-2, 'rgba(0,0,255,0.1)')
       .drawLine(-6, 'rgba(0,0,255,0.2)')
