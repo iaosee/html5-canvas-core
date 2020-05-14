@@ -12,7 +12,7 @@ enum ShapeStyle {
  */
 export class Demo extends BaseDemo {
   public config = {
-    text: 'Canvas'
+    text: 'Hello, Canvas'
   };
 
   public constructor(public canvas: HTMLCanvasElement) {

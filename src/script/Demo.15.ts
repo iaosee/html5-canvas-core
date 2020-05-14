@@ -51,6 +51,11 @@ export class Demo extends BaseDemo {
 
     this.drawHorizontalTicks().drawVerticalTicks();
 
+    context.lineWidth = config.TICKS_LINEWIDTH;
+    context.fillStyle = context.strokeStyle = config.TICKS_COLOR;
+
+    this.drawHorizontalLabels().drawVerticalLabels();
+
     context.restore();
     return this;
   }
@@ -112,6 +117,36 @@ export class Demo extends BaseDemo {
       context.moveTo(config.AXIS_ORIGIN.x - delta, config.AXIS_ORIGIN.y - i * config.TICK_SPACING);
       context.lineTo(config.AXIS_ORIGIN.x + delta, config.AXIS_ORIGIN.y - i * config.TICK_SPACING);
       context.stroke();
+    }
+
+    return this;
+  }
+
+  public drawHorizontalLabels() {
+    const { context, config } = this;
+    context.textAlign = 'center';
+    context.textBaseline = 'top';
+
+    for (let i = 0; i <= config.AXIS_WIDTH / config.TICK_SPACING; i++) {
+      context.beginPath();
+      if (i % 5 === 0) {
+        context.fillText(i.toString(), config.AXIS_ORIGIN.x + i * config.TICK_SPACING, config.AXIS_ORIGIN.y + 20);
+      }
+    }
+
+    return this;
+  }
+
+  public drawVerticalLabels() {
+    const { context, config } = this;
+    context.textAlign = 'right';
+    context.textBaseline = 'middle';
+
+    for (let i = 0; i <= config.AXIS_HEIGHT / config.TICK_SPACING; i++) {
+      context.beginPath();
+      if (i % 5 === 0) {
+        context.fillText(i.toString(), config.AXIS_ORIGIN.x - 20, config.AXIS_ORIGIN.y - i * config.TICK_SPACING);
+      }
     }
 
     return this;
