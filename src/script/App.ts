@@ -1,4 +1,4 @@
-import { Demo } from './Demo.35';
+import { Demo } from './Demo.36';
 
 export class App {
   public constructor() {}
