@@ -1,10 +1,14 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from './BaseDemo';
+import { Point } from './geometry/Point';
 
 /**
- * @description 鼠标跟随，带拖尾效果
+ * @description 图像绘制
  */
 export class Demo extends BaseDemo {
+  public image: HTMLImageElement;
+  protected guidewires: boolean = false;
+
   public config = {
     scale: 1.0,
     minScale: 0.1,
@@ -14,6 +18,10 @@ export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
+    this.loadImage(require('../asset/images/flower.jpg'))
+      .then(image => (this.image = image))
+      .then(() => this.clearScreen().drawScene());
+
     this.createControl().listenEvents();
   }
 
@@ -22,7 +30,7 @@ export class Demo extends BaseDemo {
   }
 
   public start() {
-    return this.clearScreen().drawScene();
+    return this;
   }
 
   public draw() {
@@ -45,36 +53,49 @@ export class Demo extends BaseDemo {
 
   public drawScene() {
     const { context, canvas, config } = this;
+
+    // 画布宽高
     const w = canvas.width;
     const h = canvas.height;
+
+    // 缩放后的图像宽高
     const sw = w * config.scale;
     const sh = h * config.scale;
 
-    this.loadImage(require('../asset/images/flower.jpg')).then(image => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.drawImage(image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
-    });
+    // 绘制到画布中心
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
 
     return this;
   }
 
   public listenEvents() {
-    const { canvas, config } = this;
+    const { canvas } = this;
 
-    canvas.addEventListener('wheel', (event: WheelEvent) => {
-      const scaleFactor = -event.deltaY / 2000;
-      console.log(config.scale);
-
-      config.scale += scaleFactor;
-      if (config.scale <= config.minScale) {
-        config.scale = config.minScale;
-      } else if (config.scale > config.maxScale) {
-        config.scale = config.maxScale;
-      }
-
-      this.drawScene();
-    });
+    canvas.addEventListener('wheel', this.onWheelHandler.bind(this));
 
     return this;
+  }
+
+  public drawRubberbandShape(loc: Point) {
+    console.log(loc);
+
+    return this;
+  }
+
+  public onWheelHandler(event: WheelEvent) {
+    const { config } = this;
+
+    const scaleFactor = -event.deltaY / 2000;
+    console.log(config.scale);
+
+    config.scale += scaleFactor;
+    if (config.scale <= config.minScale) {
+      config.scale = config.minScale;
+    } else if (config.scale > config.maxScale) {
+      config.scale = config.maxScale;
+    }
+
+    this.drawScene();
   }
 }

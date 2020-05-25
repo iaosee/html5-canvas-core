@@ -7,7 +7,7 @@ enum ShapeStyle {
 }
 
 /**
- * @description 鼠标跟随，带拖尾效果
+ * @description 线条波浪抖动
  */
 export class Demo extends BaseDemo {
   public K: number = 2;

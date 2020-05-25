@@ -11,3 +11,5 @@
 `drawImage()` 方法第一个参数可以接收 `CanvasImageSource` 类型的参数
 
 
+
+

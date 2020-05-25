@@ -1,7 +1,7 @@
 import { BaseDemo } from './BaseDemo';
 
 /**
- * @description 实现波浪
+ * @description 实现波浪效果
  */
 export class Demo extends BaseDemo {
   public points: any[] = [];

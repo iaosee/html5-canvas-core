@@ -8,7 +8,7 @@ enum ShapeStyle {
 }
 
 /**
- * @description 鼠标跟随，带拖尾效果
+ * @description 文本 —— 填充背景
  */
 export class Demo extends BaseDemo {
   public config = {

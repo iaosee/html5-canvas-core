@@ -13,7 +13,7 @@ enum BackgroundColor {
 }
 
 /**
- * @description 鼠标跟随，带拖尾效果
+ * @description 星星，围绕鼠标转圈，鼠标跟随，带拖尾效果
  */
 export class Demo extends BaseDemo {
   public stars: Star[] = [];
