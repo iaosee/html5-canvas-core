@@ -7,7 +7,6 @@ import { Point } from './geometry/Point';
  */
 export class Demo extends BaseDemo {
   public image: HTMLImageElement;
-  protected guidewires: boolean = false;
 
   public config = {
     scale: 1.0,
@@ -86,7 +85,7 @@ export class Demo extends BaseDemo {
   public onWheelHandler(event: WheelEvent) {
     const { config } = this;
 
-    const scaleFactor = -event.deltaY / 2000;
+    const scaleFactor = -event.deltaY / 1000;
     console.log(config.scale);
 
     config.scale += scaleFactor;
