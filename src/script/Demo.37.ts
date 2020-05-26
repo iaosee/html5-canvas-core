@@ -131,12 +131,6 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public drawRubberbandShape(loc: Point) {
-    console.log(loc);
-
-    return this;
-  }
-
   public onWheelHandler(event: WheelEvent) {
     const { config } = this;
 
