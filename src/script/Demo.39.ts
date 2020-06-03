@@ -1,16 +1,17 @@
 import * as dat from 'dat.gui';
 import { Point } from './geometry/Point';
-import { Rubberband } from './Rubberband';
+import { BaseDemo } from './BaseDemo';
 
 /**
  * @description 图像绘制 —— 选区像素
  */
-export class Demo extends Rubberband {
+export class Demo extends BaseDemo {
   public image: HTMLImageElement;
 
   public config = {
-    scale: 1.0,
-    resetScene: () => this.drawScene()
+    scale: 0.2,
+    resetScene: () => this.drawScene(),
+    negative: () => this.updatePixel()
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -22,7 +23,7 @@ export class Demo extends Rubberband {
         this.drawScene();
       });
 
-    this.createControl().listenEvents();
+    this.createControl();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -44,22 +45,26 @@ export class Demo extends Rubberband {
     gui
       .add(config, 'scale')
       .step(0.01)
+      .min(0.1)
+      .max(1)
       .onChange(() => this.drawScene());
     gui.add(config, 'resetScene');
+    gui.add(config, 'negative');
 
     return this;
   }
 
   public drawScene() {
-    const { context, canvas, config } = this;
+    const { context, canvas, config, image } = this;
 
     // 画布宽高
     const w = canvas.width;
     const h = canvas.height;
 
     // 缩放后的图像宽高
-    const sw = w * config.scale;
-    const sh = h * config.scale;
+    const ratio = (image.width * config.scale) / image.width;
+    const sw = image.width * config.scale;
+    const sh = image.height * ratio;
 
     // 绘制到画布中心
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -68,32 +73,19 @@ export class Demo extends Rubberband {
     return this;
   }
 
-  public drawRubberbandShape(loc: Point) {
-    const { context, rubberbandRect } = this;
-    // context.fillRect(rubberbandRect.x, rubberbandRect.y, rubberbandRect.width, rubberbandRect.height);
-    return this;
-  }
+  public updatePixel() {
+    const { canvas, context } = this;
 
-  public onMouseupHandler(event: MouseEvent) {
-    const { canvas, context, rubberbandRect } = this;
+    const imagedata = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imagedata.data;
 
-    super.onMouseupHandler(event);
+    for (let i = 0; i <= data.length - 4; i += 4) {
+      data[i] = 255 - data[i];
+      data[i + 1] = 255 - data[i + 1];
+      data[i + 2] = 255 - data[i + 2];
+      // data[i + 3] = data[i + 3];
+    }
 
-    context.drawImage(
-      canvas,
-      rubberbandRect.x + context.lineWidth * 2,
-      rubberbandRect.y + context.lineWidth * 2,
-      rubberbandRect.width - 4 * context.lineWidth,
-      rubberbandRect.height - 4 * context.lineWidth,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-  }
-
-  public onKeydownHander(event: KeyboardEvent) {
-    super.onKeydownHander(event);
-    event.keyCode === 32 && this.drawScene();
+    context.putImageData(imagedata, 0, 0);
   }
 }

@@ -66,8 +66,8 @@ export abstract class Rubberband extends BaseDemo {
     canvas.addEventListener('mousedown', this.onMousedownHandler.bind(this));
     canvas.addEventListener('mousemove', this.onMousemoveHandler.bind(this));
     canvas.addEventListener('mouseup', this.onMouseupHandler.bind(this));
+    window.addEventListener('keydown', this.onKeydownHander.bind(this));
     canvas.addEventListener('contextmenu', e => e.preventDefault());
-    window.addEventListener('keydown', e => e.key === 'c' && this.clearScreen().drawGrid());
 
     return this;
   }
@@ -112,5 +112,9 @@ export abstract class Rubberband extends BaseDemo {
     this.restoreDrawingSurface();
     this.updateRubberband(this.mousemovePos);
     this.dragging = false;
+  }
+
+  public onKeydownHander(event: KeyboardEvent) {
+    event.key === 'c' && this.clearScreen().drawGrid();
   }
 }

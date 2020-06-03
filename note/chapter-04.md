@@ -42,6 +42,15 @@ context.drawImage(offScreenCanvas, 0, 0);
 
  `getImageData()` / `putImageData()`  两个方法分别用于获取像素和填充像素，同时也可以修改像素中的值以达到预期效果。
 
+ `getImageData()` 方法返回一个 `ImageData` 类型对象，包含三个属性:
  
+ - `width` 以设备像素为单位的图像数据宽度
+ - `height` 以设备像素为单位的图像数据高度
+ - `data` 包含各个设备像素值得数组，每个值中包含的颜色分量，都是含有 8 个二进制的整数, 使用 `TypedArray` 形式 `ArrayBuffer` 来存储数据
+
+ 
+
+
+
 
 
