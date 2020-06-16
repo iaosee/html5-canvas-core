@@ -30,8 +30,7 @@ export abstract class Rubberband extends BaseDemo {
   }
 
   protected updateRubberband(loc: Point) {
-    this.updateRubberbandRectangle(loc);
-    this.drawRubberbandShape(loc);
+    this.updateRubberbandRectangle(loc).drawRubberbandShape(loc);
     return this;
   }
 
@@ -63,27 +62,35 @@ export abstract class Rubberband extends BaseDemo {
 
   protected listenEvents() {
     const { canvas } = this;
+
     canvas.addEventListener('mousedown', this.onMousedownHandler.bind(this));
     canvas.addEventListener('mousemove', this.onMousemoveHandler.bind(this));
     canvas.addEventListener('mouseup', this.onMouseupHandler.bind(this));
+    window.addEventListener('keydown', this.onKeydownHander.bind(this));
     canvas.addEventListener('contextmenu', e => e.preventDefault());
-    window.addEventListener('keydown', e => e.key === 'c' && this.clearScreen().drawGrid());
+
+    return this;
+  }
+
+  public drawBandGuidelines() {
+    const { context } = this;
+
+    this.drawGuidelines(this.mousedownPos.x, this.mousedownPos.y, 'rgba(0,0,255,0.2)');
+    context.setLineDash([4, 2]);
+    this.drawGuidelines(this.mousemovePos.x, this.mousemovePos.y);
+    context.setLineDash([]);
+
+    return this;
   }
 
   protected onMousedownHandler(event: MouseEvent) {
-    const { context, config } = this;
-
-    this.mousemovePos = this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
-
-    context.fillStyle = this.rgbaFormArr(config.fillStyle) || this.randomRgba();
+    this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
     event.preventDefault();
     this.saveDrawingSurface();
     this.dragging = true;
   }
 
   protected onMousemoveHandler(event: MouseEvent) {
-    const { context } = this;
-
     if (!this.dragging) {
       return;
     }
@@ -92,13 +99,7 @@ export abstract class Rubberband extends BaseDemo {
     this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
     this.restoreDrawingSurface();
     this.updateRubberband(this.mousemovePos);
-
-    if (this.guidewires) {
-      this.drawGuidelines(this.mousedownPos.x, this.mousedownPos.y, 'rgba(0,0,255,0.2)');
-      context.setLineDash([4, 2]);
-      this.drawGuidelines(this.mousemovePos.x, this.mousemovePos.y);
-      context.setLineDash([]);
-    }
+    this.guidewires && this.drawBandGuidelines();
   }
 
   protected onMouseupHandler(event: MouseEvent) {
@@ -107,9 +108,13 @@ export abstract class Rubberband extends BaseDemo {
     }
 
     event.preventDefault();
-    this.dragging = false;
     this.mousemovePos = this.coordinateTransformation(event.clientX, event.clientY);
     this.restoreDrawingSurface();
     this.updateRubberband(this.mousemovePos);
+    this.dragging = false;
+  }
+
+  public onKeydownHander(event: KeyboardEvent) {
+    event.key === 'c' && this.clearScreen().drawGrid();
   }
 }

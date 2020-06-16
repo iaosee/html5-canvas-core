@@ -35,7 +35,7 @@ export class Demo extends BaseDemo {
     context.shadowBlur = 1;
     context.beginPath();
     context.moveTo(120.5, 130);
-    context.quadraticCurveTo(150.8, 130, 160.6, 150.5);
+    // context.quadraticCurveTo(150.8, 130, 160.6, 150.5);
     context.quadraticCurveTo(190, 250.0, 210.5, 160.5);
     context.quadraticCurveTo(240, 100.5, 290, 70.5);
     context.stroke();

@@ -68,10 +68,17 @@ export class Demo extends Rubberband {
   }
 
   public drawRubberbandShape(loc: Point) {
-    const { context, config, mousedownPos, rubberbandRect } = this;
+    const { context, config, mousedownPos, mousemovePos, rubberbandRect } = this;
+    const radius =
+      mousedownPos.y === mousemovePos.y
+        ? Math.abs(loc.x - mousedownPos.x)
+        : rubberbandRect.height / Math.sin(Math.atan(rubberbandRect.height / rubberbandRect.width));
+    const radius2 = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
+
     const polygon = new Polygon(
+      context,
       new Point(mousedownPos.x, mousedownPos.y),
-      rubberbandRect.width,
+      radius,
       config.sides,
       this.angle2radian(config.startAngle),
       this.rgbaFormArr(config.fillStyle),
@@ -79,13 +86,25 @@ export class Demo extends Rubberband {
       config.filled
     );
 
-    context.beginPath();
-    polygon.createPath(context);
-    polygon.stroke(context);
-    polygon.fill(context);
+    polygon.createPath();
+    polygon.stroke();
+    polygon.fill();
 
-    console.log(this.dragging);
+    const _this = this;
     if (!this.dragging && !mousedownPos.equals(loc)) {
+      console.log(radius);
+      console.log(radius2);
+
+      polygon.on('click', function(e: MouseEvent) {
+        console.log(this);
+        console.log(e);
+        this.fillStyle = _this.randomRgba();
+        _this
+          .clearScreen()
+          .drawGrid()
+          .drawPolygons();
+      });
+
       this.polygons.push(polygon);
     }
     return this;
@@ -94,9 +113,9 @@ export class Demo extends Rubberband {
   public drawPolygons() {
     const { context } = this;
     this.polygons.forEach(polygon => {
-      polygon.stroke(context);
+      polygon.stroke();
       if (polygon.filled) {
-        polygon.fill(context);
+        polygon.fill();
       }
     });
 
@@ -106,5 +125,7 @@ export class Demo extends Rubberband {
   public listenEvents() {
     super.listenEvents();
     window.addEventListener('keydown', e => e.key === 'c' && (this.polygons = []));
+
+    return this;
   }
 }
