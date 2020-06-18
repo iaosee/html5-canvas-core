@@ -1,8 +1,13 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from './BaseDemo';
+import { IFilter } from './filters/IFilter';
+import { BlackWhiteFilter } from './filters/BlackWhiteFilter';
+import { NegativeFilter } from './filters/NegativeFilter';
+import { EmbossmentFilter } from './filters/EmbossmentFilter';
+import { SunglassesFilter } from './filters/SunglassesFilter';
 
 /**
- * @description 像素处理 - 负片滤镜
+ * @description 像素处理与裁剪
  */
 export class Demo extends BaseDemo {
   public image: HTMLImageElement;
@@ -10,7 +15,7 @@ export class Demo extends BaseDemo {
   public config = {
     scale: 0.2,
     resetScene: () => this.drawScene(),
-    negative: () => this.updatePixel()
+    filter: 0
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -48,7 +53,15 @@ export class Demo extends BaseDemo {
       .max(1)
       .onChange(() => this.drawScene());
     gui.add(config, 'resetScene');
-    gui.add(config, 'negative');
+    gui
+      .add(config, 'filter', {
+        default: 0,
+        negative: 1,
+        black_white: 2,
+        embossment: 3,
+        sunglasses: 4
+      })
+      .onFinishChange((v: string) => this.applyFilter(Number(v)));
 
     return this;
   }
@@ -72,17 +85,32 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public updatePixel() {
+  public applyFilter(type: number) {
     const { canvas, context } = this;
+    this.drawScene();
 
+    let filter: IFilter = null;
     const imagedata = context.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imagedata.data;
 
-    for (let i = 0; i <= data.length - 4; i += 4) {
-      data[i] = 255 - data[i];
-      data[i + 1] = 255 - data[i + 1];
-      data[i + 2] = 255 - data[i + 2];
-      // data[i + 3] = data[i + 3];
+    switch (type) {
+      case 1:
+        filter = new NegativeFilter(imagedata);
+        break;
+      case 2:
+        filter = new BlackWhiteFilter(imagedata);
+        break;
+      case 3:
+        filter = new EmbossmentFilter(imagedata);
+        break;
+      case 4:
+        filter = new SunglassesFilter(imagedata);
+        break;
+      default:
+        filter = null;
+    }
+
+    if (filter) {
+      filter.dye();
     }
 
     context.putImageData(imagedata, 0, 0);
