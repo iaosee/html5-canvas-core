@@ -127,7 +127,7 @@ for (let i = 0; i < length; i++) {
     // 不是 alpha
     if ((i + 1) % 4 !== 0) {
       // 如果是一行的最后一个像素，右边不会有像素，拷贝前一个像素值
-      if ((i + 4) % (width * 4) == 0) {
+      if ((i + 4) % (width * 4) === 0) {
         data[i] = data[i - 4];
         data[i + 1] = data[i - 3];
         data[i + 2] = data[i - 2];
