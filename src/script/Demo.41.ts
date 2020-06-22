@@ -14,6 +14,7 @@ export class Demo extends BaseDemo {
   public image: HTMLImageElement;
   public offScreenCanvas: HTMLCanvasElement;
   public offScreenContext: CanvasRenderingContext2D;
+  public originalImageData: ImageData;
 
   public config = {
     scale: 0.2,
@@ -97,16 +98,18 @@ export class Demo extends BaseDemo {
     // 绘制到画布中心
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
-
+    this.originalImageData = context.getImageData(0, 0, canvas.width, canvas.height);
     return this;
   }
 
   public putFilterOn() {
     const { context, canvas, config } = this;
-    const imagedata = context.getImageData(0, 0, canvas.width, canvas.height);
     const leftLensLocation: Point = { x: this.center.x - config.LENS_RADIUS - 10, y: this.center.y };
     const rightLensLocation: Point = { x: this.center.x + config.LENS_RADIUS + 10, y: this.center.y };
     let filter: IFilter = null;
+
+    context.putImageData(this.originalImageData, 0, 0);
+    const imagedata = context.getImageData(0, 0, canvas.width, canvas.height);
 
     switch (config.filter) {
       case 1:
