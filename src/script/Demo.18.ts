@@ -4,7 +4,7 @@ import { Random } from './tools/Random';
 import { Point, Circle } from './declare';
 
 /**
- * @description 好多球球
+ * @description 小球 简单弹跳 与 简单碰撞检测
  */
 export class Demo extends BaseDemo {
   private circles: Array<Circle> = [];

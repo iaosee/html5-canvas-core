@@ -173,4 +173,7 @@ for (let i = 0; i < length - 4; i++) {
 
 在处理大图像数据时，很容易遇到性能瓶颈，可以考虑将图像处理的任务交给工作线程 —— [`Web Worker`](https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API) 来处理，这样将耗时的数据处理代码放在主线程之外执行。
 
+### 图像绘制安全问题
+
+出于安全考虑，HTML5 Canvas 规范允许绘制其他域中的图片，但是不能通过 Canvas API 保存和修改其他域中的图片。
 
