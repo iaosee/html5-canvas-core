@@ -4,16 +4,10 @@ import { Point } from './geometry/Point';
 import { Rectangle } from './declare';
 
 /**
- * @description 图像淡入淡出动画
+ * @description 最简绘制放大镜效果
  */
 export class Demo extends BaseDemo {
   public image: HTMLImageElement;
-  public originalImageData: ImageData;
-  public offScreenCanvas: HTMLCanvasElement;
-  public offScreenContext: CanvasRenderingContext2D;
-
-  public magnifyRectangle: Rectangle = null;
-  public magnifyingGlassPos: Point = new Point();
 
   public config = {
     scale: 0.2,
@@ -25,7 +19,6 @@ export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.initOffScreenCanvas();
     this.loadImage(require('../asset/images/flower.jpg'))
       .then(image => (this.image = image))
       .then(() => {
@@ -45,14 +38,6 @@ export class Demo extends BaseDemo {
 
   public draw() {
     return this;
-  }
-
-  public initOffScreenCanvas() {
-    const { canvas } = this;
-    this.offScreenCanvas = document.createElement('canvas');
-    this.offScreenContext = this.offScreenCanvas.getContext('2d');
-    this.offScreenCanvas.width = canvas.width;
-    this.offScreenCanvas.height = canvas.height;
   }
 
   private createControl() {
@@ -81,13 +66,13 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene() {
-    const { context, offScreenContext, canvas, config, image } = this;
+    const { context, canvas, config, image } = this;
 
     // 画布宽高
     const w = canvas.width;
     const h = canvas.height;
 
-    // 缩放后的图像宽高
+    // 等比缩放后的图像宽高
     const ratio = (image.width * config.scale) / image.width;
     const sw = image.width * config.scale;
     const sh = image.height * ratio;
@@ -96,19 +81,15 @@ export class Demo extends BaseDemo {
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
     // offScreenContext.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
-    this.originalImageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    // this.originalImageData = context.getImageData(0, 0, canvas.width, canvas.height);
     return this;
   }
 
   public drawMagnifyingGlass(pos: Point) {
     const { context, config } = this;
 
-    this.magnifyingGlassPos.x = pos.x;
-    this.magnifyingGlassPos.x = pos.y;
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-
     this.drawScene();
-
     context.save();
 
     context.lineWidth = config.zoomRadius * 0.1;

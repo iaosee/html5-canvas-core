@@ -9,7 +9,7 @@ enum FadeType {
 /**
  * @description 图像淡入淡出动画
  *
- * 此示例是通过修改 ImageData 的方式以改变像素的 alpha 值，涉及大量像素性能低下
+ * 此示例是通过修改 ImageData 的方式以改变像素的 alpha 值，涉及大量像素时性能低下
  * 更优更简便的方式实现 可以在绘制每帧动画之前，先修改绘图环境对象的 globalAlpha 值，再绘制图像
  */
 export class Demo extends BaseDemo {
