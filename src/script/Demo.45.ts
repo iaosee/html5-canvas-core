@@ -1,5 +1,10 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from './BaseDemo';
+import { IFilter } from './filters/IFilter';
+import { NegativeFilter } from './filters/NegativeFilter';
+import { BlackWhiteFilter } from './filters/BlackWhiteFilter';
+import { EmbossmentFilter } from './filters/EmbossmentFilter';
+import { SunglassesFilter } from './filters/SunglassesFilter';
 
 /**
  * @description Hello World
@@ -20,6 +25,8 @@ export class Demo extends BaseDemo {
   public offScreenContext: CanvasRenderingContext2D;
 
   public config = {
+    color: true,
+    flip: false,
     play: () => this.playVideo(),
     pause: () => this.pauseVideo()
   };
@@ -31,10 +38,6 @@ export class Demo extends BaseDemo {
       .createControl()
       .initOffScreenCanvas()
       .listenEvents();
-
-    this.video.oncanplay = e => {
-      console.log(e);
-    };
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -62,6 +65,8 @@ export class Demo extends BaseDemo {
     const { config } = this;
     const gui = new dat.GUI();
 
+    gui.add(config, 'color');
+    gui.add(config, 'flip');
     gui.add(config, 'play');
     gui.add(config, 'pause');
 
@@ -75,7 +80,7 @@ export class Demo extends BaseDemo {
   }
 
   public playVideo() {
-    const { context } = this;
+    const { context, config } = this;
 
     if (!this.video.paused) {
       return this;
@@ -83,7 +88,17 @@ export class Demo extends BaseDemo {
 
     const nextVideoFrame = () => {
       this.offScreenContext.drawImage(this.video, 0, 0);
-      context.drawImage(this.offScreenCanvas, 0, 0);
+
+      if (!config.color) {
+        this.removeColor();
+      }
+
+      if (config.flip) {
+        this.drawFlipped();
+      } else {
+        context.drawImage(this.offScreenCanvas, 0, 0);
+      }
+
       requestAnimationFrame(nextVideoFrame);
     };
 
@@ -98,12 +113,41 @@ export class Demo extends BaseDemo {
     return this;
   }
 
+  public removeColor() {
+    const { offScreenCanvas, offScreenContext } = this;
+
+    const imageData = offScreenContext.getImageData(0, 0, offScreenCanvas.width, offScreenCanvas.height);
+
+    const data = imageData.data;
+    const len = data.length;
+
+    for (let i = 0; i < len - 4; i += 4) {
+      const average = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      data[i] = average;
+      data[i + 1] = average;
+      data[i + 2] = average;
+    }
+
+    offScreenContext.putImageData(imageData, 0, 0);
+  }
+
+  public drawFlipped() {
+    const { canvas, context, offScreenCanvas } = this;
+    context.save();
+
+    context.translate(canvas.width / 2, canvas.height / 2);
+    context.rotate(Math.PI);
+    context.translate(-canvas.width / 2, -canvas.height / 2);
+    context.drawImage(offScreenCanvas, 0, 0);
+
+    context.restore();
+  }
+
   public listenEvents() {
     const { canvas } = this;
 
     canvas.addEventListener('click', e => {
       console.log(e);
-      // const pos = this.coordinateTransformation(e.clientX, e.clientY);
     });
 
     return this;
