@@ -92,10 +92,7 @@ export class Demo extends BaseDemo {
     ball.position.x += ball.velocityX;
     ball.position.y += ball.velocityY;
 
-    this.draw();
-    this.player = requestAnimationFrame(this.updatePosition.bind(this));
-
-    return;
+    return this;
   }
 
   public isPointInCirclePath(pos: Point): boolean {
@@ -106,7 +103,10 @@ export class Demo extends BaseDemo {
     return context.isPointInPath(pos.x, pos.y);
   }
 
-  public didThrow() {}
+  public animate() {
+    this.updatePosition().draw();
+    this.player = requestAnimationFrame(this.animate.bind(this));
+  }
 
   private listenEvents() {
     const { canvas, ball } = this;
@@ -146,7 +146,7 @@ export class Demo extends BaseDemo {
         console.log('didThrow');
         ball.velocityX = (mouseupPos.x - mousedownPos.x) / 20;
         ball.velocityY = (mouseupPos.y - mousedownPos.y) / 20;
-        this.player = requestAnimationFrame(this.updatePosition.bind(this));
+        this.player = requestAnimationFrame(this.animate.bind(this));
       }
       draggingCircle = false;
     };
