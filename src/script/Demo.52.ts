@@ -167,21 +167,21 @@ export class Demo extends BaseDemo {
       { x: 425, y: 0, width: 35, height: 64 }
     ];
     this.sprite = new Sprite(
-      'runner',
+      'Sprite 1',
       new SpriteSheetPainter(require('../asset/images/running-sprite-sheet.png'), runnerCells)
     );
     this.sprite2 = new Sprite(
-      'runner',
+      'Sprite 2',
       new SpriteSheetPainter(require('../asset/images/running-sprite-sheet.png'), runnerCells),
       [new RunInPlaceBehavior(), new MoveLeftToRightBehavior()]
     );
     this.sprite3 = new Sprite(
-      'runner',
+      'Sprite 3',
       new SpriteSheetPainter(require('../asset/images/running-sprite-sheet.png'), runnerCells),
       [new RunInPlaceBehavior(), new MoveLeftToRightBehavior(), new JumpBehavior()]
     );
     this.sprite4 = new Sprite(
-      'runner',
+      'Sprite 4',
       new SpriteSheetPainter(require('../asset/images/running-sprite-sheet.png'), runnerCells),
       [new RunInPlaceBehavior(), new MoveBehavior(this.pushTimer)]
     );
@@ -246,33 +246,33 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene(timestamp: number) {
-    const { context, config } = this;
+    const { context, config, sprite, sprite2, sprite3, sprite4, bomb } = this;
 
     // Update in two ways
 
     // Update sprite
     if (timestamp - this.lastAdvance > config.RUN_INTERVAL) {
-      this.sprite.painter.advance();
+      sprite.painter.advance();
       this.lastAdvance = timestamp;
     }
-    this.sprite.paint(context);
-    context.fillText('Sprite 1', this.sprite.x, this.sprite.y);
+    sprite.paint(context);
+    context.fillText(sprite.name, sprite.x, sprite.y);
 
     // Update sprite 2
-    this.sprite2.update(context, timestamp);
-    this.sprite2.paint(context);
-    context.fillText('Sprite 2', this.sprite2.x, this.sprite2.y);
+    sprite2.update(context, timestamp);
+    sprite2.paint(context);
+    context.fillText(sprite2.name, sprite2.x, sprite2.y);
 
-    this.sprite3.update(context, timestamp);
-    this.sprite3.paint(context);
-    context.fillText('Sprite 3', this.sprite3.x, this.sprite3.y);
+    sprite3.update(context, timestamp);
+    sprite3.paint(context);
+    context.fillText(sprite3.name, sprite3.x, sprite3.y);
 
-    this.sprite4.update(context, timestamp);
-    this.sprite4.paint(context);
-    context.fillText('Sprite 4', this.sprite4.x, this.sprite4.y);
+    sprite4.update(context, timestamp);
+    sprite4.paint(context);
+    context.fillText(sprite4.name, sprite4.x, sprite4.y);
 
-    this.bomb.update(context, timestamp);
-    this.bomb.paint(context);
+    bomb.update(context, timestamp);
+    bomb.paint(context);
 
     return this;
   }

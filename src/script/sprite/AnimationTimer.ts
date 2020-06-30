@@ -5,7 +5,7 @@ export class Stopwatch {
   public elapsedTime: number = 0;
 
   public start() {
-    this.startTime = +new Date();
+    // this.startTime = +new Date();
     this.elapsedTime = null;
     this.running = true;
   }
