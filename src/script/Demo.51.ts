@@ -33,6 +33,8 @@ export class BallPainter implements Painter {
 
 /**
  * @description 精灵绘制器 —— 描边与填充
+ *
+ * 一个对象表示多个概念 —— 享元模式
  */
 export class Demo extends BaseDemo {
   public ball1: Sprite;
