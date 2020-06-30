@@ -1,7 +1,15 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from './BaseDemo';
-import { Sprite, SpriteSheetPainter, Behavior, SheetCell } from './sprite/Sprite';
 import { AnimationTimer } from './sprite/AnimationTimer';
+import {
+  Behavior,
+  ImagePainter,
+  SheetCell,
+  Sprite,
+  SpriteSheetPainter,
+  Painter,
+  SpriteAnimator
+} from './sprite/Sprite';
 
 class RunInPlaceBehavior implements Behavior {
   public lastAdvance: number = 0;
@@ -90,8 +98,16 @@ export class Demo extends BaseDemo {
   public sprite3: Sprite<SpriteSheetPainter>;
   public sprite4: Sprite<SpriteSheetPainter>;
   public pushTimer: AnimationTimer = new AnimationTimer();
-
   public lastAdvance: number = 0;
+
+  // bomb
+  public bomb: Sprite;
+  public bombPainter: ImagePainter;
+  public bombNoFusePainter: ImagePainter;
+  public fuseBurningPainters: Painter[] = [];
+  public explosionPainters: Painter[] = [];
+  public fuseBurningAnimator: SpriteAnimator;
+  public explosionAnimator: SpriteAnimator;
 
   public config = {
     RUN_INTERVAL: 100,
@@ -100,13 +116,16 @@ export class Demo extends BaseDemo {
     },
     stop4: () => {
       this.pushTimer.stop();
-    }
+    },
+    explode: () => this.bombExplode()
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl().initSprite();
+    this.createControl()
+      .initSprite()
+      .initBombSprite();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -124,8 +143,15 @@ export class Demo extends BaseDemo {
       .step(1);
     gui.add(config, 'move4');
     gui.add(config, 'stop4');
+    gui.add(config, 'explode');
 
     return this;
+  }
+
+  public draw(timestamp: number) {
+    return this.clearScreen()
+      .drawGrid()
+      .drawScene(timestamp);
   }
 
   public initSprite() {
@@ -159,6 +185,7 @@ export class Demo extends BaseDemo {
       new SpriteSheetPainter(require('../asset/images/running-sprite-sheet.png'), runnerCells),
       [new RunInPlaceBehavior(), new MoveBehavior(this.pushTimer)]
     );
+
     this.sprite.setX(200);
     this.sprite.setY(200);
     this.sprite2.setX(400);
@@ -175,10 +202,47 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number) {
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+  public initBombSprite() {
+    const NUM_FUSE_PAINTERS = 9;
+    const NUM_EXPLOSION_PAINTERS = 9;
+
+    this.bombPainter = new ImagePainter(require('../asset/images/bomb/bomb.png'));
+    this.bombNoFusePainter = new ImagePainter(require('../asset/images/bomb/bomb-no-fuse.png'));
+    this.bomb = new Sprite('bomb', this.bombPainter);
+
+    this.bomb.setX(500);
+    this.bomb.setY(500);
+
+    for (let i = 0; i < NUM_FUSE_PAINTERS; ++i) {
+      this.fuseBurningPainters.push(new ImagePainter(require('../asset/images/bomb/fuse-0' + i + '.png')));
+    }
+
+    for (let i = 0; i < NUM_EXPLOSION_PAINTERS; ++i) {
+      this.explosionPainters.push(new ImagePainter(require('../asset/images/bomb/explosion-0' + i + '.png')));
+    }
+
+    this.fuseBurningAnimator = new SpriteAnimator(this.fuseBurningPainters, () => {
+      this.bomb.painter = this.bombNoFusePainter;
+    });
+    this.explosionAnimator = new SpriteAnimator(this.explosionPainters, () => {
+      this.bomb.painter = this.bombNoFusePainter;
+    });
+  }
+
+  public bombExplode() {
+    const { bomb, bombPainter, fuseBurningAnimator, explosionAnimator } = this;
+    if (bomb.animating) {
+      return;
+    }
+
+    fuseBurningAnimator.start(bomb, 2000);
+
+    setTimeout(() => {
+      explosionAnimator.start(bomb, 1000);
+      setTimeout(() => {
+        bomb.painter = bombPainter;
+      }, 2000);
+    }, 3000);
   }
 
   public drawScene(timestamp: number) {
@@ -206,6 +270,9 @@ export class Demo extends BaseDemo {
     this.sprite4.update(context, timestamp);
     this.sprite4.paint(context);
     context.fillText('Sprite 4', this.sprite4.x, this.sprite4.y);
+
+    this.bomb.update(context, timestamp);
+    this.bomb.paint(context);
 
     return this;
   }
