@@ -7,7 +7,7 @@ import { EmbossmentFilter } from './filters/EmbossmentFilter';
 import { SunglassesFilter } from './filters/SunglassesFilter';
 
 /**
- * @description Hello World
+ * @description 绘制视频数据
  *
  * https://tencent-xpc13.xpccdn.com/57f8dbf40398f.mp4
  * https://tencent-xpc13.xpccdn.com/5db170fb38e5e.mp4

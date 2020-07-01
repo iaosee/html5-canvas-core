@@ -5,7 +5,7 @@ import { Random } from './tools/Random';
 import { Point, Circle } from './declare';
 
 /**
- * @description 好多泡泡
+ * @description 动画 —— 基于时间的运动
  */
 export class Demo extends BaseDemo {
   public stats: Stats;
