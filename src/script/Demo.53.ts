@@ -56,6 +56,23 @@ export class Demo extends BaseDemo {
   public initSprite() {
     const { config } = this;
 
+    this.ledge = new Sprite('ledge', {
+      paint(sprite, context) {
+        context.save();
+        context.shadowColor = 'rgba(0,0,0,0.5)';
+        context.shadowBlur = 8;
+        context.shadowOffsetX = 2;
+        context.shadowOffsetY = 2;
+
+        context.fillStyle = 'rgba(255,255,0,0.6)';
+        context.strokeStyle = 'rgba(0,0,0,0.6)';
+        context.beginPath();
+        context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
+        context.fill();
+        context.stroke();
+        context.restore();
+      }
+    });
     this.ball = new Sprite(
       'ball',
       {
@@ -103,29 +120,20 @@ export class Demo extends BaseDemo {
       },
       []
     );
-    this.ledge = new Sprite('ledge', {
-      paint(sprite, context) {
-        context.save();
-        context.shadowColor = 'rgba(0,0,0,0.5)';
-        context.shadowBlur = 8;
-        context.shadowOffsetX = 2;
-        context.shadowOffsetY = 2;
 
-        context.fillStyle = 'rgba(255,255,0,0.6)';
-        context.strokeStyle = 'rgba(0,0,0,0.6)';
-        context.beginPath();
-        context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
-        context.fill();
-        context.stroke();
-        context.restore();
-      }
-    });
+    const ballBehavior = new MoveBallBehavior(
+      this.pushAnimationTimer,
+      this.fallingAnimationTimer,
+      this.ball,
+      this.ledge
+    );
+    this.ball.addBehavior(ballBehavior);
 
     this.ball.width = config.BALL_RADIUS * 2;
     this.ball.height = config.BALL_RADIUS * 2;
     this.ball.x = this.center.x - this.ball.width / 2;
     this.ball.y = 50;
-    this.ball.velocityX = 110;
+    this.ball.velocityX = 100;
     this.ball.velocityY = 0;
 
     this.ledge.width = 200;
@@ -137,6 +145,7 @@ export class Demo extends BaseDemo {
 
   public pushBallLeft() {
     const { pushAnimationTimer } = this;
+
     if (pushAnimationTimer.isRunning()) {
       pushAnimationTimer.stop();
     }
@@ -159,18 +168,63 @@ export class Demo extends BaseDemo {
 }
 
 export class MoveBallBehavior implements Behavior {
-  public lastFrameTime: number = 0;
+  public lastFrameTime: number;
 
-  public constructor(private pushAnimationTimer: AnimationTimer, private fallingAnimationTimer: AnimationTimer) {}
+  public constructor(
+    private pushAnimationTimer: AnimationTimer,
+    private fallingAnimationTimer: AnimationTimer,
+    private ball: Sprite,
+    private ledge: Sprite
+  ) {}
+
+  public isBallOnLedge() {
+    const { ball, ledge } = this;
+    return ball.x + ball.width > ledge.x && ball.y < ledge.x + ledge.width;
+  }
+
+  public startFalling() {
+    this.fallingAnimationTimer.start();
+    this.ball.velocityY = 0;
+  }
+
+  public stopFalling() {
+    this.fallingAnimationTimer.stop();
+    this.pushAnimationTimer.stop();
+    this.ball.x = this.ledge.x + this.ledge.width / 2 - this.ball.width / 2;
+    this.ball.y = this.ledge.y - (this.ball.width / 2) * 2;
+    this.ball.velocityY = 0;
+  }
 
   public execute(sprite: Sprite, context: CanvasRenderingContext2D, time: number) {
     const { pushAnimationTimer, fallingAnimationTimer } = this;
-    const fps = 1000 / (time - this.lastFrameTime);
     const now = +new Date();
-    if (!this.lastFrameTime) {
-      return;
+    const fps = 1000 / (now - this.lastFrameTime);
+    // TODO
+    const GRAVITY_FORCE = 9.81;
+    const pixelsPerMeter = (context.canvas.height - this.ledge.y) / 10;
+
+    if (pushAnimationTimer.isRunning()) {
+      sprite.x -= sprite.velocityX / fps;
+      console.log('execute');
+
+      if (this.isBallOnLedge()) {
+        if (pushAnimationTimer.getElapsedTime() > 200) {
+          pushAnimationTimer.stop();
+        }
+      } else if (!fallingAnimationTimer.isRunning()) {
+        this.startFalling();
+        this.lastFrameTime = now;
+      }
     }
 
+    if (fallingAnimationTimer.isRunning()) {
+      sprite.y += sprite.velocityY / fps;
+      sprite.velocityY = GRAVITY_FORCE * (fallingAnimationTimer.getElapsedTime() / 1000) * pixelsPerMeter;
+
+      if (sprite.y > context.canvas.height) {
+        this.stopFalling();
+      }
+    }
     this.lastFrameTime = now;
   }
 }
