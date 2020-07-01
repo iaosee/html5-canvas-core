@@ -67,8 +67,7 @@ export class Polygon extends Shape {
 
   public on<K extends keyof CanvasEventMap>(
     eventType: K,
-    listener: (this: Polygon, ev: CanvasEventMap[K]) => any,
-    options?: boolean | OnEventListenerOptions
+    listener: (this: Polygon, ev: CanvasEventMap[K]) => any
   ): void {
     const { context } = this;
     context.canvas.addEventListener(eventType, (event: MouseEvent) => {
@@ -84,11 +83,6 @@ export class Polygon extends Shape {
     this.createPath();
     return context.isPointInPath(p.x, p.y);
   }
-}
-
-export interface OnEventListenerOptions extends EventListenerOptions {
-  once?: boolean;
-  passive?: boolean;
 }
 
 export interface CanvasEventMap {

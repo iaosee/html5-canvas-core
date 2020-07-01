@@ -127,6 +127,14 @@ module.exports = {
         }
       },
       {
+        test: /\.(mp4)\w*/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[hash].[ext]',
+          outputPath: 'videos/'
+        }
+      },
+      {
         test: /\.ts[x]?$/,
         loader: 'ts-loader',
         exclude: /node_modules/

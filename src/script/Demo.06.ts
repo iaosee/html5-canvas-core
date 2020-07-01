@@ -46,7 +46,7 @@ export class Demo extends BaseDemo {
     gui
       .add(config, 'circleQuantity')
       .min(5)
-      .max(500)
+      .max(1000)
       .step(5)
       .onFinishChange((v: any) => {
         config.circleQuantity = Number(v);
@@ -69,8 +69,8 @@ export class Demo extends BaseDemo {
 
       this.circles.push({
         position: point,
-        velocityX: Math.random() * (this.random.range(-4, 4).getOne() || 4),
-        velocityY: Math.random() * (this.random.range(-4, 4).getOne() || 4),
+        velocityX: Math.random() * (this.random.range(-2, 2).getOne() || 2),
+        velocityY: Math.random() * (this.random.range(-2, 2).getOne() || 2),
         radius: this.random.range(5, 10).getOne(),
         color: this.randomRgba()
       });
@@ -179,6 +179,21 @@ export class Demo extends BaseDemo {
       circle.position.y + circle.velocityY - circle.radius < 0
     ) {
       circle.velocityY = -circle.velocityY;
+    }
+
+    // Zoom in when approaching the mouse
+    const xMouseDistance = Math.pow(this.mousePosition.x - circle.position.x, 2);
+    const yMouseDistance = Math.pow(this.mousePosition.y - circle.position.y, 2);
+    const mDistance = Math.sqrt(xMouseDistance + yMouseDistance);
+    if (Math.abs(mDistance) < 50) {
+      if (!(circle as any).origin_radius) {
+        (circle as any).origin_radius = circle.radius;
+      }
+      if (circle.radius <= 100) {
+        circle.radius += 2;
+      }
+    } else if (circle.radius >= (circle as any).origin_radius) {
+      circle.radius -= 2;
     }
 
     circle.position.x += circle.velocityX;

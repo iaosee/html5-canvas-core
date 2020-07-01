@@ -5,7 +5,7 @@ import { Point } from './geometry/Point';
  */
 export class BaseDemo {
   public config: any = {};
-  public player: any = null;
+  public player: number = null;
   public context: CanvasRenderingContext2D;
 
   constructor(public canvas: HTMLCanvasElement) {
@@ -42,7 +42,7 @@ export class BaseDemo {
     return this.stopPlay();
   }
 
-  public draw() {
+  public draw(timestamp?: number) {
     const { context } = this;
 
     this.clearScreen();
@@ -61,20 +61,35 @@ export class BaseDemo {
     return this;
   }
 
-  public startPlay() {
-    let then = 0;
-    console.log('play animate.');
-    const tick = (now: number) => {
-      let deltaTime = now - then;
-      then = now;
-      deltaTime *= 0.001;
+  public drawFpsLabel(fps: number) {
+    const { context } = this;
 
-      this.draw();
-      this.player = requestAnimationFrame(tick);
+    context.save();
+    context.font = '20px Palatino';
+    context.fillStyle = 'cornflowerblue';
+    context.fillText(fps.toFixed() + ' fps', 20, this.canvas.height - 20);
+    context.restore();
+
+    return this;
+  }
+
+  public startPlay() {
+    let lastTime = 0;
+
+    console.log('play animate.');
+    const animate = (timestamp: number) => {
+      const now = +new Date();
+      const deltaTime = timestamp - lastTime; // 每一帧的间隔 正常 16.6 左右
+      const fps = 1000 / deltaTime;
+
+      this.draw(timestamp);
+
+      lastTime = timestamp;
+      this.player = requestAnimationFrame(animate);
     };
 
     this.player && this.stopPlay();
-    this.player = requestAnimationFrame(tick);
+    this.player = requestAnimationFrame(animate);
 
     return this;
   }
