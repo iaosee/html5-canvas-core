@@ -1,5 +1,5 @@
 import { BaseDemo } from './BaseDemo';
-import { Sprite, Painter } from './sprite/Sprite';
+import { Sprite, Painter, ImagePainter } from './sprite/Sprite';
 
 export class BallPainter implements Painter {
   public paint(sprite: Sprite, context: CanvasRenderingContext2D) {
@@ -32,7 +32,7 @@ export class BallPainter implements Painter {
 }
 
 /**
- * @description 精灵绘制器 —— 描边与填充
+ * @description 精灵绘制器 —— 描边与填充/图像图像精灵
  *
  * 一个对象表示多个概念 —— 享元模式
  */
@@ -41,6 +41,7 @@ export class Demo extends BaseDemo {
   public ball2: Sprite;
 
   public ballPainter: Painter = new BallPainter();
+  public bomb: Sprite;
 
   public config = {
     CLOCK_RADIUS: this.viewMin / 2 - 15,
@@ -85,6 +86,10 @@ export class Demo extends BaseDemo {
 
     this.ball2 = new Sprite('ball2', this.ballPainter);
 
+    this.bomb = new Sprite('bomb', new ImagePainter(require('../asset/images/bomb/bomb.png')));
+    this.bomb.x = 100;
+    this.bomb.y = this.canvas.height / 2;
+
     return this;
   }
 
@@ -99,6 +104,8 @@ export class Demo extends BaseDemo {
 
     this.ball1.paint(context);
     this.drawClock();
+
+    this.bomb.paint(context);
 
     return this;
   }
