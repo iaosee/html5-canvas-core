@@ -22,8 +22,8 @@ export interface Behavior {
 export class Sprite<P extends Painter = Painter> {
   public name: string;
   public x = 0;
-  public y = 0;
   public width = 10;
+  public y = 0;
   public height = 10;
   public velocityX = 0;
   public velocityY = 0;
@@ -46,6 +46,14 @@ export class Sprite<P extends Painter = Painter> {
     this.y = y;
   }
 
+  public addBehavior(behavior: Behavior) {
+    if (this.behaviors.includes(behavior)) {
+      return this;
+    }
+    this.behaviors.push(behavior);
+    return this;
+  }
+
   public paint(context: CanvasRenderingContext2D) {
     if (this.painter && this.visible) {
       this.painter.paint(this, context);
@@ -60,7 +68,6 @@ export class Sprite<P extends Painter = Painter> {
 }
 
 export class SpriteAnimator {
-
   public constructor(painters: Painter[] = [], callback?: () => void) {
     this.painters = painters;
     this.elapsedCallback = callback || this.elapsedCallback;
