@@ -10,7 +10,7 @@ export class Demo extends BaseDemo {
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
   public config = {
-    circleQuantity: 10,
+    circleQuantity: 100,
     circleMinRadius: 5,
     circleMaxRadius: 50,
     throttleValue: 100,
