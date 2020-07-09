@@ -1,5 +1,5 @@
 import { BaseDemo } from './base/BaseDemo';
-import { Demo } from './demo/Demo.18';
+import { Demo } from './demo/Demo.03';
 
 export class App {
   public constructor() {}
@@ -43,7 +43,7 @@ export class App {
     this.demo.stop();
     this.demo = null;
 
-    this.demo = (await import('./demo/Demo.50')).Demo.init(this.canvas).start();
+    this.demo = (await import('./demo/Demo.18')).Demo.init(this.canvas).start();
 
     return this;
   }
