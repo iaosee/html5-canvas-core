@@ -3,7 +3,7 @@
     "baseUrl": "src",
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "module": "es6",
+    "module": "esnext",
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
@@ -14,7 +14,8 @@
     "experimentalDecorators": true,
     "lib": [
       "es2017", "es5", "es2015.core", "dom"
-    ]
+    ],
+    "types": ["node"]
   },
   "include": [
     "src/**/*"

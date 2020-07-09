@@ -1,4 +1,4 @@
-import { App } from './script/App';
+import { App } from './script/App.prod';
 
 import './style/main.scss';
 

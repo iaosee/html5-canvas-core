@@ -42,6 +42,11 @@ export class BaseDemo {
     return this.stopPlay();
   }
 
+  public destroy() {
+    this.stop();
+    // do clearn
+  }
+
   public draw(timestamp?: number) {
     const { context } = this;
 

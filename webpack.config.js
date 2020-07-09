@@ -17,7 +17,7 @@ module.exports = {
   devtool: isProd ? 'hidden-source-map' : 'cheap-module-eval-source-map',
 
   entry: {
-    main: PATHS.src + '/index.ts',
+    main: PATHS.src + (isProd ? '/index.prod.ts' : '/index.ts'),
   },
 
   output: {
