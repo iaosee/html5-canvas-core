@@ -1,5 +1,5 @@
 import { BaseDemo } from './base/BaseDemo';
-import { Demo } from './demo/Demo.01';
+import { Demo } from './demo/Demo.00';
 import { MenuConfigMap } from './MenuConfig';
 
 export class App {
@@ -72,17 +72,17 @@ export class App {
     const matchs = location.hash.match(reg);
     const name = matchs ? matchs[1] : 'Demo.01';
 
-    MenuConfigMap.get(name).then(module => {
-      // tslint:disable-next-line: no-shadowed-variable
-      const Demo = module.Demo;
-      if (this.demo) {
-        this.demo.destroy();
-        this.demo = null;
-      }
-      this.demo = Demo.init(this.canvas)
-        .draw()
-        .start();
-    });
+    const module = await MenuConfigMap.get(name);
+
+    // tslint:disable-next-line: no-shadowed-variable
+    const Demo = module.Demo;
+    if (this.demo) {
+      this.demo.destroy();
+      this.demo = null;
+    }
+    this.demo = Demo.init(this.canvas)
+      .draw()
+      .start();
 
     return this;
   }
