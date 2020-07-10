@@ -1,10 +1,12 @@
-import { Demo } from './demo/Demo.18';
+import { BaseDemo } from './base/BaseDemo';
+import { Demo } from './demo/Demo.01';
+import { MenuConfigMap } from './MenuConfig';
 
 export class App {
   public constructor() {}
   public static instance: App;
   public canvas: HTMLCanvasElement;
-  public demo: Demo;
+  public demo: BaseDemo;
 
   public static init() {
     return App.instance ? App.instance : (App.instance = new App());
@@ -13,7 +15,8 @@ export class App {
   public run() {
     this.createCanvas()
       .initMenuList()
-      .initDemo();
+      .initDemo()
+      .listenEvent();
   }
 
   public createCanvas() {
@@ -33,6 +36,54 @@ export class App {
   }
 
   public initMenuList() {
+    const menuContianer = document.querySelector('.menu-bar-container');
+    const menuList = document.createElement('div');
+    menuList.classList.add('menu-list-container');
+
+    const parseDOM = (str: string) => {
+      const o = document.createElement('div');
+      o.innerHTML = str;
+      return o.childNodes[0];
+    };
+
+    console.log(MenuConfigMap);
+    MenuConfigMap.forEach((value, key) => {
+      const menuItem = `<div class="menu-item">
+                          <a href="#/${key}">
+                            ${key}
+                          </a>
+                        </div>`;
+      menuList.appendChild(parseDOM(menuItem));
+    });
+
+    menuContianer.appendChild(menuList);
+
+    return this;
+  }
+
+  public listenEvent() {
+    window.addEventListener('hashchange', e => this.changeScene());
+    return this;
+  }
+
+  public async changeScene() {
+    console.log(location.hash);
+    const reg = /#\/(.+)$/;
+    const matchs = location.hash.match(reg);
+    const name = matchs ? matchs[1] : 'Demo.01';
+
+    MenuConfigMap.get(name).then(module => {
+      // tslint:disable-next-line: no-shadowed-variable
+      const Demo = module.Demo;
+      if (this.demo) {
+        this.demo.destroy();
+        this.demo = null;
+      }
+      this.demo = Demo.init(this.canvas)
+        .draw()
+        .start();
+    });
+
     return this;
   }
 

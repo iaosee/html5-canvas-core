@@ -1,4 +1,5 @@
 import { Point } from '../geometry/Point';
+import { GUI } from 'dat.gui';
 
 /**
  * @description BaseDemo
@@ -7,6 +8,8 @@ export class BaseDemo {
   public config: any = {};
   public player: number = null;
   public context: CanvasRenderingContext2D;
+
+  public gui: GUI;
 
   constructor(public canvas: HTMLCanvasElement) {
     if (!canvas) {
@@ -45,6 +48,9 @@ export class BaseDemo {
   public destroy() {
     this.stop();
     // do clearn
+    if (this.gui) {
+      this.gui.destroy();
+    }
   }
 
   public draw(timestamp?: number) {

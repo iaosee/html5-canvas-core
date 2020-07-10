@@ -19,7 +19,7 @@ canvas {
   position: absolute;
 }
 
-.menu-container {
+.menu-bar-container {
   width: 200px;
   max-width: 200px;
   background-color: rgba(255, 255, 255, 0.5);
@@ -55,25 +55,40 @@ canvas {
     transition: all 0.4s ease;
     transform: translateX(0);
 
-    .menu-inner {
+    .menu-list-container {
       max-height: 100vh;
       overflow-y: auto;
     }
   }
 
-  ul {
-    padding: 0;
+  .menu-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
 
-    li {
-      text-overflow: ellipsis;
-      overflow: hidden;
+    a {
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 16px;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.85);
+      text-decoration: none;
+    }
+
+    &:hover {
+      background-color: #ececec;
 
       a {
-        display: block;
-        height: 40px;
-        line-height: 40px;
-        padding: 0 16px;
-        font-size: 14px;
+        color: #1890ff;
+      }
+    }
+
+    &.active {
+      color: #1890ff;
+      background-color: #e6f7ff;
+
+      a {
+        color: #1890ff;
       }
     }
   }
