@@ -68,15 +68,16 @@ export class Sprite<P extends Painter = Painter> {
 }
 
 export class SpriteAnimator {
-  public constructor(painters: Painter[] = [], callback?: () => void) {
-    this.painters = painters;
-    this.elapsedCallback = callback || this.elapsedCallback;
-  }
   public painters: Painter[] = [];
   public duration: number = 1000;
   public startTime: number = 0;
   public index: number = 0;
   public elapsedCallback: (sprite: Sprite) => void = () => {};
+
+  public constructor(painters: Painter[] = [], callback?: () => void) {
+    this.painters = painters;
+    this.elapsedCallback = callback || this.elapsedCallback;
+  }
 
   public end(sprite: Sprite, originalPainter: Painter) {
     sprite.animating = false;

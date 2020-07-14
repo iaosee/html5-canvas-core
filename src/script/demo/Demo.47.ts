@@ -6,7 +6,6 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 动画 —— 背景动画
  */
 export class Demo extends BaseDemo {
-  public stats: Stats;
   public lastTime = 0;
 
   public sky: HTMLImageElement;
@@ -54,7 +53,8 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    const gui = new dat.GUI();
+    this.gui = new dat.GUI();
+    const { gui } = this;
 
     gui
       .add(config, 'SKY_VELOCITY')

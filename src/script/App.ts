@@ -1,10 +1,11 @@
-import { Demo } from './demo/Demo.18';
+import { BaseDemo } from './base/BaseDemo';
+import { MenuConfigMap } from './MenuConfig';
 
 export class App {
   public constructor() {}
   public static instance: App;
   public canvas: HTMLCanvasElement;
-  public demo: Demo;
+  public demo: BaseDemo;
 
   public static init() {
     return App.instance ? App.instance : (App.instance = new App());
@@ -13,26 +14,77 @@ export class App {
   public run() {
     this.createCanvas()
       .initMenuList()
-      .initDemo();
+      .initDemo()
+      .listenEvent();
   }
 
   public createCanvas() {
     this.canvas = document.createElement('canvas');
-    document.body.appendChild(this.canvas);
+    document.body.insertBefore(this.canvas, document.body.firstChild);
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     return this;
   }
 
   public initDemo() {
-    (window as any).demo = this.demo = Demo.init(this.canvas).start();
+    // (window as any).demo = this.demo = Demo.init(this.canvas).start();
     // this.setViewport();
     // this.demo.start();
     // window.addEventListener('resize', () => this.setViewport(), false);
+    this.changeScene();
+
     return this;
   }
 
   public initMenuList() {
+    const menuContianer = document.querySelector('.menu-bar-container');
+    const menuList = document.createElement('div');
+    menuList.classList.add('menu-list-container');
+
+    const parseDOM = (str: string) => {
+      const o = document.createElement('div');
+      o.innerHTML = str;
+      return o.childNodes[0];
+    };
+
+    MenuConfigMap.forEach((value, key) => {
+      const menuItem = `<div class="menu-item">
+                          <a href="#/${key}">
+                            ${key}
+                          </a>
+                        </div>`;
+      menuList.appendChild(parseDOM(menuItem));
+    });
+
+    menuContianer.appendChild(menuList);
+
+    return this;
+  }
+
+  public listenEvent() {
+    window.addEventListener('hashchange', e => this.changeScene());
+    return this;
+  }
+
+  public async changeScene() {
+    console.log(location.hash);
+    const reg = /#\/(.+)$/;
+    const matchs = location.hash.match(reg);
+    const name = matchs ? matchs[1] : 'Demo.01';
+
+    const module = await MenuConfigMap.get(name)();
+
+    // tslint:disable-next-line: no-shadowed-variable
+    const Demo = module.Demo;
+    if (this.demo) {
+      this.demo.destroy();
+      this.demo = null;
+    }
+
+    this.canvas.remove();
+    this.createCanvas();
+    this.demo = Demo.init(this.canvas).start();
+
     return this;
   }
 

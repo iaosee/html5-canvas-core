@@ -31,7 +31,8 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    const gui = new dat.GUI();
+    this.gui = new dat.GUI();
+    const { gui } = this;
 
     gui.addColor(config, 'coverColor');
     gui

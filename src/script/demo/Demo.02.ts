@@ -29,7 +29,7 @@ export class Demo extends BaseDemo {
     const { context, canvas } = this;
 
     this.clearScreen();
-    return this.drawBackground();
+    return this.drawGrid();
   }
 
   private drawBackground() {
@@ -82,7 +82,7 @@ export class Demo extends BaseDemo {
 
         this.clearScreen()
           // .drawSpritesheet(this.spritesheet)
-          .drawBackground()
+          .drawGrid()
           .drawGuidelines(coordinate.x, coordinate.y);
 
         tips.innerText = coordinate.x + ', ' + coordinate.y;

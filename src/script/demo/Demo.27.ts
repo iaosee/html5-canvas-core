@@ -40,7 +40,8 @@ export class Demo extends Rubberband {
 
   private createControl() {
     const { config } = this;
-    const gui = new dat.GUI();
+    this.gui = new dat.GUI();
+    const { gui } = this;
 
     // gui.add(config, 'curveType', ['QuadraticCurve', 'CubeBezier']);
     gui

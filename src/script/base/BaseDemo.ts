@@ -1,12 +1,17 @@
 import { Point } from '../geometry/Point';
+import { GUI } from 'dat.gui';
 
 /**
  * @description BaseDemo
  */
 export class BaseDemo {
+  public name: string = 'Canvas Demo';
   public config: any = {};
   public player: number = null;
   public context: CanvasRenderingContext2D;
+
+  public gui: GUI;
+  public stats: Stats;
 
   constructor(public canvas: HTMLCanvasElement) {
     if (!canvas) {
@@ -14,6 +19,7 @@ export class BaseDemo {
     }
 
     this.context = this.canvas.getContext('2d');
+    this.context.save();
     // this.setViewport();
   }
 
@@ -40,6 +46,18 @@ export class BaseDemo {
 
   public stop() {
     return this.stopPlay();
+  }
+
+  public destroy() {
+    this.stop();
+    this.context.restore();
+    // do clearn
+    if (this.gui) {
+      this.gui.destroy();
+    }
+    if (this.stats) {
+      this.stats.dom.remove();
+    }
   }
 
   public draw(timestamp?: number) {
