@@ -1,6 +1,5 @@
 import { BaseDemo } from './base/BaseDemo';
 import { MenuConfigMap } from './MenuConfig';
-import { Demo } from './demo/Demo.01';
 
 export class App {
   public constructor() {}
@@ -28,10 +27,12 @@ export class App {
   }
 
   public initDemo() {
-    (window as any).demo = this.demo = Demo.init(this.canvas).start();
+    // (window as any).demo = this.demo = Demo.init(this.canvas).start();
     // this.setViewport();
     // this.demo.start();
     // window.addEventListener('resize', () => this.setViewport(), false);
+    this.changeScene();
+
     return this;
   }
 
@@ -46,7 +47,6 @@ export class App {
       return o.childNodes[0];
     };
 
-    console.log(MenuConfigMap);
     MenuConfigMap.forEach((value, key) => {
       const menuItem = `<div class="menu-item">
                           <a href="#/${key}">
@@ -72,7 +72,7 @@ export class App {
     const matchs = location.hash.match(reg);
     const name = matchs ? matchs[1] : 'Demo.01';
 
-    const module = await MenuConfigMap.get(name);
+    const module = await MenuConfigMap.get(name)();
 
     // tslint:disable-next-line: no-shadowed-variable
     const Demo = module.Demo;

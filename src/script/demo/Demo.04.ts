@@ -125,7 +125,6 @@ export class Demo extends BaseDemo {
 
     try {
       this.image = await this.loadImage(IMG_URL);
-      console.log(this.image);
       this.drawImage();
     } catch (e) {
       console.log(e);
