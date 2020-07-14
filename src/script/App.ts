@@ -1,5 +1,5 @@
 import { BaseDemo } from './base/BaseDemo';
-import { Demo } from './demo/Demo.00';
+import { Demo } from './demo/Demo.01';
 import { MenuConfigMap } from './MenuConfig';
 
 export class App {
@@ -21,7 +21,7 @@ export class App {
 
   public createCanvas() {
     this.canvas = document.createElement('canvas');
-    document.body.appendChild(this.canvas);
+    document.body.insertBefore(this.canvas, document.body.firstChild);
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     return this;
@@ -80,6 +80,9 @@ export class App {
       this.demo.destroy();
       this.demo = null;
     }
+
+    this.canvas.remove();
+    this.createCanvas();
     this.demo = Demo.init(this.canvas)
       .draw()
       .start();
