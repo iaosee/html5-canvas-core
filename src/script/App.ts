@@ -1,6 +1,6 @@
 import { BaseDemo } from './base/BaseDemo';
-import { Demo } from './demo/Demo.01';
 import { MenuConfigMap } from './MenuConfig';
+import { Demo } from './demo/Demo.01';
 
 export class App {
   public constructor() {}

@@ -1,6 +1,5 @@
 const MenuConfigMap = new Map<string, Promise<any>>();
 
-MenuConfigMap.set('Demo.01', import('./demo/Demo.52'));
 MenuConfigMap.set('Demo.01', import('./demo/Demo.01'));
 MenuConfigMap.set('Demo.02', import('./demo/Demo.02'));
 MenuConfigMap.set('Demo.03', import('./demo/Demo.03'));
