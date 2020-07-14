@@ -43,7 +43,6 @@ export class Demo extends BaseDemo {
     const { config } = this;
     this.gui = new dat.GUI();
     const { gui } = this;
-    const { gui } = this;
 
     gui
       .add(config, 'circleQuantity')
