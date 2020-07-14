@@ -2,10 +2,12 @@ import { BaseDemo } from './base/BaseDemo';
 import { MenuConfigMap } from './MenuConfig';
 
 export class App {
-  public constructor() {}
   public static instance: App;
+
   public canvas: HTMLCanvasElement;
   public demo: BaseDemo;
+
+  public constructor() {}
 
   public static init() {
     return App.instance ? App.instance : (App.instance = new App());
