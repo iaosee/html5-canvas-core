@@ -1,21 +1,28 @@
 import { BaseDemo } from './base/BaseDemo';
 import { MenuConfigMap } from './MenuConfig';
 
+const getDefaultDemo = () => {
+  const reg = /#\/(.+)$/;
+  const matchs = location.hash.match(reg);
+  return matchs ? matchs[1] : 'Demo.01';
+};
+
 export class App {
-  public constructor() {}
   public static instance: App;
+
   public canvas: HTMLCanvasElement;
   public demo: BaseDemo;
+
+  public constructor() {}
 
   public static init() {
     return App.instance ? App.instance : (App.instance = new App());
   }
 
   public run() {
-    this.createCanvas()
-      .initMenuList()
-      .initDemo()
-      .listenEvent();
+    this.initMenuList()
+      .listenEvent()
+      .initDemo();
   }
 
   public createCanvas() {
@@ -27,63 +34,57 @@ export class App {
   }
 
   public initDemo() {
-    // (window as any).demo = this.demo = Demo.init(this.canvas).start();
+    this.renderScene();
     // this.setViewport();
+
+    // (window as any).demo = this.demo = Demo.init(this.canvas).start();
     // this.demo.start();
     // window.addEventListener('resize', () => this.setViewport(), false);
-    this.changeScene();
 
     return this;
   }
 
   public initMenuList() {
     const menuContianer = document.querySelector('.menu-bar-container');
-    const menuList = document.createElement('div');
-    menuList.classList.add('menu-list-container');
+    const menuListContainer = document.createElement('div');
+    menuListContainer.classList.add('menu-list-container');
 
-    const parseDOM = (str: string) => {
-      const o = document.createElement('div');
-      o.innerHTML = str;
-      return o.childNodes[0];
-    };
-
+    let menuListString = '';
     MenuConfigMap.forEach((value, key) => {
-      const menuItem = `<div class="menu-item">
+      menuListString += `<div class="menu-item">
                           <a href="#/${key}">
                             ${key}
                           </a>
                         </div>`;
-      menuList.appendChild(parseDOM(menuItem));
     });
 
-    menuContianer.appendChild(menuList);
+    menuListContainer.innerHTML = menuListString;
+    menuContianer.appendChild(menuListContainer);
 
     return this;
   }
 
   public listenEvent() {
-    window.addEventListener('hashchange', e => this.changeScene());
+    window.addEventListener('hashchange', e => this.renderScene());
     return this;
   }
 
-  public async changeScene() {
-    console.log(location.hash);
-    const reg = /#\/(.+)$/;
-    const matchs = location.hash.match(reg);
-    const name = matchs ? matchs[1] : 'Demo.01';
-
-    const module = await MenuConfigMap.get(name)();
-
-    // tslint:disable-next-line: no-shadowed-variable
+  public async renderScene(name?: string) {
+    const module = await MenuConfigMap.get(name || getDefaultDemo())();
     const Demo = module.Demo;
+
     if (this.demo) {
       this.demo.destroy();
       this.demo = null;
     }
+    if (this.canvas) {
+      this.canvas.remove();
+      this.canvas = null;
+    }
 
-    this.canvas.remove();
     this.createCanvas();
     this.demo = Demo.init(this.canvas).start();
+    (window as any).demo = this.demo;
 
     return this;
   }
