@@ -11,6 +11,7 @@ export class BaseDemo {
   public context: CanvasRenderingContext2D;
 
   public gui: GUI;
+  public stats: Stats;
 
   constructor(public canvas: HTMLCanvasElement) {
     if (!canvas) {
@@ -53,6 +54,9 @@ export class BaseDemo {
     // do clearn
     if (this.gui) {
       this.gui.destroy();
+    }
+    if (this.stats) {
+      this.stats.dom.remove();
     }
   }
 

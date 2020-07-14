@@ -145,7 +145,6 @@ export class Demo extends BaseDemo {
     ball2.height = 50;
     // 5n / 60
     this.drawHand(hour * 5 + (date.getMinutes() / 60) * 5);
-    console.log(hour * 5, date.getMinutes() / 60);
 
     ball2.width = 30;
     ball2.height = 30;

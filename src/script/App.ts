@@ -83,9 +83,7 @@ export class App {
 
     this.canvas.remove();
     this.createCanvas();
-    this.demo = Demo.init(this.canvas)
-      .draw()
-      .start();
+    this.demo = Demo.init(this.canvas).start();
 
     return this;
   }

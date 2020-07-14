@@ -6,7 +6,6 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 动画 —— 背景动画
  */
 export class Demo extends BaseDemo {
-  public stats: Stats;
   public lastTime = 0;
 
   public sky: HTMLImageElement;
