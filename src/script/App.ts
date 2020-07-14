@@ -1,6 +1,12 @@
 import { BaseDemo } from './base/BaseDemo';
 import { MenuConfigMap } from './MenuConfig';
 
+const getDefaultDemo = () => {
+  const reg = /#\/(.+)$/;
+  const matchs = location.hash.match(reg);
+  return matchs ? matchs[1] : 'Demo.01';
+};
+
 export class App {
   public static instance: App;
 
@@ -59,20 +65,12 @@ export class App {
   }
 
   public listenEvent() {
-    window.addEventListener('hashchange', e => {
-      console.log(location.hash);
-
-      const reg = /#\/(.+)$/;
-      const matchs = location.hash.match(reg);
-      const name = matchs ? matchs[1] : 'Demo.01';
-
-      this.renderScene(name);
-    });
+    window.addEventListener('hashchange', e => this.renderScene());
     return this;
   }
 
-  public async renderScene(name: string = 'Demo.01') {
-    const module = await MenuConfigMap.get(name)();
+  public async renderScene(name?: string) {
+    const module = await MenuConfigMap.get(name || getDefaultDemo())();
     const Demo = module.Demo;
 
     if (this.demo) {
