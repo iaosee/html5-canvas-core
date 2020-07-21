@@ -35,8 +35,9 @@ export class App {
 
   public initDemo() {
     this.renderScene();
-    // this.setViewport();
 
+    // this.setViewport();
+    // this.createCanvas();
     // (window as any).demo = this.demo = Demo.init(this.canvas).start();
     // this.demo.start();
     // window.addEventListener('resize', () => this.setViewport(), false);
