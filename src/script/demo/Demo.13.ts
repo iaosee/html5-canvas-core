@@ -4,6 +4,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 路径、描边、填充
  */
 export class Demo extends BaseDemo {
+  public name: string = '路径、描边、填充';
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
   }

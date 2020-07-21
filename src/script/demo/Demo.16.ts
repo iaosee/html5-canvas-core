@@ -2,9 +2,10 @@ import { Point } from '../interfaces';
 import { Rubberband } from '../base/Rubberband';
 
 /**
- * @description 线条
+ * @description 基础橡皮筋
  */
 export class Demo extends Rubberband {
+  public name: string = '基础橡皮筋';
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 

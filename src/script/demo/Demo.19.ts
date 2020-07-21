@@ -5,6 +5,7 @@ import { Rubberband } from '../base/Rubberband';
  * @description 拖拽画圆
  */
 export class Demo extends Rubberband {
+  public name: string = '橡皮筋式拖拽画圆';
   public config: any = {
     radius: 20
   };
@@ -12,6 +13,7 @@ export class Demo extends Rubberband {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
+    this.context.fillStyle = this.randomRgba();
     this.listenEvents();
   }
 

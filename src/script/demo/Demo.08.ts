@@ -5,6 +5,7 @@ import { Point, Polyline } from '../interfaces';
  * @description 线条连接
  */
 export class Demo extends BaseDemo {
+  public name: string = '线条连接';
   private polylineList: Array<Polyline> = [];
   private paths: Polyline = [];
   private mousePosition: Point = { x: 0, y: 0 };

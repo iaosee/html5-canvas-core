@@ -3,9 +3,10 @@ import { Point } from '../interfaces';
 const IMG_URL = require('../../../asset/images/presta_illustration_20.jpg');
 
 /**
- * @description 图像裁剪
+ * @description 图像选区
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像选区';
   public dragging: boolean = false;
   public mousedownPosition: Point = { x: 0, y: 0 };
   public rubberbandDiv: HTMLElement = document.createElement('div');

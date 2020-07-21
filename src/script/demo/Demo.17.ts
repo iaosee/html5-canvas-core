@@ -7,6 +7,7 @@ import '../base/Extension';
  * @description 绘制虚线
  */
 export class Demo extends BaseDemo {
+  public name: string = '绘制虚线';
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
   }

@@ -1,9 +1,10 @@
 import { BaseDemo } from '../base/BaseDemo';
 
 /**
- * @description 路径、描边、填充
+ * @description 坐标轴
  */
 export class Demo extends BaseDemo {
+  public name: string = '坐标轴';
   public config = {
     AXIS_COLOR: 'blue',
     AXIS_LINEWIDTH: 1.0,

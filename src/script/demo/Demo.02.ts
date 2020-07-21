@@ -5,6 +5,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 鼠标坐标
  */
 export class Demo extends BaseDemo {
+  public name: string = '鼠标位置';
+
   public spritesheet: HTMLImageElement;
 
   public constructor(public canvas: HTMLCanvasElement) {

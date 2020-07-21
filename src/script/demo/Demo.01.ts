@@ -4,6 +4,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 时钟
  */
 export class Demo extends BaseDemo {
+  public name: string = '时钟';
+
   public config = {
     FONT_HEIGHT: 15,
     MARGIN: 40,

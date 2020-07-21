@@ -4,6 +4,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 创建图案
  */
 export class Demo extends BaseDemo {
+  public name: string = '创建图案';
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
   }

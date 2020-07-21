@@ -7,6 +7,7 @@ import { Point, Circle } from '../interfaces';
  * @description 小球 简单弹跳 与 简单碰撞检测
  */
 export class Demo extends BaseDemo {
+  public name: string = '简单弹跳 与 简单碰撞检测';
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
   public config = {
