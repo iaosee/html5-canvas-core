@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const { WebpackPluginServe } = require('webpack-plugin-serve');
 
 const isProd = Boolean(process.env.MODE_ENV);
 const ROOT_PATH = __dirname;
@@ -141,6 +141,7 @@ module.exports = {
       }
     ],
   },
+
   plugins: [
     new webpack.BannerPlugin(' author: @iaosee \r\n email: iaosee@outlook.com' + '\r\n url: www.iaosee.com'),
     new webpack.NamedModulesPlugin(),
@@ -160,5 +161,14 @@ module.exports = {
       verbose: true,
       dry: false
     }),
-  ]
+    new WebpackPluginServe({
+      static: PATHS.build,
+      host: '127.0.0.1',
+      port: 6600,
+      open: true,
+      hmr: false,
+      progress: true,
+      liveReload: true,
+    })
+  ],
 };

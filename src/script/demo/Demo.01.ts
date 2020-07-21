@@ -15,7 +15,7 @@ export class Demo extends BaseDemo {
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
-    return new Demo(canvas).start();
+    return new Demo(canvas);
   }
 
   public draw() {
