@@ -85,6 +85,7 @@ export class App {
 
     this.createCanvas();
     this.demo = Demo.init(this.canvas).start();
+    document.title = this.demo.name || 'Canvas Demo';
     (window as any).demo = this.demo;
 
     return this;

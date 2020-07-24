@@ -24,6 +24,7 @@ MenuConfigMap.set('Demo.20', () => import(/* webpackChunkName: "Demo.20" */ './d
 MenuConfigMap.set('Demo.21', () => import(/* webpackChunkName: "Demo.21" */ './demo/Demo.21'));
 MenuConfigMap.set('Demo.22', () => import(/* webpackChunkName: "Demo.22" */ './demo/Demo.22'));
 MenuConfigMap.set('Demo.23', () => import(/* webpackChunkName: "Demo.23" */ './demo/Demo.23'));
+MenuConfigMap.set('Demo.24', () => import(/* webpackChunkName: "Demo.24" */ './demo/Demo.24'));
 MenuConfigMap.set('Demo.25', () => import(/* webpackChunkName: "Demo.25" */ './demo/Demo.25'));
 MenuConfigMap.set('Demo.26', () => import(/* webpackChunkName: "Demo.26" */ './demo/Demo.26'));
 MenuConfigMap.set('Demo.27', () => import(/* webpackChunkName: "Demo.27" */ './demo/Demo.27'));

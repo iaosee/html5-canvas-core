@@ -6,6 +6,7 @@ import { Point, Circle } from '../interfaces';
  * @description 好多泡泡
  */
 export class Demo extends BaseDemo {
+  public name: string = '圆形泡泡';
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
 

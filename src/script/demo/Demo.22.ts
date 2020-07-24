@@ -5,6 +5,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 贝塞尔曲线
  */
 export class Demo extends BaseDemo {
+  public name: string = '绘制-贝塞尔曲线';
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
   }
@@ -58,8 +59,14 @@ export class Demo extends BaseDemo {
 
   public drawCubeBezier() {
     const { context } = this;
-    const endPoints = [{ x: this.centerX, y: this.centerY }, { x: 430, y: 270 }];
-    const controlPoints = [{ x: this.centerX, y: 250 }, { x: 450, y: this.centerY }];
+    const endPoints = [
+      { x: this.centerX, y: this.centerY },
+      { x: 430, y: 270 }
+    ];
+    const controlPoints = [
+      { x: this.centerX, y: 250 },
+      { x: 450, y: this.centerY }
+    ];
 
     context.fillStyle = this.randomRgba();
     context.strokeStyle = this.randomRgba();

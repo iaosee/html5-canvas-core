@@ -5,6 +5,7 @@ import { Point, Rectangle } from '../interfaces';
  * @description 拖拽绘制矩形
  */
 export class Demo extends BaseDemo {
+  public name: string = '拖拽绘制矩形';
   public dragging: boolean = false;
   public rectangles: Array<Rectangle> = [];
   public mousedownPosition: Point = { x: 0, y: 0 };

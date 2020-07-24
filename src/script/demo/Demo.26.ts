@@ -6,6 +6,7 @@ import { Rubberband } from '../base/Rubberband';
  * @description 拖拽绘制二/三次次贝塞尔曲线
  */
 export class Demo extends Rubberband {
+  public name: string = '拖拽绘制二/三次次贝塞尔曲线';
   public config = {
     fillStyle: [71, 163, 56, 0.2],
     strokeStyle: [0, 128, 255, 0.8],

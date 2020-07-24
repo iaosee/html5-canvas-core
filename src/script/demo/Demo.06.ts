@@ -8,6 +8,7 @@ import { Point, Circle } from '../interfaces';
  * @description 小球连接
  */
 export class Demo extends BaseDemo {
+  public name: string = '移动的小球';
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
   private mousePosition: Point = { x: 0, y: 0 };

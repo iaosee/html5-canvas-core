@@ -8,6 +8,7 @@ import { Polygon } from '../geometry/Polygon';
  * @description 拖拽绘制的物体
  */
 export class Demo extends Rubberband {
+  public name: string = '拖拽绘制的物体';
   public polygons: Polygon[] = [];
   public draggingPolygon: Polygon;
   public draggingOffsetPos: Point = new Point();
