@@ -29,6 +29,11 @@ export class Demo extends BaseDemo {
     //            .drawGrid();
   }
 
+  public destroy() {
+    super.destroy();
+    this.rubberbandDiv.remove();
+  }
+
   private addRubberbandToScene() {
     renderStyle(this.rubberbandDiv, {
       position: 'absolute',

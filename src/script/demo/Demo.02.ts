@@ -8,6 +8,7 @@ export class Demo extends BaseDemo {
   public name: string = '鼠标位置';
 
   public spritesheet: HTMLImageElement;
+  public tips: HTMLDivElement;
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
@@ -69,7 +70,7 @@ export class Demo extends BaseDemo {
 
   private listenEvents() {
     const { canvas } = this;
-    const tips = document.createElement('div');
+    const tips = (this.tips = document.createElement('div'));
     tips.style.position = 'absolute';
     tips.style.zIndex = '-1';
     tips.style.left = '0';
@@ -91,5 +92,10 @@ export class Demo extends BaseDemo {
       }, 50),
       false
     );
+  }
+
+  public destroy() {
+    super.destroy();
+    this.tips.remove();
   }
 }
