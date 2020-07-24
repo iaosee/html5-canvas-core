@@ -6,6 +6,7 @@ import { Rubberband } from '../base/Rubberband';
  * @description 剪辑区域 —— 实现橡皮檫
  */
 export class Demo extends Rubberband {
+  public name: string = '剪辑区域-实现橡皮檫';
   public mouseLastPos: Point;
   public config = {
     eraser: false,

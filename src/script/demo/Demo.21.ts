@@ -5,6 +5,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 仪表盘
  */
 export class Demo extends BaseDemo {
+  public name: string = '绘制仪表盘';
   public config = {
     circle: {
       radius: 250,

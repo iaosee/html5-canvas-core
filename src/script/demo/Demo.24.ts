@@ -8,6 +8,7 @@ import { Polygon } from '../geometry/Polygon';
  * @description 使用多边形对象保存绘制
  */
 export class Demo extends Rubberband {
+  public name: string = '多边形对象-保存绘制';
   public polygons: Polygon[] = [];
 
   public config = {

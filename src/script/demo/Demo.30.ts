@@ -4,6 +4,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 裁剪动画
  */
 export class Demo extends BaseDemo {
+  public name: string = '裁剪实现动画';
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 

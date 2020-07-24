@@ -5,6 +5,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 图像合成
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像合成';
   public config = {
     globalAlpha: 1.0,
     compositeMode: 'source-over',

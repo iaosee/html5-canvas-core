@@ -7,6 +7,7 @@ import { BezierCurve } from '../geometry/BezierCurve';
  * @description 编辑贝塞尔曲线
  */
 export class Demo extends Rubberband {
+  public name: string = '可编辑的贝塞尔曲线';
   public endPoints: Point[] = [new Point(), new Point()];
   public controlPoints: Point[] = [new Point(), new Point()];
   public draggingPoint: Point;

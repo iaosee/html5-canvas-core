@@ -6,6 +6,7 @@ import { Rubberband } from '../base/Rubberband';
  * @description 拖拽画多边形
  */
 export class Demo extends Rubberband {
+  public name: string = '拖拽画多边形';
   public config = {
     sides: 5,
     startAngle: 0,
