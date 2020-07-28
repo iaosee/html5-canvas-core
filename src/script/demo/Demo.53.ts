@@ -206,7 +206,6 @@ export class MoveBallBehavior implements Behavior {
 
     if (pushAnimationTimer.isRunning()) {
       sprite.x -= sprite.velocityX / fps;
-      console.log('execute');
 
       if (this.isBallOnLedge()) {
         if (pushAnimationTimer.getElapsedTime() > 200) {
@@ -220,6 +219,7 @@ export class MoveBallBehavior implements Behavior {
 
     if (fallingAnimationTimer.isRunning()) {
       sprite.y += sprite.velocityY / fps;
+
       sprite.velocityY = GRAVITY_FORCE * (fallingAnimationTimer.getElapsedTime() / 1000) * pixelsPerMeter;
 
       if (sprite.y > context.canvas.height) {

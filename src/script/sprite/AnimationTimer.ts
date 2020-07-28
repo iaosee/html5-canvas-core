@@ -104,7 +104,9 @@ export class AnimationTimer {
       return elapsedTime;
     }
 
-    return elapsedTime * (this.timeFunc(percent) / percent);
+    const time = elapsedTime * (this.timeFunc(percent) / percent);
+
+    return time || 0; // FIX: time is NaN when percent equals 0
   }
 
   public isRunning() {
