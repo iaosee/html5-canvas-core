@@ -1,15 +1,7 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { AnimationTimer } from '../sprite/AnimationTimer';
-import {
-  Behavior,
-  ImagePainter,
-  SheetCell,
-  Sprite,
-  SpriteSheetPainter,
-  Painter,
-  SpriteAnimator
-} from '../sprite/Sprite';
+import { Sprite, Behavior } from '../sprite/Sprite';
 
 /**
  * @description 精灵绘制器 —— 精灵表绘制器
@@ -44,6 +36,7 @@ export class Demo extends BaseDemo {
     const { gui } = this;
 
     gui.add(config, 'moveToLeft');
+    gui.add(config, 'moveToRight');
 
     return this;
   }
@@ -144,7 +137,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public pushBallLeft() {
+  public pushBall() {
     const { pushAnimationTimer } = this;
 
     if (pushAnimationTimer.isRunning()) {
@@ -153,13 +146,23 @@ export class Demo extends BaseDemo {
     pushAnimationTimer.start();
   }
 
-  public pushBallRight() {}
+  public pushBallLeft() {
+    const { ball } = this;
+    ball.velocityX = ball.velocityX < 0 ? ball.velocityX : -ball.velocityX;
+    this.pushBall();
+  }
+
+  public pushBallRight() {
+    const { ball } = this;
+    ball.velocityX = ball.velocityX > 0 ? ball.velocityX : -ball.velocityX;
+    this.pushBall();
+  }
 
   public drawScene(timestamp: number) {
-    const { context, config, ball, ledge } = this;
+    const { context, ball, ledge } = this;
 
-    ball.update(context, timestamp);
     ledge.update(context, timestamp);
+    ball.update(context, timestamp);
 
     ledge.paint(context);
     ball.paint(context);
@@ -205,7 +208,7 @@ export class MoveBallBehavior implements Behavior {
     const pixelsPerMeter = (context.canvas.height - this.ledge.y) / 10;
 
     if (pushAnimationTimer.isRunning()) {
-      sprite.x -= sprite.velocityX / fps;
+      sprite.x += sprite.velocityX / fps;
 
       if (this.isBallOnLedge()) {
         if (pushAnimationTimer.getElapsedTime() > 200) {
