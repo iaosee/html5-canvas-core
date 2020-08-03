@@ -15,6 +15,7 @@ export class Demo extends BaseDemo {
 
   public config = {
     BALL_RADIUS: 30,
+    LEDGE_WIDTH: 300,
     GRAVITY_FORCE: 9.81,
     moveToLeft: () => this.pushBallLeft(),
     moveToRight: () => this.pushBallRight()
@@ -23,7 +24,9 @@ export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl().initSprite();
+    this.createControl()
+      .initSprite()
+      .listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -130,7 +133,7 @@ export class Demo extends BaseDemo {
     this.ball.velocityX = 100;
     this.ball.velocityY = 0;
 
-    this.ledge.width = 200;
+    this.ledge.width = config.LEDGE_WIDTH;
     this.ledge.x = this.center.x - this.ledge.width / 2;
     this.ledge.y = this.ball.y + this.ball.height;
 
@@ -169,6 +172,20 @@ export class Demo extends BaseDemo {
 
     return this;
   }
+
+  public listenEvents() {
+    const { canvas } = this;
+
+    addEventListener('keydown', e => {
+      if (e.keyCode === 37) {
+        this.pushBallLeft();
+      } else if (e.keyCode === 39) {
+        this.pushBallRight();
+      }
+    });
+
+    return this;
+  }
 }
 
 export class MoveBallBehavior implements Behavior {
@@ -183,7 +200,7 @@ export class MoveBallBehavior implements Behavior {
 
   public isBallOnLedge() {
     const { ball, ledge } = this;
-    return ball.x + ball.width > ledge.x && ball.y < ledge.x + ledge.width;
+    return ball.x + ball.width / 2 > ledge.x && ball.x + ball.width / 2 < ledge.x + ledge.width;
   }
 
   public startFalling() {
