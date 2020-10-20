@@ -52,6 +52,11 @@ export class Demo extends BaseDemo {
     return this;
   }
 
+  public destroy() {
+    super.destroy();
+    this.pauseVideo();
+  }
+
   public initOffScreenCanvas() {
     const { canvas } = this;
     this.offScreenCanvas = document.createElement('canvas');
