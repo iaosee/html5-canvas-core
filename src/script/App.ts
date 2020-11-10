@@ -70,8 +70,14 @@ export class App {
     return this;
   }
 
-  public async renderScene(name?: string) {
-    const module = await MenuConfigMap.get(name || getDefaultDemo())();
+  public async renderScene(name: string = getDefaultDemo()) {
+    const getDemoAsyncFn = MenuConfigMap.get(name);
+    if (!getDemoAsyncFn) {
+      alert(`${name} doesn't exist !`);
+      throw new Error(`${name} doesn't exist !`);
+    }
+
+    const module = await getDemoAsyncFn();
     const Demo = module.Demo;
 
     if (this.demo) {
