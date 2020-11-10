@@ -10,6 +10,8 @@ enum ShapeStyle {
  * @description 线条波浪抖动
  */
 export class Demo extends BaseDemo {
+  public name: string = '线条摆动';
+
   public K: number = 2;
   public F: number = 1;
   public MAX = this.canvas.height / 2;

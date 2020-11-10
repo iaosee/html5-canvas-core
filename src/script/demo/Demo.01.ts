@@ -81,8 +81,8 @@ export class Demo extends BaseDemo {
 
     context.lineCap = 'round';
     context.strokeStyle = isHour ? 'rgba(61, 126, 154, 1.0)' : 'rgba(61, 126, 154, 0.5)';
-    context.moveTo(this.centerX, this.centerY);
     context.lineWidth = isHour ? 4 : 2;
+    context.moveTo(this.centerX - Math.cos(radian) * 30, this.centerY - Math.sin(radian) * 30);
     context.lineTo(this.centerX + Math.cos(radian) * handRadius, this.centerY + Math.sin(radian) * handRadius);
     context.stroke();
 

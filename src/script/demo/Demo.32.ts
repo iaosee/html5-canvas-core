@@ -16,6 +16,8 @@ enum BackgroundColor {
  * @description 星星，围绕鼠标转圈，鼠标跟随，带拖尾效果
  */
 export class Demo extends BaseDemo {
+  public name: string = '星空轨迹';
+
   public stars: Star[] = [];
   public mousePos: Point = new Point(this.centerX, this.canvas.height);
   public config = {

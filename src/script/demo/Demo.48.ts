@@ -6,6 +6,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 动画 —— 视差滚动
  */
 export class Demo extends BaseDemo {
+  public name: string = '动画 —— 视差滚动';
+
   public stats: Stats;
   public lastTime = 0;
 

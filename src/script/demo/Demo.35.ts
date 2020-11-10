@@ -10,6 +10,7 @@ enum ShapeStyle {
  * @description 文本 — 绕圈绘制
  */
 export class Demo extends BaseDemo {
+  public name: string = '文字路径环绕';
   public config = {
     radius: 300,
     fontSize: 50,

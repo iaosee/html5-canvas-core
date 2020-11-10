@@ -11,6 +11,7 @@ import { SunglassesFilter } from '../filters/SunglassesFilter';
  * @description 像素处理与裁剪
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像处理 —— 裁剪应用部分滤镜';
   public image: HTMLImageElement;
   public offScreenCanvas: HTMLCanvasElement;
   public offScreenContext: CanvasRenderingContext2D;

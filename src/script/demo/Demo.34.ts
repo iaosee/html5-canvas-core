@@ -11,6 +11,7 @@ enum ShapeStyle {
  * @description 文本 —— 填充背景
  */
 export class Demo extends BaseDemo {
+  public name: string = '文字填充';
   public config = {
     text: 'Hello, Canvas'
   };
