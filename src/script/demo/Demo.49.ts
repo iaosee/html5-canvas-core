@@ -6,6 +6,8 @@ import { Point } from '../geometry/Point';
  * @description 拖拽交互 —— 扔球/惯性
  */
 export class Demo extends BaseDemo {
+  public name: string = '拖拽交互 —— 扔球/惯性运动';
+
   public lastTime = 0;
   public ball: Circle = {
     position: this.center,

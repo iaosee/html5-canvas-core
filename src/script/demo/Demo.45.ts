@@ -20,6 +20,7 @@ import { SunglassesFilter } from '../filters/SunglassesFilter';
  *
  */
 export class Demo extends BaseDemo {
+  public name: string = '视频 —— 视频渲染绘制';
   public video: HTMLVideoElement = null;
   public offScreenCanvas: HTMLCanvasElement;
   public offScreenContext: CanvasRenderingContext2D;
@@ -50,6 +51,11 @@ export class Demo extends BaseDemo {
 
   public draw() {
     return this;
+  }
+
+  public destroy() {
+    super.destroy();
+    this.pauseVideo();
   }
 
   public initOffScreenCanvas() {

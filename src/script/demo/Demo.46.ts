@@ -8,6 +8,7 @@ import { Point, Circle } from '../interfaces';
  * @description 动画 —— 基于时间的运动
  */
 export class Demo extends BaseDemo {
+  public name: string = '动画 —— 帧率显示/基于时间动画';
   public stats: Stats;
   public circles: Array<Circle> = [];
   public random: Random = Random.init(-5, 5);

@@ -6,6 +6,8 @@ import { Rubberband } from '../base/Rubberband';
  * @description 图像绘制 —— 选区像素
  */
 export class Demo extends Rubberband {
+  public name: string = '图像拖动裁剪缩放';
+
   public image: HTMLImageElement;
 
   public config = {

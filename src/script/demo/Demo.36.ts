@@ -6,8 +6,9 @@ import { Point } from '../geometry/Point';
  * @description 图像绘制
  */
 export class Demo extends BaseDemo {
-  public image: HTMLImageElement;
+  public name: string = '图像绘制';
 
+  public image: HTMLImageElement;
   public config = {
     scale: 1.0,
     minScale: 0.1,

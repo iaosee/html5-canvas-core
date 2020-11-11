@@ -7,6 +7,7 @@ import { Rectangle } from '../interfaces';
  * @description 绘制放大镜效果
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像 —— 放大镜实现2';
   public image: HTMLImageElement;
   public originalImageData: ImageData;
   public magnifyRectangleImageData: ImageData;

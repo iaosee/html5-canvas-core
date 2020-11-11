@@ -4,6 +4,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 实现波浪效果
  */
 export class Demo extends BaseDemo {
+  public name: string = '破浪效果';
   public points: any[] = [];
 
   public constructor(public canvas: HTMLCanvasElement) {

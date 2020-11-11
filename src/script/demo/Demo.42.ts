@@ -13,6 +13,7 @@ enum FadeType {
  * 更优更简便的方式实现 可以在绘制每帧动画之前，先修改绘图环境对象的 globalAlpha 值，再绘制图像
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像渲染淡入淡出';
   public image: HTMLImageElement;
   public originalImageData: ImageData;
   public offScreenCanvas: HTMLCanvasElement;

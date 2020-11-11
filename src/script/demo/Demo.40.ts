@@ -10,6 +10,8 @@ import { SunglassesFilter } from '../filters/SunglassesFilter';
  * @description 像素处理与裁剪
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像处理 —— 基础滤镜实现';
+
   public image: HTMLImageElement;
 
   public config = {

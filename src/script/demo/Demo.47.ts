@@ -6,8 +6,9 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 动画 —— 背景动画
  */
 export class Demo extends BaseDemo {
-  public lastTime = 0;
+  public name: string = '动画 —— 背景连续动画';
 
+  public lastTime = 0;
   public sky: HTMLImageElement;
   public skyOffset: number = 0;
 

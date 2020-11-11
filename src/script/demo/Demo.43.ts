@@ -7,6 +7,7 @@ import { Rectangle } from '../interfaces';
  * @description 图像淡入淡出动画
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像 —— 放大镜实现';
   public image: HTMLImageElement;
   public originalImageData: ImageData;
   public offScreenCanvas: HTMLCanvasElement;

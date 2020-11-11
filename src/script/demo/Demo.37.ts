@@ -6,6 +6,8 @@ import { Point } from '../geometry/Point';
  * @description 图像绘制 —— 使用离屏 Canvas 提高性能
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像缩放';
+
   public image: HTMLImageElement;
   public offScreenCanvas: HTMLCanvasElement;
   public offScreenContext: CanvasRenderingContext2D;

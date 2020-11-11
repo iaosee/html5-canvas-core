@@ -5,6 +5,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 像素处理 - 负片滤镜
  */
 export class Demo extends BaseDemo {
+  public name: string = '图像处理 —— 反色';
   public image: HTMLImageElement;
 
   public config = {
