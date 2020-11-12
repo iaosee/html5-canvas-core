@@ -4,9 +4,11 @@ import { AnimationTimer } from '../sprite/AnimationTimer';
 import { Sprite, Behavior } from '../sprite/Sprite';
 
 /**
- * @description 精灵绘制器 —— 精灵表绘制器
+ * @description 物理效果 —— 物体下落
  */
 export class Demo extends BaseDemo {
+  public name: string = '物理效果 —— 物体下落';
+
   public ball: Sprite;
   public ledge: Sprite;
 
