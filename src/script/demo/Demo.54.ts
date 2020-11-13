@@ -1,6 +1,7 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../interfaces';
+import { renderStyle } from '../tools/util';
 import { Sprite, Behavior } from '../sprite/Sprite';
 
 const ARENA_LENGTH_IN_METERS = 10;
@@ -27,6 +28,7 @@ export class Demo extends BaseDemo {
   public pixelsPerMeter: number = this.canvas.width / ARENA_LENGTH_IN_METERS;
   public ballInFlight: boolean = false;
   public threePointer: boolean = false;
+  public tipsInfo: HTMLElement = document.createElement('div');
 
   public config = {
     ledge: {
@@ -49,6 +51,7 @@ export class Demo extends BaseDemo {
     super(canvas);
 
     this.createControl()
+      .addTipsToScene()
       .loadImage(require('../../../asset/images/bucket.png'))
       .then(image => {
         this.bucketImage = image;
@@ -116,6 +119,24 @@ export class Demo extends BaseDemo {
     return this.clearScreen()
       .drawGrid()
       .drawScene(timestamp);
+  }
+
+  public destroy() {
+    super.destroy();
+    this.tipsInfo.remove();
+  }
+
+  private addTipsToScene() {
+    renderStyle(this.tipsInfo, {
+      position: 'absolute',
+      zIndex: '5',
+      cursor: 'crosshair',
+      top: '0',
+      left: '50%',
+      transform: 'translate(-50%, 0)'
+    });
+    document.body.appendChild(this.tipsInfo);
+    return this;
   }
 
   public initSprite() {
@@ -321,8 +342,9 @@ export class Demo extends BaseDemo {
 
         // console.log(this.launchAngle, this.launchAngle * 180 / Math.PI, this.launchVelocity);
         const angle = (this.launchAngle * 180) / Math.PI;
-        this.drawLunchParams(angle.toFixed(2), 100, 100);
-        this.drawLunchParams(this.launchVelocity.toFixed(2), 100, 120);
+
+        const tips = 'Angle: ' + angle.toFixed(2) + ' m/s, Velocity: ' + this.launchVelocity.toFixed(2) + ' degrees';
+        this.tipsInfo.innerHTML = tips;
       }
     });
 
@@ -366,7 +388,7 @@ export class LobBallBehavior implements Behavior {
     const { ball } = this.demo;
     if (ball.y < 0) {
       demo.threePointer = true;
-      console.log(demo.threePointer, 'ok');
+      console.log('Three pointer if hit');
     }
   }
 
@@ -411,7 +433,7 @@ export class CatchBallBehavior implements Behavior {
       ball.x > bucket.x + bucket.width / 2 &&
       ball.x < bucket.x + bucket.width &&
       ball.y > bucket.y &&
-      ball.y < bucket.y + bucket.height / 2
+      ball.y < bucket.y + bucket.height
     );
   }
 
