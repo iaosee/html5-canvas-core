@@ -310,16 +310,6 @@ export class Demo extends BaseDemo {
     }
   }
 
-  public drawLunchParams(text: string, x: number, y: number) {
-    const { context } = this;
-    context.save();
-    context.fillStyle = 'rgba(0, 0, 255, 0.8)';
-    context.fillText(text, x, y);
-    context.fill();
-    context.restore();
-    return this;
-  }
-
   public listenEvents() {
     const { canvas, config, lastMouse, ball } = this;
 
