@@ -43,8 +43,6 @@ export class Demo extends BaseDemo {
   // }
 
   public draw() {
-    console.log('draw');
-
     return this.clearScreen()
       .drawGrid()
       .drawCircles()

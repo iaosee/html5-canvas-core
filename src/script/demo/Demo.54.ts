@@ -25,6 +25,8 @@ export class Demo extends BaseDemo {
   public launchAngle: number = INITIAL_LAUNCH_ANGLE;
   public launchVelocity: number = 0;
   public pixelsPerMeter: number = this.canvas.width / ARENA_LENGTH_IN_METERS;
+  public ballInFlight: boolean = false;
+  public threePointer: boolean = false;
 
   public config = {
     ledge: {
@@ -33,16 +35,13 @@ export class Demo extends BaseDemo {
       WIDTH: 100
     },
     ball: {
-      RADIUS: 20
+      RADIUS: 10
     },
     bucket: {
       X: this.canvas.width - 200,
       Y: this.canvas.height - 150
     },
     GRAVITY_FORCE: 9.81,
-    launchVelocity: 0,
-    threePointer: false,
-    ballInFlight: false,
     launchTime: undefined as any
   };
 
@@ -93,6 +92,18 @@ export class Demo extends BaseDemo {
       .max(50)
       .step(5)
       .onFinishChange(() => this.resetSpriteStatus());
+    gui
+      .add(config.bucket, 'X')
+      .min(500)
+      .max(this.canvas.width - 100)
+      .step(5)
+      .onFinishChange(() => this.resetSpriteStatus());
+    gui
+      .add(config.bucket, 'Y')
+      .min(10)
+      .max(this.canvas.height - 100)
+      .step(5)
+      .onFinishChange(() => this.resetSpriteStatus());
 
     return this;
   }
@@ -105,29 +116,6 @@ export class Demo extends BaseDemo {
     return this.clearScreen()
       .drawGrid()
       .drawScene(timestamp);
-  }
-
-  public drawScene(timestamp: number) {
-    const { context, ball, ledge, bucket, config } = this;
-
-    if (!config.ballInFlight) {
-      this.drawGuidewire();
-      // this.updateBackgroundText();
-
-      // if (lastScore !== 0) { // just scored
-      //   resetScoreLater();
-      // }
-    }
-
-    ledge.update(context, timestamp);
-    ball.update(context, timestamp);
-    bucket.update(context, timestamp);
-
-    ledge.paint(context);
-    ball.paint(context);
-    bucket.paint(context);
-
-    return this;
   }
 
   public initSprite() {
@@ -200,6 +188,9 @@ export class Demo extends BaseDemo {
 
     this.bucket = new Sprite('bucket', {
       paint(sprite, context) {
+        context.strokeStyle = 'rgba(100,100,195,0.8)';
+        context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
+        context.stroke();
         context.drawImage(bucketImage, sprite.x, sprite.y);
       }
     });
@@ -212,8 +203,31 @@ export class Demo extends BaseDemo {
     return this;
   }
 
+  public drawScene(timestamp: number) {
+    const { context, ball, ledge, bucket, config } = this;
+
+    if (!this.ballInFlight) {
+      this.drawGuidewire();
+      this.updateBackgroundText();
+
+      // if (lastScore !== 0) { // just scored
+      //   resetScoreLater();
+      // }
+    }
+
+    ledge.update(context, timestamp);
+    ball.update(context, timestamp);
+    bucket.update(context, timestamp);
+
+    ledge.paint(context);
+    ball.paint(context);
+    bucket.paint(context);
+
+    return this;
+  }
+
   public resetSpriteStatus() {
-    const { config } = this;
+    const { config, bucketImage } = this;
 
     this.ledge.x = config.ledge.X;
     this.ledge.y = config.ledge.Y;
@@ -229,6 +243,10 @@ export class Demo extends BaseDemo {
 
     this.bucket.x = config.bucket.X;
     this.bucket.y = config.bucket.Y;
+    this.bucket.width = bucketImage.width;
+    this.bucket.height = bucketImage.height;
+
+    this.ballInFlight = false;
     return this;
   }
 
@@ -236,39 +254,85 @@ export class Demo extends BaseDemo {
     const { context, lastMouse, ball, bucket } = this;
     context.save();
     context.strokeStyle = 'rgba(0, 0, 255, 0.8)';
+    context.beginPath();
     context.moveTo(ball.x, ball.y);
     context.lineTo(lastMouse.x, lastMouse.y);
     context.stroke();
     context.restore();
+
+    return this;
+  }
+
+  public showText(text: string) {
+    const { context, canvas, ball, bucket } = this;
+    const metrics = context.measureText(text);
+    context.font = '42px Helvetica';
+
+    context.save();
+    context.shadowColor = undefined;
+    context.strokeStyle = 'rgb(80,120,210)';
+    context.fillStyle = 'rgba(100,140,230,0.5)';
+
+    context.fillText(text, canvas.width / 2 - metrics.width / 2, canvas.height / 2);
+
+    context.strokeText(text, canvas.width / 2 - metrics.width / 2, canvas.height / 2);
+    context.restore();
+
+    return this;
+  }
+
+  public updateBackgroundText() {
+    if (this.lastScore === 3) {
+      this.showText('Three pointer!');
+    } else if (this.lastScore === 2) {
+      this.showText('Nice shot!');
+    }
+  }
+
+  public drawLunchParams(text: string, x: number, y: number) {
+    const { context } = this;
+    context.save();
+    context.fillStyle = 'rgba(0, 0, 255, 0.8)';
+    context.fillText(text, x, y);
+    context.fill();
+    context.restore();
+    return this;
   }
 
   public listenEvents() {
     const { canvas, config, lastMouse, ball } = this;
 
     canvas.addEventListener('mousemove', (e: MouseEvent) => {
-      if (!config.ballInFlight) {
+      if (!this.ballInFlight) {
         const loc = this.coordinateTransformation(e.clientX, e.clientY);
         lastMouse.x = loc.x;
         lastMouse.y = loc.y;
 
-        const deltaX = Math.abs(lastMouse.x - ball.x);
+        // const deltaX = Math.abs(lastMouse.x - ball.x);
+        // const deltaY = Math.abs(lastMouse.y - ball.y);
+        const deltaX = lastMouse.x - ball.x;
         const deltaY = Math.abs(lastMouse.y - ball.y);
 
         // 计算 鼠标与水平面的弧度 、更新加速度
-        this.launchAngle = Math.atan(deltaY / deltaX); // 反正切 —— 已知 对边 邻边 比值 求 夹角
+        // 反正切 —— 已知 对边 邻边 比值 求 夹角
+        this.launchAngle = Math.atan(deltaY / deltaX);
         this.launchVelocity = (4 * deltaY) / Math.sin(this.launchAngle) / this.pixelsPerMeter || 0;
-        // when this.pixelsPerMeter equals 0  get NaN
+        // when `this.pixelsPerMeter` equals 0  get NaN
 
         // console.log(this.launchAngle, this.launchAngle * 180 / Math.PI, this.launchVelocity);
+        const angle = (this.launchAngle * 180) / Math.PI;
+        this.drawLunchParams(angle.toFixed(2), 100, 100);
+        this.drawLunchParams(this.launchVelocity.toFixed(2), 100, 120);
       }
     });
 
     canvas.addEventListener('mousedown', (e: MouseEvent) => {
-      if (!config.ballInFlight) {
-        ball.velocityX = config.launchVelocity * Math.cos(this.launchAngle);
-        ball.velocityY = config.launchVelocity * Math.sin(this.launchAngle);
-        config.ballInFlight = true;
-        config.threePointer = false;
+      if (!this.ballInFlight) {
+        // 计算 对边(y) 邻边(x) 距离，更新加速度
+        ball.velocityX = this.launchVelocity * Math.cos(this.launchAngle);
+        ball.velocityY = this.launchVelocity * Math.sin(this.launchAngle);
+        this.ballInFlight = true;
+        this.threePointer = false;
         config.launchTime = undefined;
       }
     });
@@ -286,20 +350,23 @@ export class LobBallBehavior implements Behavior {
   public applyGravity(elapsed: number) {
     const { demo } = this;
     const { ball, config } = this.demo;
-    ball.velocityY = this.GRAVITY_FORCE * elapsed - config.launchVelocity * Math.sin(demo.launchAngle);
+    // Math.sin(demo.launchAngle)  已知角度，求到 x 轴距离
+    ball.velocityY = this.GRAVITY_FORCE * elapsed - demo.launchVelocity * Math.sin(demo.launchAngle);
   }
 
   public updateBallPosition(updateDelta: number) {
     const { demo } = this;
-    const { ball, config } = this.demo;
+    const { ball } = this.demo;
     ball.x += ball.velocityX * updateDelta * demo.pixelsPerMeter;
     ball.y += ball.velocityY * updateDelta * demo.pixelsPerMeter;
   }
 
   public checkForThreePointer() {
-    const { ball, config } = this.demo;
-    if (ball.x < 0) {
-      config.threePointer = true;
+    const { demo } = this;
+    const { ball } = this.demo;
+    if (ball.y < 0) {
+      demo.threePointer = true;
+      console.log(demo.threePointer, 'ok');
     }
   }
 
@@ -317,7 +384,7 @@ export class LobBallBehavior implements Behavior {
     let elapsedFrameTime = 0;
     let elapsedFlightTime = 0;
 
-    if (config.ballInFlight) {
+    if (demo.ballInFlight) {
       if (config.launchTime === undefined) {
         config.launchTime = time;
       }
@@ -338,33 +405,33 @@ export class LobBallBehavior implements Behavior {
 export class CatchBallBehavior implements Behavior {
   public constructor(private demo: Demo) {}
 
-  ballInBucket() {
+  public ballInBucket() {
     const { ball, bucket } = this.demo;
     return (
       ball.x > bucket.x + bucket.width / 2 &&
       ball.x < bucket.x + bucket.width &&
       ball.y > bucket.y &&
-      ball.y < bucket.y + bucket.height / 3
+      ball.y < bucket.y + bucket.height / 2
     );
   }
 
-  adjustScore() {
-    const { ball, bucket, config } = this.demo;
+  public adjustScore() {
+    const { demo } = this;
 
-    if (config.threePointer) {
-      this.demo.lastScore = 3;
+    if (demo.threePointer) {
+      demo.lastScore = 3;
     } else {
-      this.demo.lastScore = 2;
+      demo.lastScore = 2;
     }
 
-    this.demo.score += this.demo.lastScore;
+    demo.score += demo.lastScore;
     console.log(this.demo.score);
   }
 
-  execute(bucket: Sprite, context: CanvasRenderingContext2D, time: number) {
-    const { ball, config } = this.demo;
-    if (config.ballInFlight && this.ballInBucket()) {
-      this.demo.resetSpriteStatus();
+  public execute(bucket: Sprite, context: CanvasRenderingContext2D, time: number) {
+    const { demo } = this;
+    if (demo.ballInFlight && this.ballInBucket()) {
+      demo.resetSpriteStatus();
       this.adjustScore();
     }
   }
