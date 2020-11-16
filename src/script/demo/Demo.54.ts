@@ -231,9 +231,10 @@ export class Demo extends BaseDemo {
       this.drawGuidewire();
       this.updateBackgroundText();
 
-      // if (lastScore !== 0) { // just scored
-      //   resetScoreLater();
-      // }
+      if (this.lastScore !== 0) {
+        // just scored
+        this.resetScoreLater();
+      }
     }
 
     ledge.update(context, timestamp);
@@ -245,6 +246,12 @@ export class Demo extends BaseDemo {
     bucket.paint(context);
 
     return this;
+  }
+
+  public resetScoreLater() {
+    setTimeout(() => {
+      this.lastScore = 0;
+    }, 1000);
   }
 
   public resetSpriteStatus() {
