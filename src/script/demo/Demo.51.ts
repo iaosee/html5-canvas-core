@@ -37,6 +37,8 @@ export class BallPainter implements Painter {
  * 一个对象表示多个概念 —— 享元模式
  */
 export class Demo extends BaseDemo {
+  public name: string = '精灵绘制器 —— 描边与填充/图像图像精灵';
+
   public ball1: Sprite;
   public ball2: Sprite;
 

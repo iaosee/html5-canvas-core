@@ -4,9 +4,14 @@ import { AnimationTimer } from '../sprite/AnimationTimer';
 import { Sprite, Behavior } from '../sprite/Sprite';
 
 /**
- * @description 精灵绘制器 —— 精灵表绘制器
+ * @description 物理效果 —— 物体下落
+ *
+ * - https://en.wikipedia.org/wiki/Equations_for_a_falling_body
+ * - 地球表面物体下坠 加速度 9.81 m/s
  */
 export class Demo extends BaseDemo {
+  public name: string = '物理效果 —— 物体下落';
+
   public ball: Sprite;
   public ledge: Sprite;
 
@@ -15,7 +20,7 @@ export class Demo extends BaseDemo {
 
   public config = {
     BALL_RADIUS: 30,
-    LEDGE_WIDTH: 300,
+    LEDGE_WIDTH: 200,
     GRAVITY_FORCE: 9.81,
     moveToLeft: () => this.pushBallLeft(),
     moveToRight: () => this.pushBallRight()
@@ -38,6 +43,18 @@ export class Demo extends BaseDemo {
     this.gui = new dat.GUI();
     const { gui } = this;
 
+    gui
+      .add(config, 'BALL_RADIUS')
+      .min(10)
+      .max(100)
+      .step(10)
+      .onFinishChange(() => this.initSprite());
+    gui
+      .add(config, 'LEDGE_WIDTH')
+      .min(100)
+      .max(600)
+      .step(10)
+      .onFinishChange(() => this.initSprite());
     gui.add(config, 'moveToLeft');
     gui.add(config, 'moveToRight');
 
@@ -222,9 +239,11 @@ export class MoveBallBehavior implements Behavior {
     const fps = 1000 / (now - this.lastFrameTime);
     // TODO
     const GRAVITY_FORCE = 9.81;
-    const pixelsPerMeter = (context.canvas.height - this.ledge.y) / 10;
+    const PLATFORM_IN_METERS = 10;
+    const pixelsPerMeter = (context.canvas.height - this.ledge.y) / PLATFORM_IN_METERS;
 
     if (pushAnimationTimer.isRunning()) {
+      // 速度 / 动画帧率 = 当前帧所移动的距离
       sprite.x += sprite.velocityX / fps;
 
       if (this.isBallOnLedge()) {
@@ -240,6 +259,7 @@ export class MoveBallBehavior implements Behavior {
     if (fallingAnimationTimer.isRunning()) {
       sprite.y += sprite.velocityY / fps;
 
+      // 更新速度
       sprite.velocityY = GRAVITY_FORCE * (fallingAnimationTimer.getElapsedTime() / 1000) * pixelsPerMeter;
 
       if (sprite.y > context.canvas.height) {

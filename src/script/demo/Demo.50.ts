@@ -4,7 +4,7 @@ import { Random } from '../tools/Random';
 import { Circle, Point } from '../interfaces';
 
 /**
- * @description 拖拽交互 —— 扔球/惯性
+ * @description 拖拽交互 —— 鼠标路径跟随
  */
 export class Demo extends BaseDemo {
   public name: string = '拖拽交互 —— 鼠标路径跟随';
@@ -43,8 +43,6 @@ export class Demo extends BaseDemo {
   // }
 
   public draw() {
-    console.log('draw');
-
     return this.clearScreen()
       .drawGrid()
       .drawCircles()

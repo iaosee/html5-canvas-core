@@ -22,8 +22,8 @@ export interface Behavior {
 export class Sprite<P extends Painter = Painter> {
   public name: string;
   public x = 0;
-  public width = 10;
   public y = 0;
+  public width = 10;
   public height = 10;
   public velocityX = 0;
   public velocityY = 0;

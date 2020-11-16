@@ -1,5 +1,6 @@
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../interfaces';
+import { renderStyle } from '../tools/util';
 const IMG_URL = require('../../../asset/images/presta_illustration_20.jpg');
 
 /**
@@ -179,10 +180,4 @@ export class Demo extends BaseDemo {
       this.clearScreen().drawImage();
     };
   }
-}
-
-function renderStyle(elem: HTMLElement, style: any) {
-  Object.keys(style).forEach((attr: any) => {
-    elem.style[attr] = style[attr];
-  });
 }

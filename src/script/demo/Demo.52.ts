@@ -93,6 +93,8 @@ export class MoveBehavior implements Behavior {
  * @description 精灵绘制器 —— 精灵表绘制器
  */
 export class Demo extends BaseDemo {
+  public name: string = '精灵绘制器 —— 精灵表绘制器/帧动画';
+
   public sprite: Sprite<SpriteSheetPainter>;
   public sprite2: Sprite<SpriteSheetPainter>;
   public sprite3: Sprite<SpriteSheetPainter>;
