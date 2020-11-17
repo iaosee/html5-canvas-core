@@ -33,16 +33,16 @@ export class Stopwatch {
 }
 
 export class AnimationTimer {
-  public timeWarp: number = 0;
   public duration: number = 1000;
   public stopwatch = new Stopwatch();
-  public timeFunc: (percent: number) => number;
+  public timeWarp: (percent: number) => number;
 
   public constructor(duration: number = 1000, timeFunc: (percent: number) => number = AnimationTimer.linear()) {
     this.duration = duration;
-    this.timeFunc = timeFunc;
+    this.timeWarp = timeFunc;
   }
 
+  /******************** 常用动画函数 ********************/
   public static linear() {
     return (percent: number) => {
       return percent;
@@ -81,6 +81,8 @@ export class AnimationTimer {
     };
   }
 
+  /******************** / ********************/
+
   public start() {
     this.stopwatch.start();
   }
@@ -104,7 +106,7 @@ export class AnimationTimer {
       return elapsedTime;
     }
 
-    const time = elapsedTime * (this.timeFunc(percent) / percent);
+    const time = elapsedTime * (this.timeWarp(percent) / percent);
 
     return time || 0; // FIX: time is NaN when percent equals 0
   }
