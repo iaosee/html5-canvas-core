@@ -281,8 +281,10 @@ export class Demo extends BaseDemo {
   public drawGuidewire() {
     const { context, lastMouse, ball, bucket } = this;
     context.save();
-    context.strokeStyle = 'rgba(0, 0, 255, 0.8)';
+    context.strokeStyle = 'rgba(200,200,200,0.8)';
     context.beginPath();
+    context.setLineDash([4, 4]);
+    context.lineDashOffset = 5;
     context.moveTo(ball.x, ball.y);
     context.lineTo(lastMouse.x, lastMouse.y);
     context.stroke();
@@ -311,9 +313,9 @@ export class Demo extends BaseDemo {
 
   public updateBackgroundText() {
     if (this.lastScore === 3) {
-      this.showText('Three pointer!');
+      this.showText('真厉害!');
     } else if (this.lastScore === 2) {
-      this.showText('Nice shot!');
+      this.showText('好球!');
     }
   }
 
