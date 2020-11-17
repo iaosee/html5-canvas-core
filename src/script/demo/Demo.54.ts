@@ -313,9 +313,9 @@ export class Demo extends BaseDemo {
 
   public updateBackgroundText() {
     if (this.lastScore === 3) {
-      this.showText('Three pointer!');
+      this.showText('真厉害!');
     } else if (this.lastScore === 2) {
-      this.showText('Nice shot!');
+      this.showText('好球!');
     }
   }
 

@@ -32,7 +32,7 @@ export class Sprite<P extends Painter = Painter> {
   public painter: P = null;
   public behaviors: Behavior[] = [];
 
-  public constructor(name: string, painter: P, behaviors: Behavior[] = []) {
+  public constructor(name: string, painter: P = null, behaviors: Behavior[] = []) {
     this.name = name;
     this.painter = painter;
     this.behaviors = behaviors;
@@ -51,6 +51,11 @@ export class Sprite<P extends Painter = Painter> {
       return this;
     }
     this.behaviors.push(behavior);
+    return this;
+  }
+
+  public setPainter(painter: P) {
+    this.painter = painter;
     return this;
   }
 
