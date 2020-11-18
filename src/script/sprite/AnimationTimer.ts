@@ -33,16 +33,16 @@ export class Stopwatch {
 }
 
 export class AnimationTimer {
-  public timeWarp: number = 0;
-  public duration: number = 1000;
-  public stopwatch = new Stopwatch();
-  public timeFunc: (percent: number) => number;
+  private duration: number = 1000;
+  private stopwatch = new Stopwatch();
+  private timeWarp: (percent: number) => number;
 
   public constructor(duration: number = 1000, timeFunc: (percent: number) => number = AnimationTimer.linear()) {
     this.duration = duration;
-    this.timeFunc = timeFunc;
+    this.timeWarp = timeFunc;
   }
 
+  /******************** 常见基本缓动函数 https://easings.net/ ********************/
   public static linear() {
     return (percent: number) => {
       return percent;
@@ -67,7 +67,7 @@ export class AnimationTimer {
     };
   }
 
-  public static elastic(passes: number = 3) {
+  public static elastic(passes: number = 2) {
     return (percent: number) => {
       return (1 - Math.cos(percent * Math.PI * passes)) * (1 - percent) + percent;
     };
@@ -81,12 +81,19 @@ export class AnimationTimer {
     };
   }
 
+  /******************** / ********************/
+
   public start() {
     this.stopwatch.start();
   }
 
   public stop() {
     this.stopwatch.stop();
+  }
+
+  public setTimeWarp(timeFunc: (percent: number) => number = AnimationTimer.linear()) {
+    this.timeWarp = timeFunc;
+    return this;
   }
 
   public getRealElapsedTime() {
@@ -104,7 +111,7 @@ export class AnimationTimer {
       return elapsedTime;
     }
 
-    const time = elapsedTime * (this.timeFunc(percent) / percent);
+    const time = elapsedTime * (this.timeWarp(percent) / percent);
 
     return time || 0; // FIX: time is NaN when percent equals 0
   }

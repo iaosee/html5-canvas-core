@@ -60,7 +60,7 @@ export class Demo extends Rubberband {
 
     context.fillStyle = this.rgbaFormArr(config.fillStyle);
     context.strokeStyle = this.rgbaFormArr(config.strokeStyle);
-    this.drawPolygonPath(mousedownPos, rubberbandRect.width, config.sides, this.angle2radian(config.startAngle));
+    this.drawPolygonPath(mousedownPos, rubberbandRect.width, config.sides, this.degreesToRadian(config.startAngle));
     context.stroke();
     context.fill();
 
