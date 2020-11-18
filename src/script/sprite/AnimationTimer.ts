@@ -33,9 +33,9 @@ export class Stopwatch {
 }
 
 export class AnimationTimer {
-  public duration: number = 1000;
-  public stopwatch = new Stopwatch();
-  public timeWarp: (percent: number) => number;
+  private duration: number = 1000;
+  private stopwatch = new Stopwatch();
+  private timeWarp: (percent: number) => number;
 
   public constructor(duration: number = 1000, timeFunc: (percent: number) => number = AnimationTimer.linear()) {
     this.duration = duration;
@@ -89,6 +89,11 @@ export class AnimationTimer {
 
   public stop() {
     this.stopwatch.stop();
+  }
+
+  public setTimeWarp(timeFunc: (percent: number) => number = AnimationTimer.linear()) {
+    this.timeWarp = timeFunc;
+    return this;
   }
 
   public getRealElapsedTime() {

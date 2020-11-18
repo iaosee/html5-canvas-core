@@ -11,9 +11,9 @@ export class Demo extends BaseDemo {
 
   public ball: Sprite;
   public ledge: Sprite;
-  public pushAnimationTimer = new AnimationTimer(2000); // 2s
+  public pushAnimationTimer = new AnimationTimer(3000); // 2s
 
-  public animationFnMap = {
+  public animationFnMap: { [key: string]: (percent: number) => number } = {
     linear: AnimationTimer.linear(),
     easeIn: AnimationTimer.easeIn(1),
     easeOut: AnimationTimer.easeOut(1),
@@ -23,13 +23,13 @@ export class Demo extends BaseDemo {
   };
 
   public config = {
-    animateFn: this.animationFnMap.linear,
+    animationFn: 'linear',
     restartAnimation: () => this.restartAnimationTimer()
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
-    this.pushAnimationTimer.timeWarp = this.animationFnMap.linear;
+    this.pushAnimationTimer.setTimeWarp(this.animationFnMap[this.config.animationFn]);
     this.createControl().initSprite();
   }
 
@@ -42,8 +42,8 @@ export class Demo extends BaseDemo {
     this.gui = new dat.GUI();
     const { gui } = this;
 
-    gui.add(config, 'animateFn', this.animationFnMap).onFinishChange(e => {
-      console.log(e);
+    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange(value => {
+      this.pushAnimationTimer.setTimeWarp(this.animationFnMap[value]);
     });
     gui.add(config, 'restartAnimation');
 
@@ -65,7 +65,7 @@ export class Demo extends BaseDemo {
       paint(sprite: Sprite, context: CanvasRenderingContext2D) {
         context.save();
         context.beginPath();
-        context.arc(sprite.x, sprite.y, 30, 0, Math.PI * 2, false);
+        context.arc(sprite.x, sprite.y, sprite.width / 2, 0, Math.PI * 2, false);
         context.clip();
 
         context.shadowColor = 'rgb(0,0,255)';
@@ -77,7 +77,7 @@ export class Demo extends BaseDemo {
         context.stroke();
 
         context.beginPath();
-        context.arc(sprite.x, sprite.y, 30 / 2, 0, Math.PI * 2, false);
+        context.arc(sprite.x, sprite.y, sprite.width / 2 / 2, 0, Math.PI * 2, false);
         context.clip();
 
         context.shadowColor = 'rgb(255,255,0)';
@@ -106,16 +106,17 @@ export class Demo extends BaseDemo {
 
     this.ball.addBehavior(new MoveBallBehavior(this.ball, this.ledge, pushAnimationTimer));
 
-    this.ball.x = 100;
-    this.ball.y = 500;
-    this.ball.width = 30;
-    this.ball.height = 30;
+    this.ledge.x = 200;
+    this.ledge.y = canvas.height / 2;
+    this.ledge.height = 5;
+    this.ledge.width = canvas.width - this.ledge.x * 2;
+
+    this.ball.width = 50;
+    this.ball.height = 50;
+    this.ball.x = this.ledge.x + this.ball.width / 2;
+    this.ball.y = this.ledge.y - this.ball.width / 2;
     this.ball.velocityX = 100;
     this.ball.velocityY = 0;
-    this.ledge.x = this.ball.x - this.ball.width;
-    this.ledge.y = this.ball.y + this.ball.width;
-    this.ledge.height = 5;
-    this.ledge.width = 800;
 
     return this;
   }
@@ -151,17 +152,13 @@ export class MoveBallBehavior implements Behavior {
   }
 
   public resetBall() {
-    this.ball.x = this.ledge.x - this.ball.width / 2;
-    this.ball.y = this.ledge.y - this.ball.height;
+    this.ball.x = this.ledge.x + this.ball.width / 2;
+    this.ball.y = this.ledge.y - this.ball.width / 2;
   }
 
   public updateBallPosition(elapsed: number) {
     const { ball } = this;
-    if (ball.x) {
-      ball.x -= ball.velocityX * (elapsed / 1000);
-    } else {
-      ball.x += ball.velocityX * (elapsed / 1000);
-    }
+    ball.x += ball.velocityX * (elapsed / 1000);
   }
 
   public execute(ball: Sprite, context: CanvasRenderingContext2D, time: number) {
