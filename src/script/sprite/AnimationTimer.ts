@@ -67,7 +67,7 @@ export class AnimationTimer {
     };
   }
 
-  public static elastic(passes: number = 3) {
+  public static elastic(passes: number = 2) {
     return (percent: number) => {
       return (1 - Math.cos(percent * Math.PI * passes)) * (1 - percent) + percent;
     };

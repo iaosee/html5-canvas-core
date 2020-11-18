@@ -222,11 +222,13 @@ export class BaseDemo {
     return rgba && rgba.length ? `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]})` : null;
   }
 
-  public angle2radian(angle: number) {
-    return (Math.PI / 180) * angle;
+  public degreesToRadian(degrees: number) {
+    // 1° = (π/180)rad
+    return degrees * (Math.PI / 180);
   }
 
-  public radian2angle(radian: number) {
+  public radianToDegrees(radian: number) {
+    // 1rad = (180/π)°
     return radian / (Math.PI / 180);
   }
 }

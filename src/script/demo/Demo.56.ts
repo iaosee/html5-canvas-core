@@ -18,7 +18,7 @@ export class Demo extends BaseDemo {
     easeIn: AnimationTimer.easeIn(1),
     easeOut: AnimationTimer.easeOut(1),
     easeInOut: AnimationTimer.easeInOut(),
-    elastic: AnimationTimer.elastic(4),
+    elastic: AnimationTimer.elastic(3),
     bounce: AnimationTimer.bounce(2)
   };
 

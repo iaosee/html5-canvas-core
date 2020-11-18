@@ -82,7 +82,7 @@ export class Demo extends Rubberband {
       new Point(mousedownPos.x, mousedownPos.y),
       radius,
       config.sides,
-      this.angle2radian(config.startAngle),
+      this.degreesToRadian(config.startAngle),
       this.rgbaFormArr(config.fillStyle),
       this.rgbaFormArr(config.strokeStyle),
       config.filled
