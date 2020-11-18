@@ -42,7 +42,7 @@ export class AnimationTimer {
     this.timeWarp = timeFunc;
   }
 
-  /******************** 常用动画函数 ********************/
+  /******************** 常见基本缓动函数 https://easings.net/ ********************/
   public static linear() {
     return (percent: number) => {
       return percent;

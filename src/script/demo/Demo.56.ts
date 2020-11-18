@@ -7,22 +7,24 @@ import { Behavior, Sprite } from '../sprite/Sprite';
  * @description 时间扭曲动画
  */
 export class Demo extends BaseDemo {
-  public name: string = '时间扭曲动画函数';
+  public name: string = '时间动画-缓动函数';
 
   public ball: Sprite;
   public ledge: Sprite;
-  public pushAnimationTimer = new AnimationTimer(3000); // 2s
+  public ballMoveBehavior: MoveBallBehavior;
+  public pushAnimationTimer = new AnimationTimer(3000); // 3s
 
   public animationFnMap: { [key: string]: (percent: number) => number } = {
     linear: AnimationTimer.linear(),
     easeIn: AnimationTimer.easeIn(1),
     easeOut: AnimationTimer.easeOut(1),
     easeInOut: AnimationTimer.easeInOut(),
-    elastic: AnimationTimer.elastic(3),
+    elastic: AnimationTimer.elastic(5),
     bounce: AnimationTimer.bounce(2)
   };
 
   public config = {
+    trace: false,
     animationFn: 'linear',
     restartAnimation: () => this.restartAnimationTimer()
   };
@@ -42,6 +44,7 @@ export class Demo extends BaseDemo {
     this.gui = new dat.GUI();
     const { gui } = this;
 
+    gui.add(config, 'trace');
     gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange(value => {
       this.pushAnimationTimer.setTimeWarp(this.animationFnMap[value]);
     });
@@ -62,32 +65,7 @@ export class Demo extends BaseDemo {
     const { canvas, pushAnimationTimer } = this;
 
     this.ball = new Sprite('ball', {
-      paint(sprite: Sprite, context: CanvasRenderingContext2D) {
-        context.save();
-        context.beginPath();
-        context.arc(sprite.x, sprite.y, sprite.width / 2, 0, Math.PI * 2, false);
-        context.clip();
-
-        context.shadowColor = 'rgb(0,0,255)';
-        context.shadowOffsetX = -4;
-        context.shadowOffsetY = -4;
-        context.shadowBlur = 8;
-        context.lineWidth = 2;
-        context.strokeStyle = 'rgb(100,100,195)';
-        context.stroke();
-
-        context.beginPath();
-        context.arc(sprite.x, sprite.y, sprite.width / 2 / 2, 0, Math.PI * 2, false);
-        context.clip();
-
-        context.shadowColor = 'rgb(255,255,0)';
-        context.shadowOffsetX = -4;
-        context.shadowOffsetY = -4;
-        context.shadowBlur = 8;
-        context.stroke();
-
-        context.restore();
-      }
+      paint: (sprite: Sprite, context: CanvasRenderingContext2D) => this.paintBall(sprite, context)
     });
 
     this.ledge = new Sprite('ledge', {
@@ -104,7 +82,8 @@ export class Demo extends BaseDemo {
       }
     });
 
-    this.ball.addBehavior(new MoveBallBehavior(this.ball, this.ledge, pushAnimationTimer));
+    this.ballMoveBehavior = new MoveBallBehavior(this.ball, this.ledge, pushAnimationTimer);
+    this.ball.addBehavior(this.ballMoveBehavior);
 
     this.ledge.x = 200;
     this.ledge.y = canvas.height / 2;
@@ -122,27 +101,62 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene(timestamp: number) {
-    const { context, ball, ledge } = this;
+    const { context, config, ball, ledge, ballMoveBehavior } = this;
 
     ball.update(context, timestamp);
     ball.paint(context);
     ledge.update(context, timestamp);
     ledge.paint(context);
 
+    config.trace &&
+      ballMoveBehavior.ballLocations.forEach(loc => {
+        this.paintBall(ball, context, loc);
+      });
+
     return this;
   }
 
   public restartAnimationTimer() {
-    const { pushAnimationTimer } = this;
+    const { pushAnimationTimer, ballMoveBehavior } = this;
+    ballMoveBehavior.ballLocations = [];
+
     if (pushAnimationTimer.isRunning()) {
       pushAnimationTimer.stop();
     }
     pushAnimationTimer.start();
   }
+
+  public paintBall(sprite: Sprite, context: CanvasRenderingContext2D, x?: number) {
+    context.save();
+    context.beginPath();
+    context.arc(x || sprite.x, sprite.y, sprite.width / 2, 0, Math.PI * 2, false);
+    context.clip();
+
+    context.shadowColor = 'rgb(0,0,255)';
+    context.shadowOffsetX = -4;
+    context.shadowOffsetY = -4;
+    context.shadowBlur = 8;
+    context.lineWidth = 2;
+    context.strokeStyle = 'rgb(100,100,195)';
+    context.stroke();
+
+    context.beginPath();
+    context.arc(x || sprite.x, sprite.y, sprite.width / 2 / 2, 0, Math.PI * 2, false);
+    context.clip();
+
+    context.shadowColor = 'rgb(255,255,0)';
+    context.shadowOffsetX = -4;
+    context.shadowOffsetY = -4;
+    context.shadowBlur = 8;
+    context.stroke();
+
+    context.restore();
+  }
 }
 
 export class MoveBallBehavior implements Behavior {
   public lastTime: number;
+  public ballLocations: number[] = [];
 
   public constructor(private ball: Sprite, private ledge: Sprite, private pushAnimationTimer: AnimationTimer) {}
 
@@ -152,6 +166,7 @@ export class MoveBallBehavior implements Behavior {
   }
 
   public resetBall() {
+    this.ballLocations = [];
     this.ball.x = this.ledge.x + this.ball.width / 2;
     this.ball.y = this.ledge.y - this.ball.width / 2;
   }
@@ -162,7 +177,7 @@ export class MoveBallBehavior implements Behavior {
   }
 
   public execute(ball: Sprite, context: CanvasRenderingContext2D, time: number) {
-    const { ledge, pushAnimationTimer } = this;
+    const { pushAnimationTimer } = this;
     const animationElapsed = pushAnimationTimer.getElapsedTime();
     let elapsed = 0;
 
@@ -171,11 +186,12 @@ export class MoveBallBehavior implements Behavior {
         elapsed = animationElapsed - this.lastTime;
 
         this.updateBallPosition(elapsed);
-        // ballLocations.push(ball.left);
+        this.ballLocations.push(ball.x);
 
         if (this.isBallOnLedge()) {
           if (pushAnimationTimer.isOver()) {
             pushAnimationTimer.stop();
+            this.ballLocations = [];
           }
         } else {
           // ball fell off the ledge
@@ -184,6 +200,7 @@ export class MoveBallBehavior implements Behavior {
         }
       }
     }
+
     this.lastTime = animationElapsed;
   }
 }
