@@ -16,11 +16,11 @@ export class Demo extends BaseDemo {
 
   public animationFnMap: { [key: string]: (percent: number) => number } = {
     linear: AnimationTimer.linear(),
-    easeIn: AnimationTimer.easeIn(1),
-    easeOut: AnimationTimer.easeOut(1),
+    easeIn: AnimationTimer.easeIn(2),
+    easeOut: AnimationTimer.easeOut(2),
     easeInOut: AnimationTimer.easeInOut(),
-    elastic: AnimationTimer.elastic(5),
-    bounce: AnimationTimer.bounce(2)
+    elastic: AnimationTimer.elastic(4),
+    bounce: AnimationTimer.bounce(4)
   };
 
   public config = {

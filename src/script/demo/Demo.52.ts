@@ -1,15 +1,7 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { AnimationTimer } from '../sprite/AnimationTimer';
-import {
-  Behavior,
-  ImagePainter,
-  SheetCell,
-  Sprite,
-  SpriteSheetPainter,
-  Painter,
-  SpriteAnimator
-} from '../sprite/Sprite';
+import { Behavior, ImagePainter, SheetCell, Sprite, SpriteSheetPainter, Painter, SpriteAnimator } from '../sprite';
 
 class RunInPlaceBehavior implements Behavior {
   public lastAdvance: number = 0;

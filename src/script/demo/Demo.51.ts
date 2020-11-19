@@ -1,5 +1,5 @@
 import { BaseDemo } from '../base/BaseDemo';
-import { Sprite, Painter, ImagePainter } from '../sprite/Sprite';
+import { Sprite, Painter, ImagePainter } from '../sprite';
 
 export class BallPainter implements Painter {
   public paint(sprite: Sprite, context: CanvasRenderingContext2D) {
