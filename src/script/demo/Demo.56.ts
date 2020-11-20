@@ -1,7 +1,7 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { AnimationTimer } from '../sprite/AnimationTimer';
-import { Behavior, Sprite } from '../sprite/Sprite';
+import { IBehavior, Sprite } from '../sprite/Sprite';
 
 /**
  * @description 时间扭曲动画
@@ -154,7 +154,7 @@ export class Demo extends BaseDemo {
   }
 }
 
-export class MoveBallBehavior implements Behavior {
+export class MoveBallBehavior implements IBehavior {
   public lastTime: number;
   public ballLocations: number[] = [];
 

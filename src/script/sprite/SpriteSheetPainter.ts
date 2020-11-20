@@ -1,6 +1,6 @@
-import { Sprite, SheetCell, Painter } from './Sprite';
+import { Sprite, SheetCell, IPainter } from './Sprite';
 
-export class SpriteSheetPainter implements Painter {
+export class SpriteSheetPainter implements IPainter {
   public cells: SheetCell[] = [];
   public cellIndex: number = 0;
   public spriteSheet = new Image();
@@ -24,6 +24,8 @@ export class SpriteSheetPainter implements Painter {
     }
 
     const cell = this.cells[this.cellIndex];
+    sprite.width = cell.width;
+    sprite.height = cell.height;
     if (!this.spriteSheet.complete) {
       this.spriteSheet.onload = e => {
         context.drawImage(

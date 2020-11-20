@@ -1,6 +1,6 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
-import { Sprite, Behavior, Painter } from '../sprite/Sprite';
+import { Sprite, IBehavior, IPainter } from '../sprite/Sprite';
 
 /**
  * @description 物理效果 —— 钟摆运动
@@ -119,7 +119,7 @@ export class PendulumSprite extends Sprite<PendulumPainter> {
   }
 }
 
-export class PendulumPainter implements Painter {
+export class PendulumPainter implements IPainter {
   public PIVOT_FILL_STYLE = 'rgba(0,0,0,0.2)';
   public WEIGHT_SHADOW_COLOR = 'rgb(0,0,0)';
   public PIVOT_SHADOW_COLOR = 'rgb(255,255,0)';
@@ -208,7 +208,7 @@ export class PendulumPainter implements Painter {
   }
 }
 
-export class SwingBehavior implements Behavior {
+export class SwingBehavior implements IBehavior {
   public GRAVITY_FORCE: number = 32; //  32 ft/s/s,
   public ROD_LENGTH: number = 0.8; // 0.8 ft
   public startTime: number = 0;

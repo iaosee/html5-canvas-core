@@ -1,6 +1,6 @@
-import { Sprite, Painter } from './Sprite';
+import { Sprite, IPainter } from './Sprite';
 
-export class ImagePainter implements Painter {
+export class ImagePainter implements IPainter {
   public image = new Image();
 
   public constructor(imageUrl: string) {

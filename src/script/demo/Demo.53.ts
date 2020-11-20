@@ -1,7 +1,7 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { AnimationTimer } from '../sprite/AnimationTimer';
-import { Sprite, Behavior } from '../sprite/Sprite';
+import { Sprite, IBehavior } from '../sprite/Sprite';
 
 /**
  * @description 物理效果 —— 物体下落
@@ -205,7 +205,7 @@ export class Demo extends BaseDemo {
   }
 }
 
-export class MoveBallBehavior implements Behavior {
+export class MoveBallBehavior implements IBehavior {
   public lastFrameTime: number;
 
   public constructor(

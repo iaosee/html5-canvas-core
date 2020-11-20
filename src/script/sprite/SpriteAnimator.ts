@@ -1,18 +1,18 @@
-import { Painter, Sprite } from './Sprite';
+import { IPainter, Sprite } from './Sprite';
 
 export class SpriteAnimator {
-  public painters: Painter[] = [];
+  public painters: IPainter[] = [];
   public duration: number = 1000;
   public startTime: number = 0;
   public index: number = 0;
   public elapsedCallback: (sprite: Sprite) => void = () => {};
 
-  public constructor(painters: Painter[] = [], callback?: () => void) {
+  public constructor(painters: IPainter[] = [], callback?: () => void) {
     this.painters = painters;
     this.elapsedCallback = callback || this.elapsedCallback;
   }
 
-  public end(sprite: Sprite, originalPainter: Painter) {
+  public end(sprite: Sprite, originalPainter: IPainter) {
     sprite.animating = false;
 
     if (this.elapsedCallback) {

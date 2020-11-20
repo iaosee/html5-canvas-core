@@ -5,21 +5,21 @@ export interface SheetCell {
   height: number;
 }
 
-export interface Painter {
+export interface IPainter {
   paint(sprite: Sprite, context: CanvasRenderingContext2D): void;
 }
 
-export interface Behavior {
+export interface IBehavior {
   execute(sprite: Sprite, context: CanvasRenderingContext2D, time: number): void;
 }
 
 /**
  * @description Sprite
  * 精灵无需自己完成绘制，将绘制操作代理给另一个对象，这即使用策略模式
- * 各个不同 Painter 对象实现了不同的绘制算法，由使用者自己指定 Painter
- * 精灵的各种行为运用命令模式，将各种行为命令 Behavior 封装，使用者自行指定行为
+ * 各个不同 IPainter 对象实现了不同的绘制算法，由使用者自己指定 IPainter
+ * 精灵的各种行为运用命令模式，将各种行为命令 IBehavior 封装，使用者自行指定行为
  */
-export class Sprite<P extends Painter = Painter> {
+export class Sprite<P extends IPainter = IPainter> {
   public name: string;
   public x = 0;
   public y = 0;
@@ -30,9 +30,9 @@ export class Sprite<P extends Painter = Painter> {
   public visible = true;
   public animating = false;
   public painter: P = null;
-  public behaviors: Behavior[] = [];
+  public behaviors: IBehavior[] = [];
 
-  public constructor(name: string, painter: P = null, behaviors: Behavior[] = []) {
+  public constructor(name: string, painter: P = null, behaviors: IBehavior[] = []) {
     this.name = name;
     this.painter = painter;
     this.behaviors = behaviors;
@@ -46,7 +46,7 @@ export class Sprite<P extends Painter = Painter> {
     this.y = y;
   }
 
-  public addBehavior(behavior: Behavior) {
+  public addBehavior(behavior: IBehavior) {
     if (this.behaviors.includes(behavior)) {
       return this;
     }

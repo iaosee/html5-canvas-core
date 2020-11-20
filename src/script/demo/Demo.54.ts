@@ -2,7 +2,7 @@ import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../interfaces';
 import { renderStyle } from '../tools/util';
-import { Sprite, Behavior } from '../sprite/Sprite';
+import { Sprite, IBehavior } from '../sprite/Sprite';
 
 const ARENA_LENGTH_IN_METERS = 10;
 const INITIAL_LAUNCH_ANGLE = Math.PI / 4;
@@ -362,7 +362,7 @@ export class Demo extends BaseDemo {
   }
 }
 
-export class LobBallBehavior implements Behavior {
+export class LobBallBehavior implements IBehavior {
   private lastFrameTime: number;
   private GRAVITY_FORCE: number = 9.81; // m/s/s
 
@@ -423,7 +423,7 @@ export class LobBallBehavior implements Behavior {
   }
 }
 
-export class CatchBallBehavior implements Behavior {
+export class CatchBallBehavior implements IBehavior {
   public constructor(private demo: Demo) {}
 
   public ballInBucket() {
