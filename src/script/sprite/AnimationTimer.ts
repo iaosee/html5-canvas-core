@@ -1,3 +1,6 @@
+/**
+ * @description 计时器
+ */
 export class Stopwatch {
   public startTime: number = 0;
   public running: boolean = false;
@@ -42,37 +45,69 @@ export class AnimationTimer {
     this.timeWarp = timeFunc;
   }
 
-  /******************** 常见基本缓动函数 https://easings.net/ ********************/
+  /**
+   * 几个基本缓动函数 linear/easeIn/easeOut/easeInOut/elastic/bounce
+   * 通过基本函数的组合，可以实现更复杂的复合缓动函数
+   */
+  /******************** 常见基本缓动函数参考 https://easings.net/ ********************/
+  /**
+   * @description 没有加速度的线性运动 linear
+   * linear 未做任何扭曲，线性运动
+   * - f(x) = x
+   */
   public static linear() {
     return (percent: number) => {
       return percent;
     };
   }
 
+  /**
+   * @description 逐渐加速的缓入运动 easeIn
+   * - f(x) = Math.pow(x, 2)
+   */
   public static easeIn(strength: number = 1) {
     return (percent: number) => {
       return Math.pow(percent, strength * 2);
     };
   }
 
+  /**
+   * @description 逐渐减速的缓出运动 easeOut
+   * - f(x) = 1 - Math.pow(1 - x, 2)
+   */
   public static easeOut(strength: number = 1) {
     return (percent: number) => {
       return 1 - Math.pow(1 - percent, strength * 2);
     };
   }
 
+  /**
+   * @description 逐渐加速后又逐渐减速，先加速后减速 的缓入缓出运动 easeInOut
+   * - f(x) = x - Math.sin(x * 2 * Math.PI) / (2 * Math.PI)
+   */
   public static easeInOut() {
     return (percent: number) => {
       return percent - Math.sin(percent * Math.PI * 2) / (2 * Math.PI);
     };
   }
 
+  /**
+   * @description 弹簧运动，弹出去收回来  elastic
+   * - passes  弹动次数
+   * - f(x) = (1 - Math.cos(x * passes * Math.PI)) * (1 - x) + percent
+   */
   public static elastic(passes: number = 2) {
     return (percent: number) => {
       return (1 - Math.cos(percent * Math.PI * passes)) * (1 - percent) + percent;
     };
   }
 
+  /**
+   * @description 弹跳运动，弹回去  bounce
+   * - bounces 弹起次数
+   * - f(x) = (1 - Math.cos(x * passes * Math.PI)) * (1 - x) + percent
+   * - f(x) = 2 - ((1 - Math.cos(x * passes * Math.PI)) * (1 - x) + percent)
+   */
   public static bounce(bounces: number) {
     const fn = AnimationTimer.elastic(bounces);
     return (percent: number) => {
@@ -102,6 +137,7 @@ export class AnimationTimer {
 
   public getElapsedTime() {
     const elapsedTime = this.stopwatch.getElapsedTime();
+    // 当前进度： 过去的时间 / 总时间
     const percent = elapsedTime / this.duration;
 
     if (!this.stopwatch.running) {
@@ -111,8 +147,8 @@ export class AnimationTimer {
       return elapsedTime;
     }
 
+    // 返回通过缓动函数处理后的值
     const time = elapsedTime * (this.timeWarp(percent) / percent);
-
     return time || 0; // FIX: time is NaN when percent equals 0
   }
 

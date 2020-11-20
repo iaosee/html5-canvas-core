@@ -1,93 +1,8 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { AnimationTimer } from '../sprite/AnimationTimer';
-import {
-  Behavior,
-  ImagePainter,
-  SheetCell,
-  Sprite,
-  SpriteSheetPainter,
-  Painter,
-  SpriteAnimator
-} from '../sprite/Sprite';
-
-class RunInPlaceBehavior implements Behavior {
-  public lastAdvance: number = 0;
-  public PAGEFLIP_INTERVAL: number = 100;
-
-  public constructor(interval?: number) {
-    this.PAGEFLIP_INTERVAL = interval || this.PAGEFLIP_INTERVAL;
-  }
-
-  public execute(sprite: Sprite<SpriteSheetPainter>, context: CanvasRenderingContext2D, time: number) {
-    if (time - this.lastAdvance > this.PAGEFLIP_INTERVAL) {
-      sprite.painter.advance();
-      this.lastAdvance = time;
-    }
-  }
-}
-
-class MoveLeftToRightBehavior implements Behavior {
-  public lastMove: number = 0;
-
-  public execute(sprite: Sprite<SpriteSheetPainter>, context: CanvasRenderingContext2D, time: number) {
-    if (this.lastMove !== 0) {
-      sprite.x -= sprite.velocityX * ((time - this.lastMove) / 1000);
-      sprite.x = sprite.x < 0 ? context.canvas.width : sprite.x;
-    }
-    this.lastMove = time;
-  }
-}
-
-class JumpBehavior implements Behavior {
-  public lastJump: number = 0;
-  public jumpHeight: number = 50;
-
-  public constructor(height?: number) {
-    this.jumpHeight = height || this.jumpHeight;
-  }
-
-  public execute(sprite: Sprite<SpriteSheetPainter>, context: CanvasRenderingContext2D, time: number) {
-    if (time - this.lastJump < 1000) {
-      return;
-    }
-
-    sprite.y -= this.jumpHeight;
-    if (sprite.y < 0) {
-      sprite.y = context.canvas.height;
-    }
-    this.lastJump = time;
-  }
-}
-
-export class MoveBehavior implements Behavior {
-  public lastTime: number = 0;
-
-  public constructor(private pushTimer: AnimationTimer) {}
-
-  public reset(sprite: Sprite) {
-    console.log('reset');
-    // sprite.x = LEDGE_LEFT + LEDGE_WIDTH/2 - BALL_RADIUS;
-    // sprite.y  = LEDGE_TOP - BALL_RADIUS*2;
-  }
-
-  public execute(sprite: Sprite<SpriteSheetPainter>, context: CanvasRenderingContext2D, time: number) {
-    const { pushTimer } = this;
-    const timerElapsed = pushTimer.getElapsedTime();
-    let frameElapsed;
-
-    if (pushTimer.isRunning() && this.lastTime) {
-      frameElapsed = timerElapsed - this.lastTime;
-      sprite.x -= sprite.velocityX * (frameElapsed / 1000);
-      // sprite.x -= sprite.velocityX * ((time - this.lastTime) / 1000);
-      sprite.x = sprite.x < 0 ? context.canvas.width : sprite.x;
-      // if ( sprite.x <= sprite.width ) {
-      //   pushTimer.stop();
-      // }
-    }
-    this.lastTime = timerElapsed;
-  }
-}
+import { ImagePainter, SheetCell, Sprite, SpriteSheetPainter, IPainter, SpriteAnimator } from '../sprite';
+import { RunInPlaceBehavior, MoveLeftToRightBehavior, JumpBehavior, MoveBehavior } from '../sprite/RunnerSprite';
 
 /**
  * @description 精灵绘制器 —— 精灵表绘制器
@@ -106,8 +21,8 @@ export class Demo extends BaseDemo {
   public bomb: Sprite;
   public bombPainter: ImagePainter;
   public bombNoFusePainter: ImagePainter;
-  public fuseBurningPainters: Painter[] = [];
-  public explosionPainters: Painter[] = [];
+  public fuseBurningPainters: IPainter[] = [];
+  public explosionPainters: IPainter[] = [];
   public fuseBurningAnimator: SpriteAnimator;
   public explosionAnimator: SpriteAnimator;
 

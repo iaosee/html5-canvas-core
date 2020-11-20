@@ -1,7 +1,7 @@
 import { BaseDemo } from '../base/BaseDemo';
-import { Sprite, Painter, ImagePainter } from '../sprite/Sprite';
+import { Sprite, IPainter, ImagePainter } from '../sprite';
 
-export class BallPainter implements Painter {
+export class BallPainter implements IPainter {
   public paint(sprite: Sprite, context: CanvasRenderingContext2D) {
     const x = sprite.x + sprite.width / 2;
     const y = sprite.y + sprite.height / 2;
@@ -42,7 +42,7 @@ export class Demo extends BaseDemo {
   public ball1: Sprite;
   public ball2: Sprite;
 
-  public ballPainter: Painter = new BallPainter();
+  public ballPainter: IPainter = new BallPainter();
   public bomb: Sprite;
 
   public config = {

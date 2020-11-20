@@ -57,5 +57,6 @@ MenuConfigMap.set('Demo.53', () => import(/* webpackChunkName: "Demo.53" */ './d
 MenuConfigMap.set('Demo.54', () => import(/* webpackChunkName: "Demo.54" */ './demo/Demo.54'));
 MenuConfigMap.set('Demo.55', () => import(/* webpackChunkName: "Demo.55" */ './demo/Demo.55'));
 MenuConfigMap.set('Demo.56', () => import(/* webpackChunkName: "Demo.56" */ './demo/Demo.56'));
+MenuConfigMap.set('Demo.57', () => import(/* webpackChunkName: "Demo.57" */ './demo/Demo.57'));
 
 export { MenuConfigMap };
