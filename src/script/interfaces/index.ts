@@ -1,4 +1,4 @@
-export interface Point {
+export interface Point extends Velocity {
   x: number;
   y: number;
 }
@@ -19,8 +19,8 @@ export interface Accelerator {
 }
 
 export interface Velocity extends Accelerator {
-  velocityX: number;
-  velocityY: number;
+  velocityX?: number;
+  velocityY?: number;
 }
 
 export interface Circle extends Colorable, Velocity {

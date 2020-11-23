@@ -100,7 +100,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public drawScene(timestamp: number) {
+  public drawScene(timestamp?: number) {
     const { context, config, ball, ledge, ballMoveBehavior } = this;
 
     ball.update(context, timestamp);
