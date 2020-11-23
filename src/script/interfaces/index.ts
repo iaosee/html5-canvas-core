@@ -1,4 +1,4 @@
-export interface Point extends Velocity {
+export interface Point {
   x: number;
   y: number;
 }
