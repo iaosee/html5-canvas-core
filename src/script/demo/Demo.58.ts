@@ -1,8 +1,6 @@
 import * as dat from 'dat.gui';
-import { Point, Velocity } from '../interfaces';
-import { Random } from '../tools/Random';
 import { BaseDemo } from '../base/BaseDemo';
-import { Color } from 'script/tools/Color';
+import { Colorable, Point, Velocity } from '../interfaces';
 
 /**
  * @description 绘制练习 —— 绘制三角网格
@@ -12,11 +10,12 @@ export class Demo extends BaseDemo {
   public name: string = '绘制三角网格';
 
   public pointOfLine: MeshPoint[][] = [];
-  private random: Random = Random.init(-5, 5);
+  public triangleOfLine: MeshPoint[][] = [];
 
   public config = {
-    animation: false,
-    drawBoundary: false
+    animation: true,
+    drawBoundary: false,
+    count: 10
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -24,8 +23,7 @@ export class Demo extends BaseDemo {
 
     this.createControl()
       .initDotLine()
-      .drawGrid()
-      .drawScene();
+      .initTriangleLine();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -39,6 +37,15 @@ export class Demo extends BaseDemo {
 
     gui.add(config, 'animation');
     gui.add(config, 'drawBoundary');
+    gui
+      .add(config, 'count')
+      .min(5)
+      .max(30)
+      .onFinishChange(value => {
+        this.pointOfLine = [];
+        this.triangleOfLine = [];
+        this.initDotLine().initTriangleLine();
+      });
 
     return this;
   }
@@ -57,13 +64,13 @@ export class Demo extends BaseDemo {
     const { canvas, context, config } = this;
     const width = canvas.width;
     const height = canvas.height;
-    const gap = height / 8;
+    const gap = height / config.count;
     let odd = false;
 
     for (let y = gap / 2; y <= height; y += gap) {
       const line: MeshPoint[] = [];
       odd = !odd;
-      for (let x = gap / 2; x <= width; x += gap) {
+      for (let x = gap / 2; x <= width - 50; x += gap) {
         const boundary = {
           left: x + (odd ? gap / 2 : 0) - gap / 2,
           top: y - gap / 2,
@@ -93,7 +100,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public drawScene(timestamp?: number) {
+  public initTriangleLine() {
     const { canvas, context, pointOfLine } = this;
     let odd = true;
 
@@ -101,13 +108,24 @@ export class Demo extends BaseDemo {
       odd = !odd;
       const dotLine = [];
       for (let i = 0; i < pointOfLine[y].length; i++) {
-        dotLine.push(odd ? pointOfLine[y][i] : pointOfLine[y + 1][i]);
-        dotLine.push(odd ? pointOfLine[y + 1][i] : pointOfLine[y][i]);
+        const p1 = odd ? pointOfLine[y][i] : pointOfLine[y + 1][i];
+        const p2 = odd ? pointOfLine[y + 1][i] : pointOfLine[y][i];
+        p1.color = this.randomRgba();
+        p2.color = this.randomRgba();
+        dotLine.push(p1, p2);
       }
+      this.triangleOfLine.push(dotLine);
+    }
+
+    return this;
+  }
+
+  public drawScene(timestamp?: number) {
+    this.triangleOfLine.map(dotLine => {
       for (let i = 0; i < dotLine.length - 2; i++) {
         this.drawTriangle(dotLine[i], dotLine[i + 1], dotLine[i + 2]);
       }
-    }
+    });
 
     return this;
   }
@@ -152,11 +170,11 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public drawTriangle(p1: Point, p2: Point, p3: Point, color: string = this.randomRgba()) {
+  public drawTriangle(p1: MeshPoint, p2: MeshPoint, p3: MeshPoint, color?: string) {
     const { canvas, context, config } = this;
 
     context.save();
-    context.fillStyle = color;
+    context.fillStyle = color || p3.color;
     context.beginPath();
     context.moveTo(p1.x, p1.y);
     context.lineTo(p2.x, p2.y);
@@ -164,14 +182,14 @@ export class Demo extends BaseDemo {
     context.lineTo(p1.x, p1.y);
     context.closePath();
     context.stroke();
-    // context.fill();
+    context.fill();
     context.restore();
 
     return this;
   }
 }
 
-interface MeshPoint extends Point, Velocity {
+interface MeshPoint extends Colorable, Point, Velocity {
   boundary: {
     top: number;
     left: number;
