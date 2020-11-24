@@ -1,11 +1,10 @@
-import { timeStamp } from 'console';
 import * as dat from 'dat.gui';
 
 import { BaseDemo } from '../base/BaseDemo';
 import { Sprite, RunnerSprite, AnimationTimer, IBehavior } from '../sprite';
 
 export class Demo extends BaseDemo {
-  public name: string = '时间动画-缓动函数';
+  public name: string = '时间动画-缓动函数控制精灵运动';
 
   public ledge: Sprite;
   public runner: RunnerSprite;
@@ -53,7 +52,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public draw(timestamp?: number) {
     // const now = +new Date();
     // console.log(timestamp);
 
