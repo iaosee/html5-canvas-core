@@ -3,6 +3,9 @@ import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Sprite, RunnerSprite, AnimationTimer, IBehavior } from '../sprite';
 
+/**
+ * @description 时间动画-缓动函数控制精灵运动
+ */
 export class Demo extends BaseDemo {
   public name: string = '时间动画-缓动函数控制精灵运动';
 

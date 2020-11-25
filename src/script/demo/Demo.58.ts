@@ -3,11 +3,11 @@ import { BaseDemo } from '../base/BaseDemo';
 import { Colorable, Point, Velocity } from '../interfaces';
 
 /**
- * @description 绘制练习 —— 绘制三角网格
+ * @description 绘制练习 —— 绘制动态三角网格
  * @reference https://generativeartistry.com/tutorials/triangular-mesh/
  */
 export class Demo extends BaseDemo {
-  public name: string = '绘制三角网格';
+  public name: string = '绘制动态三角网格';
 
   public pointOfLine: MeshPoint[][] = [];
   public triangleOfLine: MeshPoint[][] = [];
