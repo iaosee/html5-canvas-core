@@ -101,8 +101,8 @@ export class Demo extends BaseDemo {
         this.rubberbandRectangle.height,
         0,
         0,
-        canvas.width,
-        canvas.height
+        this.width,
+        this.height
       );
     } catch (e) {
       console.log(e);
@@ -123,7 +123,7 @@ export class Demo extends BaseDemo {
 
   public drawImage() {
     const { canvas, context } = this;
-    context.drawImage(this.image, 0, 0, canvas.width, canvas.height);
+    context.drawImage(this.image, 0, 0, this.width, this.height);
     return this;
   }
 
