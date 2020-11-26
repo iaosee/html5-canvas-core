@@ -29,7 +29,7 @@ export class Demo extends BaseDemo {
   }
 
   private drawCircle() {
-    const { canvas, context, config } = this;
+    const { context, config } = this;
     const radius = this.viewMin / 2 - config.MARGIN;
     const startRadian = 0;
     const endRadian = Math.PI * 2;
@@ -74,10 +74,10 @@ export class Demo extends BaseDemo {
   }
 
   private drawHand(loc: number, isHour: boolean = false) {
-    const { context, canvas, config } = this;
+    const { context, config } = this;
     const radian = Math.PI * 2 * (loc / 60) - Math.PI / 2;
     const radius = this.viewMin / 2 - config.MARGIN;
-    const handRadius = isHour ? radius - canvas.width / 25 - canvas.width / 10 : radius - canvas.width / 25;
+    const handRadius = isHour ? radius - this.width / 25 - this.width / 10 : radius - this.width / 25;
 
     context.lineCap = 'round';
     context.strokeStyle = isHour ? 'rgba(61, 126, 154, 1.0)' : 'rgba(61, 126, 154, 0.5)';

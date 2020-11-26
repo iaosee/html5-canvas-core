@@ -23,21 +23,28 @@ export class BaseDemo {
     this.setViewport();
   }
 
+  get width() {
+    return this.canvas.getBoundingClientRect().width;
+  }
+
+  get height() {
+    return this.canvas.getBoundingClientRect().height;
+  }
+
   get center(): Point {
     return new Point(this.centerX, this.centerY);
   }
 
   get centerX() {
-    return this.canvas.width / 2;
+    return this.width / 2;
   }
 
   get centerY() {
-    return this.canvas.height / 2;
+    return this.height / 2;
   }
 
   get viewMin() {
-    const { canvas } = this;
-    return canvas.width < canvas.height ? canvas.width : canvas.height;
+    return this.width < this.height ? this.width : this.height;
   }
 
   public start() {
@@ -96,8 +103,8 @@ export class BaseDemo {
   }
 
   public clearScreen() {
-    const { context, canvas } = this;
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    const { context } = this;
+    context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     return this;
   }
 
@@ -107,7 +114,7 @@ export class BaseDemo {
     context.save();
     context.font = '20px Palatino';
     context.fillStyle = 'cornflowerblue';
-    context.fillText(fps.toFixed() + ' fps', 20, this.canvas.height - 20);
+    context.fillText(fps.toFixed() + ' fps', 20, this.height - 20);
     context.restore();
 
     return this;
@@ -146,17 +153,17 @@ export class BaseDemo {
     context.strokeStyle = color;
     context.lineWidth = 0.5;
 
-    for (let i = stepX + 0.5, len = canvas.width; i < len; i += stepX) {
+    for (let i = stepX + 0.5, len = this.width; i < len; i += stepX) {
       context.beginPath();
       context.moveTo(i, 0);
-      context.lineTo(i, canvas.height);
+      context.lineTo(i, this.height);
       context.stroke();
     }
 
-    for (let i = stepY + 0.5, len = canvas.height; i < len; i += stepY) {
+    for (let i = stepY + 0.5, len = this.height; i < len; i += stepY) {
       context.beginPath();
       context.moveTo(0, i);
-      context.lineTo(canvas.width, i);
+      context.lineTo(this.width, i);
       context.stroke();
     }
     context.restore();
@@ -187,7 +194,7 @@ export class BaseDemo {
     context.save();
     context.beginPath();
     context.moveTo(x + 0.5, 0);
-    context.lineTo(x + 0.5, context.canvas.height);
+    context.lineTo(x + 0.5, this.height);
     context.stroke();
     context.restore();
 
@@ -199,7 +206,7 @@ export class BaseDemo {
     context.save();
     context.beginPath();
     context.moveTo(0, y + 0.5);
-    context.lineTo(context.canvas.width, y + 0.5);
+    context.lineTo(this.width, y + 0.5);
     context.stroke();
     context.restore();
     return this;
@@ -208,9 +215,9 @@ export class BaseDemo {
   public coordinateTransformation(x: number, y: number): Point {
     const { canvas } = this;
     const bbox = canvas.getBoundingClientRect();
-    return new Point(x - bbox.left * (canvas.width / bbox.width), y - bbox.top * (canvas.height / bbox.height));
+    return new Point(x - bbox.left * (this.width / bbox.width), y - bbox.top * (this.height / bbox.height));
     // return {
-    //   x: x - bbox.left * (canvas.width / bbox.width),
+    //   x: x - bbox.left * (this.width / bbox.width),
     //   y: y - bbox.top * (canvas.height / bbox.height)
     // };
   }

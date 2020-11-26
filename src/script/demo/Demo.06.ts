@@ -172,13 +172,13 @@ export class Demo extends BaseDemo {
     const { canvas } = this;
 
     if (
-      circle.position.x + circle.velocityX + circle.radius > canvas.width ||
+      circle.position.x + circle.velocityX + circle.radius > this.width ||
       circle.position.x + circle.velocityX - circle.radius < 0
     ) {
       circle.velocityX = -circle.velocityX;
     }
     if (
-      circle.position.y + circle.velocityY + circle.radius > canvas.height ||
+      circle.position.y + circle.velocityY + circle.radius > this.height ||
       circle.position.y + circle.velocityY - circle.radius < 0
     ) {
       circle.velocityY = -circle.velocityY;
