@@ -20,7 +20,7 @@ export class BaseDemo {
 
     this.context = this.canvas.getContext('2d');
     this.context.save();
-    // this.setViewport();
+    this.setViewport();
   }
 
   get center(): Point {
@@ -58,6 +58,28 @@ export class BaseDemo {
     if (this.stats) {
       this.stats.dom.remove();
     }
+  }
+
+  public setViewport() {
+    const { canvas, context } = this;
+    const dpr = window.devicePixelRatio || 1;
+    const boundingRect = canvas.getBoundingClientRect();
+    const width = boundingRect.width;
+    const height = boundingRect.height;
+
+    // 适配高分辨率 https://www.html5rocks.com/en/tutorials/canvas/hidpi/
+    if (dpr !== 1) {
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      context.scale(dpr, dpr);
+    } else {
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+    }
+
+    return this;
   }
 
   public draw(timestamp?: number) {
