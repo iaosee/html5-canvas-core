@@ -62,8 +62,8 @@ export class Demo extends BaseDemo {
 
   public initDotLine() {
     const { canvas, context, config } = this;
-    const width = canvas.width;
-    const height = canvas.height;
+    const width = this.width;
+    const height = this.height;
     const gap = height / config.count;
     let odd = false;
 
