@@ -22,10 +22,10 @@ export class Demo extends BaseDemo {
 
     const gradient1 = context.createRadialGradient(
       this.centerX / 2,
-      canvas.height / 4,
+      this.height / 4,
       10,
       this.centerX / 2,
-      canvas.height / 4,
+      this.height / 4,
       200
     );
     gradient1.addColorStop(0.0, 'blue');
@@ -47,10 +47,10 @@ export class Demo extends BaseDemo {
 
     const gradient3 = context.createRadialGradient(
       this.centerX / 2,
-      (canvas.height / 2) * 1.5,
+      (this.height / 2) * 1.5,
       20,
       this.centerX / 2,
-      (canvas.height / 2) * 1.5,
+      (this.height / 2) * 1.5,
       200
     );
     gradient3.addColorStop(0.0, 'blue');
@@ -63,10 +63,10 @@ export class Demo extends BaseDemo {
 
     const gradient4 = context.createRadialGradient(
       this.centerX * 1.5,
-      (canvas.height / 2) * 1.5,
+      (this.height / 2) * 1.5,
       200,
       this.centerX * 1.5,
-      (canvas.height / 2) * 1.5,
+      (this.height / 2) * 1.5,
       20
     );
     gradient4.addColorStop(0.0, 'blue');
@@ -75,7 +75,7 @@ export class Demo extends BaseDemo {
     // gradient4.addColorStop(0.75, 'red');
     gradient4.addColorStop(1.0, 'yellow');
     context.fillStyle = gradient4;
-    context.fillRect(this.centerX, this.centerY, canvas.width / 2, canvas.height / 2);
+    context.fillRect(this.centerX, this.centerY, this.width / 2, this.height / 2);
 
     return this;
   }

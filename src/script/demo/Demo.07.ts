@@ -64,8 +64,8 @@ export class Demo extends BaseDemo {
 
   private createLetter(position?: Point, quantity: number = 50, clean: boolean = false) {
     position = position || {
-      x: this.random.range(0, this.canvas.width).getOne(),
-      y: this.random.range(0, this.canvas.height).getOne()
+      x: this.random.range(0, this.width).getOne(),
+      y: this.random.range(0, this.height).getOne()
     };
 
     clean && this.letters.splice(0, this.letters.length);
@@ -182,10 +182,10 @@ export class Demo extends BaseDemo {
   private updatePosition(letter: Letter) {
     const { canvas } = this;
 
-    if (letter.position.x + letter.velocityX > canvas.width || letter.position.x + letter.velocityX < 0) {
+    if (letter.position.x + letter.velocityX > this.width || letter.position.x + letter.velocityX < 0) {
       letter.velocityX = -letter.velocityX;
     }
-    if (letter.position.y + letter.velocityY > canvas.height || letter.position.y + letter.velocityY < 0) {
+    if (letter.position.y + letter.velocityY > this.height || letter.position.y + letter.velocityY < 0) {
       letter.velocityY = -letter.velocityY;
     }
 
