@@ -80,9 +80,9 @@ export class Demo extends BaseDemo {
     });
 
     this.ledge.x = 0;
-    this.ledge.y = canvas.height / 2;
+    this.ledge.y = this.height / 2;
     this.ledge.height = 5;
-    this.ledge.width = canvas.width;
+    this.ledge.width = this.width;
 
     this.runner.setX(this.ledge.x + this.ledge.width - this.runner.width);
     this.runner.setY(this.ledge.y - this.runner.height);
@@ -182,7 +182,7 @@ class MoveLeftToRightBehavior implements IBehavior {
       this.lastMove = elapsed;
     } else {
       sprite.x -= (advanceElapsed / 1000) * sprite.velocityX;
-      sprite.x = sprite.x < 0 ? context.canvas.width : sprite.x;
+      sprite.x = sprite.x < 0 ? context.canvas.width / window.devicePixelRatio : sprite.x;
       this.lastMove = elapsed;
     }
   }
