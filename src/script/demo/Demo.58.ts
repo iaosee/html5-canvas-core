@@ -21,6 +21,9 @@ export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
+    this.context.lineCap = 'round';
+    this.context.lineJoin = 'round';
+
     this.createControl()
       .initDotLine()
       .initTriangleLine();
