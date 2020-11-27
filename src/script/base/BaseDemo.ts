@@ -21,6 +21,7 @@ export class BaseDemo {
     this.context = this.canvas.getContext('2d');
     this.context.save();
     this.setViewport();
+    // window.addEventListener('resize', (e) => this.setViewport());
   }
 
   get width() {
@@ -80,7 +81,9 @@ export class BaseDemo {
       canvas.style.height = height + 'px';
       canvas.width = width * dpr;
       canvas.height = height * dpr;
+      // context.save();
       context.scale(dpr, dpr);
+      // context.restore();
     } else {
       canvas.width = innerWidth;
       canvas.height = innerHeight;
