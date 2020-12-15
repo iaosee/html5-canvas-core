@@ -1,9 +1,9 @@
 import { BaseDemo } from './base/BaseDemo';
-import { MenuConfigMap } from './MenuConfig';
+import { DemoConfigMap } from './DemoConfig';
 
 const getDefaultDemo = () => {
   const reg = /#\/(.+)$/;
-  const matchs = location.hash.match(reg);
+  const matchs = window.location.hash.match(reg);
   return matchs ? matchs[1] : 'Demo.01';
 };
 
@@ -51,7 +51,7 @@ export class App {
     menuListContainer.classList.add('menu-list-container');
 
     let menuListString = '';
-    MenuConfigMap.forEach((value, key) => {
+    DemoConfigMap.forEach((value, key) => {
       menuListString += `<div class="menu-item">
                           <a href="#/${key}">
                             ${key}
@@ -71,7 +71,7 @@ export class App {
   }
 
   public async renderScene(name: string = getDefaultDemo()) {
-    const getDemoAsyncFn = MenuConfigMap.get(name);
+    const getDemoAsyncFn = DemoConfigMap.get(name);
     if (!getDemoAsyncFn) {
       alert(`${name} doesn't exist !`);
       throw new Error(`${name} doesn't exist !`);
