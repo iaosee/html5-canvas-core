@@ -14,12 +14,11 @@ export class BaseDemo {
   public stats: Stats;
 
   constructor(public canvas: HTMLCanvasElement) {
-    if (!canvas) {
-      throw new Error('Occur Error');
+    if (!canvas || !(canvas instanceof HTMLCanvasElement)) {
+      throw new Error('Error: The argument must be a Canvas element');
     }
 
     this.context = this.canvas.getContext('2d');
-    this.context.save();
     this.setViewport();
     // window.addEventListener('resize', (e) => this.setViewport());
   }
@@ -58,7 +57,6 @@ export class BaseDemo {
 
   public destroy() {
     this.stop();
-    this.context.restore();
     // do clearn
     if (this.gui) {
       this.gui.destroy();
@@ -85,8 +83,8 @@ export class BaseDemo {
       context.scale(dpr, dpr);
       // context.restore();
     } else {
-      canvas.width = innerWidth;
-      canvas.height = innerHeight;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
 
     return this;
@@ -150,7 +148,7 @@ export class BaseDemo {
   }
 
   public drawGrid(stepX: number = 20, stepY: number = 20, color: string = 'rgba(0,0,0,0.1)') {
-    const { context, canvas } = this;
+    const { context } = this;
 
     context.save();
     context.strokeStyle = color;

@@ -25,7 +25,7 @@ export class Demo extends BaseDemo {
   }
 
   public start() {
-    return this;
+    return this.drawGrid();
   }
 
   public draw() {
