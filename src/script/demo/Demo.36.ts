@@ -53,18 +53,18 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene() {
-    const { context, canvas, config } = this;
+    const { context, config } = this;
 
     // 画布宽高
-    const w = canvas.width;
-    const h = canvas.height;
+    const w = this.width;
+    const h = this.height;
 
     // 缩放后的图像宽高
     const sw = w * config.scale;
     const sh = h * config.scale;
 
     // 绘制到画布中心
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, this.width, this.height);
     context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
 
     return this;

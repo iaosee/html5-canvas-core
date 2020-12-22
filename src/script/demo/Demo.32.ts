@@ -19,7 +19,7 @@ export class Demo extends BaseDemo {
   public name: string = '星空轨迹';
 
   public stars: Star[] = [];
-  public mousePos: Point = new Point(this.centerX, this.canvas.height);
+  public mousePos: Point = new Point(this.centerX, this.height);
   public config = {
     pointQuantity: 500,
     isFill: false,
@@ -46,7 +46,7 @@ export class Demo extends BaseDemo {
     context.globalAlpha = 0.8;
     context.fillStyle =
       config.backgroundColor === BackgroundColor.Dark ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, this.width, this.height);
     return this;
   }
 

@@ -1,6 +1,37 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 
+const compositeModes = [
+  'source-over',
+  'source-in',
+  'source-out',
+  'source-atop',
+  'destination-over',
+  'destination-in',
+  'destination-out',
+  'destination-atop',
+  'lighter',
+  'copy',
+  'xor',
+  'multiply',
+  'screen',
+  'overlay',
+  'darken',
+  'lighten',
+  'color-dodge',
+  'color-burn',
+  'hard-light',
+  'soft-light',
+  'difference',
+  'exclusion',
+  'hue',
+  'saturation',
+  'color',
+  'luminosity'
+] as const;
+
+type CompositeMode = typeof compositeModes[number];
+
 /**
  * @description 图像合成
  */
@@ -9,6 +40,7 @@ export class Demo extends BaseDemo {
   public config = {
     globalAlpha: 1.0,
     compositeMode: 'source-over',
+    textColor: [100, 149, 237, 0.8],
     coverColor: [255, 0, 0, 0.8]
   };
 
@@ -23,11 +55,7 @@ export class Demo extends BaseDemo {
   }
 
   public start() {
-    return this.drawGrid().drawText();
-  }
-
-  public draw() {
-    return this;
+    return this.draw();
   }
 
   private createControl() {
@@ -35,45 +63,31 @@ export class Demo extends BaseDemo {
     this.gui = new dat.GUI();
     const { gui } = this;
 
+    gui.addColor(config, 'textColor').onFinishChange(value => this.draw());
     gui.addColor(config, 'coverColor');
     gui
       .add(config, 'globalAlpha')
       .min(0.1)
       .max(1.0)
       .step(0.1);
-    gui.add(config, 'compositeMode', [
-      'source-over',
-      'source-in',
-      'source-out',
-      'source-atop',
-      'destination-over',
-      'destination-in',
-      'destination-out',
-      'destination-atop',
-      'lighter',
-      'copy',
-      'xor',
-      'multiply',
-      'screen',
-      'overlay',
-      'darken',
-      'lighten',
-      'color-dodge',
-      'color-burn',
-      'soft-light',
-      'difference',
-      'exclusion',
-      'hue',
-      'saturation',
-      'color',
-      'luminosity'
-    ]);
+    gui.add(config, 'compositeMode', compositeModes);
 
     return this;
   }
 
+  public draw() {
+    return this.clearScreen()
+      .drawGrid()
+      .drawText();
+  }
+
+  public setComposite(composite: CompositeMode) {
+    this.config.compositeMode = composite;
+    return this;
+  }
+
   public drawText() {
-    const { context } = this;
+    const { context, config } = this;
 
     context.save();
 
@@ -82,8 +96,8 @@ export class Demo extends BaseDemo {
     context.shadowOffsetY = 5;
     context.shadowBlur = 10;
 
-    context.font = '180px Palatino';
-    context.fillStyle = 'cornflowerblue';
+    context.font = '150px Palatino';
+    context.fillStyle = this.rgbaFormArr(config.textColor);
 
     const text = 'HTML5 Canvas';
     const textInfo = context.measureText(text);
@@ -101,8 +115,6 @@ export class Demo extends BaseDemo {
     const { context, config } = this;
 
     const loc = this.coordinateTransformation(e.clientX, e.clientY);
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    this.drawGrid().drawText();
 
     context.save();
 
@@ -120,7 +132,7 @@ export class Demo extends BaseDemo {
   public listenEvents() {
     const { canvas } = this;
 
-    canvas.addEventListener('mousemove', e => this.drawCover(e));
+    canvas.addEventListener('mousemove', e => this.draw().drawCover(e));
 
     return this;
   }

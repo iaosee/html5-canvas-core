@@ -34,8 +34,8 @@ export class Demo extends BaseDemo {
         y: 0
       },
       {
-        x: canvas.width,
-        y: canvas.height
+        x: this.width,
+        y: this.height
       }
     );
     context.closePath();
@@ -47,10 +47,10 @@ export class Demo extends BaseDemo {
     this.drawDashLine(
       {
         x: 0,
-        y: canvas.height
+        y: this.height
       },
       {
-        x: canvas.width,
+        x: this.width,
         y: 0
       }
     );
@@ -68,7 +68,7 @@ export class Demo extends BaseDemo {
     context.strokeStyle = this.randomRgba();
     context.beginPath();
     context.moveTo(this.centerX, this.centerY);
-    context.dashedLineTo(this.centerX, canvas.height, 10);
+    context.dashedLineTo(this.centerX, this.height, 10);
     context.closePath();
     context.stroke();
 

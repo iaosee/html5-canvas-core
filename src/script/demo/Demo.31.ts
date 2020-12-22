@@ -41,43 +41,43 @@ export class Demo extends BaseDemo {
   }
 
   public createPoints() {
-    const { canvas, points } = this;
-    console.log(canvas.width);
-    for (let i = 0; i < canvas.width; i++) {
+    const { points } = this;
+    console.log(this.width);
+    for (let i = 0; i < this.width; i++) {
       // 初始化点，角度（弧度）
-      points.push({ x: i, y: canvas.height - 150, angle: (i * Math.PI) / 180 });
+      points.push({ x: i, y: this.height - 150, angle: (i * Math.PI) / 180 });
     }
 
     return this;
   }
 
   public update() {
-    const { context, config, canvas, points } = this;
+    const { config, points } = this;
 
     points.forEach((p, i) => {
       // 每次递增 4 弧度
       // 计算新的 y 值，正弦值，
       p.angle += (Math.PI / 180) * 4;
-      p.y = canvas.height - 150 + Math.sin(p.angle) * config.fluctuateRange;
+      p.y = this.height - 150 + Math.sin(p.angle) * config.fluctuateRange;
     });
 
     return this;
   }
 
   public drawScene() {
-    const { canvas, points, context, config } = this;
+    const { points, context, config } = this;
 
     context.strokeStyle = 'rgba(0, 170, 255, 0.8)';
     context.fillStyle = 'rgba(0, 170, 255, 0.8)';
     context.beginPath();
     points.forEach((p, i) => (i === 0 ? context.moveTo(p.x, p.y) : context.lineTo(p.x, p.y)));
-    context.lineTo(canvas.width, canvas.height);
-    context.lineTo(0, canvas.height);
+    context.lineTo(this.width, this.height);
+    context.lineTo(0, this.height);
     context.closePath();
     context.stroke();
     context.fill();
 
-    const height = canvas.height - 200;
+    const height = this.height - 200;
     // this.drawWave(height + 10, -2, 5, 'rgba(0, 170, 255, 0.2)');
     // this.drawWave(height + 20, 4, 10, 'rgba(0, 170, 255, 0.4)');
     // this.drawWave(height + 30, 8, 15, 'rgba(0, 170, 255, 0.2)');
@@ -86,7 +86,7 @@ export class Demo extends BaseDemo {
   }
 
   public drawWave(y: number, space: number = 0, fluctuate: number = 10, color: string) {
-    const { canvas, context, points, config } = this;
+    const { context, points, config } = this;
     context.save();
 
     context.strokeStyle = color;
@@ -98,8 +98,8 @@ export class Demo extends BaseDemo {
 
       i === 0 ? context.moveTo(p.x, p.y) : context.lineTo(p.x, p.y);
     });
-    context.lineTo(canvas.width, canvas.height - 50);
-    context.lineTo(0, canvas.height - 50);
+    context.lineTo(this.width, this.height - 50);
+    context.lineTo(0, this.height - 50);
     context.fill();
     context.stroke();
     context.restore();

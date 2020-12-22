@@ -14,7 +14,7 @@ export class Demo extends BaseDemo {
 
   public K: number = 2;
   public F: number = 1;
-  public MAX = this.canvas.height / 2;
+  public MAX = this.height / 2;
 
   public phase: number = 0.1;
 
@@ -40,10 +40,10 @@ export class Demo extends BaseDemo {
   }
 
   public clearScreen() {
-    const { canvas, context } = this;
+    const { context } = this;
 
     context.globalCompositeOperation = 'destination-out';
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, this.width, this.height);
     context.globalCompositeOperation = 'source-over';
 
     return this;
@@ -74,16 +74,16 @@ export class Demo extends BaseDemo {
   }
 
   public drawLine(attenuation: number, color: string, width: number = 1) {
-    const { canvas, context, config } = this;
+    const { context, config } = this;
 
     context.moveTo(0, 0);
     context.beginPath();
     context.strokeStyle = color;
     context.lineWidth = width;
     for (let i = -this.K; i <= this.K; i += 0.01) {
-      const x = canvas.width * ((i + this.K) / (this.K * 2));
+      const x = this.width * ((i + this.K) / (this.K * 2));
       const y =
-        canvas.height / 2 +
+        this.height / 2 +
         config.noise * this.globalAttenuationFn(i) * (1 / attenuation) * Math.sin(this.F * i - this.phase);
 
       // console.log(x, y);

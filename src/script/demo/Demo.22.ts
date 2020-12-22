@@ -48,9 +48,9 @@ export class Demo extends BaseDemo {
     context.shadowColor = this.randomRgba();
     context.lineWidth = 2;
     context.beginPath();
-    context.moveTo(this.centerX, 50);
-    context.quadraticCurveTo(this.centerX + 100, 0, this.centerX + 100, 200);
-    context.quadraticCurveTo(this.centerX + 200, 0, this.centerX + 100, 100);
+    context.moveTo(this.centerX / 2, 50);
+    context.quadraticCurveTo(this.centerX / 2 + 100, 0, this.centerX / 2 + 100, 200);
+    context.quadraticCurveTo(this.centerX / 2 + 200, 0, this.centerX / 2 + 100, 100);
     context.stroke();
     context.restore();
 
