@@ -49,19 +49,19 @@ export class Demo extends BaseDemo {
   }
 
   public setClippingRegion(radius: number) {
-    const { context, canvas } = this;
+    const { context } = this;
     context.beginPath();
-    context.arc(canvas.width / 2, canvas.height / 2, radius, 0, Math.PI * 2, false);
+    context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2, false);
     context.clip();
 
     return this;
   }
 
   public fillCanvas(color: string) {
-    const { context, canvas } = this;
+    const { context } = this;
 
     context.fillStyle = color;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, this.width, this.height);
 
     return this;
   }
@@ -74,23 +74,23 @@ export class Demo extends BaseDemo {
   }
 
   public endAnimation(loop: number) {
-    const { context, canvas } = this;
+    const { context } = this;
     clearInterval(loop);
 
     setTimeout(() => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.clearRect(0, 0, this.width, this.height);
       this.drawText();
     }, 1000);
   }
 
   public animate() {
-    const { context, canvas } = this;
+    const { context } = this;
 
-    let radius = canvas.width / 2;
+    let radius = this.width / 2;
     let loop: number;
 
     loop = window.setInterval(() => {
-      radius -= canvas.width / 100;
+      radius -= this.width / 100;
 
       this.fillCanvas('charcoal');
 

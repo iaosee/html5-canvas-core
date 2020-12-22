@@ -36,12 +36,12 @@ export class Demo extends BaseDemo {
     image: HTMLImageElement,
     repeatString: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat' = 'repeat-x'
   ) {
-    const { context, canvas } = this;
+    const { context } = this;
 
     const pattern = context.createPattern(image, repeatString);
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, this.width, this.height);
     context.fillStyle = pattern;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillRect(0, 0, this.width, this.height);
     context.fill();
 
     return this;

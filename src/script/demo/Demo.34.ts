@@ -63,8 +63,8 @@ export class Demo extends BaseDemo {
   }
 
   public drawGradientText() {
-    const { context, canvas, config } = this;
-    const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+    const { context, config } = this;
+    const gradient = context.createLinearGradient(0, 0, this.width, this.height);
 
     gradient.addColorStop(0, 'red');
     gradient.addColorStop(0.25, 'blue');
@@ -81,7 +81,7 @@ export class Demo extends BaseDemo {
   }
 
   public drawPatternText(image: HTMLImageElement) {
-    const { context, canvas, config } = this;
+    const { context, config } = this;
     const pattern = context.createPattern(image, 'repeat');
 
     const fontInfo = context.measureText(config.text);

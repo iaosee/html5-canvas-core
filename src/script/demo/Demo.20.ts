@@ -34,14 +34,8 @@ export class Demo extends BaseDemo {
   public drawCircularBead() {
     const { context } = this;
 
-    context.setLineDash([]);
-    context.beginPath();
-    context.moveTo(150, 20);
-    context.arcTo(150, 100, 50, 20, 30);
-    context.strokeStyle = 'blue';
-    context.stroke();
-
-    context.fillStyle = 'blue';
+    context.fillStyle = 'orange';
+    context.strokeStyle = 'gray';
     // base point
     context.fillRect(150, 20, 10, 10);
     context.fillText('A', 160, 20);
@@ -61,6 +55,13 @@ export class Demo extends BaseDemo {
     context.stroke();
     context.beginPath();
     context.arc(120, 38, 30, 0, 2 * Math.PI);
+    context.stroke();
+
+    context.strokeStyle = 'blue';
+    context.setLineDash([]);
+    context.beginPath();
+    context.moveTo(150, 20);
+    context.arcTo(150, 100, 50, 20, 30);
     context.stroke();
 
     return this;

@@ -25,8 +25,8 @@ export class Demo extends BaseDemo {
     this.loadImage(require('../../../asset/images/flower.jpg'))
       .then(image => (this.image = image))
       .then(() => {
-        this.context.drawImage(this.image, 0, 0, canvas.width, canvas.height);
-        this.offScreenContext.drawImage(this.image, 0, 0, canvas.width, canvas.height);
+        this.context.drawImage(this.image, 0, 0, this.width, this.height);
+        this.offScreenContext.drawImage(this.image, 0, 0, this.width, this.height);
         this.drawWatermark(this.context);
         this.drawWatermark(this.offScreenContext);
         // this.drawScene();

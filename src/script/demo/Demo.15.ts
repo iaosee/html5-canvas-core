@@ -14,12 +14,12 @@ export class Demo extends BaseDemo {
     TICKS_LINEWIDTH: 0.5,
     AXIS_ORIGIN: {
       x: 100,
-      y: this.canvas.height - 100
+      y: this.height - 100
     },
     AXIS_TOP: 100,
-    AXIS_RIGHT: this.canvas.width - 100,
-    AXIS_WIDTH: this.canvas.width - 100 - 100,
-    AXIS_HEIGHT: this.canvas.height - 100 - 100
+    AXIS_RIGHT: this.width - 100,
+    AXIS_WIDTH: this.width - 100 - 100,
+    AXIS_HEIGHT: this.height - 100 - 100
   };
 
   public constructor(public canvas: HTMLCanvasElement) {

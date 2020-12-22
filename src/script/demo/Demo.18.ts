@@ -79,13 +79,13 @@ export class Demo extends BaseDemo {
     quantity: number = this.config.circleQuantity,
     clean: boolean = false
   ) {
-    const { canvas, config } = this;
+    const { config } = this;
 
     clean && this.circles.splice(0, this.circles.length);
     for (let i = 0; i < quantity; i++) {
       const point: Point = {
-        x: position.x || Math.random() * canvas.width,
-        y: position.y || Math.random() * canvas.height
+        x: position.x || Math.random() * this.width,
+        y: position.y || Math.random() * this.height
       };
 
       const radius = Random.init(config.circleMinRadius, config.circleMaxRadius).getOne();
@@ -121,16 +121,16 @@ export class Demo extends BaseDemo {
   }
 
   private updatePosition(circle: Circle) {
-    const { canvas, config } = this;
+    const { config } = this;
 
     if (
-      circle.position.x + circle.velocityX + circle.radius > canvas.width ||
+      circle.position.x + circle.velocityX + circle.radius > this.width ||
       circle.position.x + circle.velocityX - circle.radius < 0
     ) {
       circle.velocityX = -circle.velocityX * 0.8;
     }
     if (
-      circle.position.y + circle.velocityY + circle.radius > canvas.height ||
+      circle.position.y + circle.velocityY + circle.radius > this.height ||
       circle.position.y + circle.velocityY - circle.radius < 0
     ) {
       circle.velocityY = -circle.velocityY * 0.8;

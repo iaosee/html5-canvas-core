@@ -70,11 +70,11 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene() {
-    const { context, canvas, config, image } = this;
+    const { context, config, image } = this;
 
     // 画布宽高
-    const w = canvas.width;
-    const h = canvas.height;
+    const w = this.width;
+    const h = this.height;
 
     // 缩放后的图像宽高
     const ratio = (image.width * config.scale) / image.width;
@@ -82,18 +82,18 @@ export class Demo extends BaseDemo {
     const sh = image.height * ratio;
 
     // 绘制到画布中心
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, this.width, this.height);
     context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
 
     return this;
   }
 
   public applyFilter(type: number) {
-    const { canvas, context } = this;
+    const { context } = this;
     this.drawScene();
 
     let filter: IFilter = null;
-    const imagedata = context.getImageData(0, 0, canvas.width, canvas.height);
+    const imagedata = context.getImageData(0, 0, this.width, this.height);
 
     switch (type) {
       case 1:

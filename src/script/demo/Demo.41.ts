@@ -86,11 +86,11 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene() {
-    const { context, canvas, config, image } = this;
+    const { context, config, image } = this;
 
     // 画布宽高
-    const w = canvas.width;
-    const h = canvas.height;
+    const w = this.width;
+    const h = this.height;
 
     // 缩放后的图像宽高
     const ratio = (image.width * config.scale) / image.width;
@@ -98,20 +98,20 @@ export class Demo extends BaseDemo {
     const sh = image.height * ratio;
 
     // 绘制到画布中心
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, this.width, this.height);
     context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
-    this.originalImageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    this.originalImageData = context.getImageData(0, 0, this.width, this.height);
     return this;
   }
 
   public putFilterOn() {
-    const { context, canvas, config } = this;
+    const { context, config } = this;
     const leftLensLocation: Point = { x: this.center.x - config.LENS_RADIUS - 10, y: this.center.y };
     const rightLensLocation: Point = { x: this.center.x + config.LENS_RADIUS + 10, y: this.center.y };
     let filter: IFilter = null;
 
     context.putImageData(this.originalImageData, 0, 0);
-    const imagedata = context.getImageData(0, 0, canvas.width, canvas.height);
+    const imagedata = context.getImageData(0, 0, this.width, this.height);
 
     switch (config.filter) {
       case 1:
