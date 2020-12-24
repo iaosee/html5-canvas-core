@@ -83,8 +83,8 @@ export class Demo extends Rubberband {
       radius,
       config.sides,
       this.degreesToRadian(config.startAngle),
-      this.rgbaFormArr(config.fillStyle),
-      this.rgbaFormArr(config.strokeStyle),
+      this.rgbaFromArr(config.fillStyle),
+      this.rgbaFromArr(config.strokeStyle),
       config.filled
     );
 

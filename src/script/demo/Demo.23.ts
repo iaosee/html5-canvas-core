@@ -58,8 +58,8 @@ export class Demo extends Rubberband {
   public drawRubberbandShape(loc: Point) {
     const { context, config, mousedownPos, rubberbandRect } = this;
 
-    context.fillStyle = this.rgbaFormArr(config.fillStyle);
-    context.strokeStyle = this.rgbaFormArr(config.strokeStyle);
+    context.fillStyle = this.rgbaFromArr(config.fillStyle);
+    context.strokeStyle = this.rgbaFromArr(config.strokeStyle);
     this.drawPolygonPath(mousedownPos, rubberbandRect.width, config.sides, this.degreesToRadian(config.startAngle));
     context.stroke();
     context.fill();

@@ -86,7 +86,7 @@ export class Demo extends Rubberband {
     const { context, config, mousedownPos, rubberbandRect } = this;
 
     const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
-    context.fillStyle = this.rgbaFormArr(config.fillStyle) || this.randomRgba();
+    context.fillStyle = this.rgbaFromArr(config.fillStyle) || this.randomRgba();
 
     context.beginPath();
     context.arc(mousedownPos.x, mousedownPos.y, radius, 0, Math.PI * 2, false);

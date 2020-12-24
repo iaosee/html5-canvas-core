@@ -83,8 +83,8 @@ export class Demo extends Rubberband {
       radius,
       config.sides,
       this.degreesToRadian(config.startAngle),
-      this.rgbaFormArr(config.fillStyle),
-      this.rgbaFormArr(config.strokeStyle),
+      this.rgbaFromArr(config.fillStyle),
+      this.rgbaFromArr(config.strokeStyle),
       config.filled
     );
 
@@ -121,7 +121,7 @@ export class Demo extends Rubberband {
     event.preventDefault();
     this.dragging = true;
     this.mousemovePos = this.mousedownPos = this.coordinateTransformation(event.clientX, event.clientY);
-    context.fillStyle = this.rgbaFormArr(config.fillStyle) || this.randomRgba();
+    context.fillStyle = this.rgbaFromArr(config.fillStyle) || this.randomRgba();
 
     if (config.editing) {
       // this.drawPolygons();

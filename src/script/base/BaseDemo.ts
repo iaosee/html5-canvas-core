@@ -248,7 +248,7 @@ export class BaseDemo {
     );
   }
 
-  public rgbaFormArr(rgba: number[]) {
+  public rgbaFromArr(rgba: number[]) {
     return rgba && rgba.length ? `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]})` : null;
   }
 
