@@ -67,10 +67,10 @@ export class Demo extends Rubberband {
     context.shadowOffsetY = 5;
     context.shadowBlur = 10;
 
-    context.font = '180px Palatino';
+    context.font = '160px Palatino';
     context.fillStyle = 'cornflowerblue';
 
-    const text = 'HTML5 Canvas';
+    const text = 'HTML5 Canvas 😋';
     const textInfo = context.measureText(text);
     context.fillText(text, this.centerX - textInfo.width / 2, this.centerY);
 

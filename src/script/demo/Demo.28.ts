@@ -96,7 +96,7 @@ export class Demo extends BaseDemo {
     context.shadowOffsetY = 5;
     context.shadowBlur = 10;
 
-    context.font = '150px Palatino';
+    context.font = '160px Palatino';
     context.fillStyle = this.rgbaFromArr(config.textColor);
 
     const text = 'HTML5 Canvas';

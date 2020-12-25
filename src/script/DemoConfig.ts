@@ -1,5 +1,6 @@
 const DemoConfigMap = new Map<string, () => Promise<any>>();
 
+DemoConfigMap.set('Demo.00', () => import(/* webpackChunkName: "Demo.00" */ './demo/Demo.00'));
 DemoConfigMap.set('Demo.01', () => import(/* webpackChunkName: "Demo.01" */ './demo/Demo.01'));
 DemoConfigMap.set('Demo.02', () => import(/* webpackChunkName: "Demo.02" */ './demo/Demo.02'));
 DemoConfigMap.set('Demo.03', () => import(/* webpackChunkName: "Demo.03" */ './demo/Demo.03'));
