@@ -75,11 +75,11 @@ export class Demo extends BaseDemo {
       const point: Point = {
         x: this.random
           .min(radius)
-          .max(this.canvas.width - radius)
+          .max(this.width - radius)
           .getOne(),
         y: this.random
           .min(radius)
-          .max(this.canvas.height - radius)
+          .max(this.height - radius)
           .getOne()
       };
 
@@ -121,13 +121,13 @@ export class Demo extends BaseDemo {
     const { canvas } = this;
 
     if (
-      circle.position.x + circle.velocityX + circle.radius > canvas.width ||
+      circle.position.x + circle.velocityX + circle.radius > this.width ||
       circle.position.x + circle.velocityX - circle.radius < 0
     ) {
       circle.velocityX = -circle.velocityX;
     }
     if (
-      circle.position.y + circle.velocityY + circle.radius > canvas.height ||
+      circle.position.y + circle.velocityY + circle.radius > this.height ||
       circle.position.y + circle.velocityY - circle.radius < 0
     ) {
       circle.velocityY = -circle.velocityY;
@@ -144,14 +144,14 @@ export class Demo extends BaseDemo {
 
     circles.forEach((circle, index) => {
       setTimeout(() => {
-        if (mousePosition.x >= canvas.width - circle.radius || mousePosition.x <= circle.radius) {
-          circle.position.x = mousePosition.x <= circle.radius ? circle.radius : canvas.width - circle.radius;
+        if (mousePosition.x >= this.width - circle.radius || mousePosition.x <= circle.radius) {
+          circle.position.x = mousePosition.x <= circle.radius ? circle.radius : this.width - circle.radius;
         } else {
           circle.position.x = mousePosition.x;
         }
 
-        if (mousePosition.y > canvas.height - circle.radius || mousePosition.y <= circle.radius) {
-          circle.position.y = mousePosition.y <= circle.radius ? circle.radius : canvas.height - circle.radius;
+        if (mousePosition.y > this.height - circle.radius || mousePosition.y <= circle.radius) {
+          circle.position.y = mousePosition.y <= circle.radius ? circle.radius : this.height - circle.radius;
         } else {
           circle.position.y = mousePosition.y;
         }
