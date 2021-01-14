@@ -86,7 +86,7 @@ export class Demo extends Rubberband {
     const { context, config, endPoints, controlPoints, rubberbandRect } = this;
 
     context.lineWidth = config.lineWidth || 5;
-    context.strokeStyle = this.rgbaFormArr(config.strokeStyle);
+    context.strokeStyle = this.rgbaFromArr(config.strokeStyle);
     context.beginPath();
     context.moveTo(endPoints[0].x, endPoints[0].y);
     context.bezierCurveTo(
@@ -125,7 +125,7 @@ export class Demo extends Rubberband {
 
   public drawControlPoints() {
     const { context, config } = this;
-    const color = this.rgbaFormArr(config.ctrlPointFillStyle);
+    const color = this.rgbaFromArr(config.ctrlPointFillStyle);
 
     context.save();
     context.fillStyle = color;
@@ -150,7 +150,7 @@ export class Demo extends Rubberband {
 
   public drawEndPoints() {
     const { context, config, endPoints } = this;
-    const color = this.rgbaFormArr(config.endPointFillStyle);
+    const color = this.rgbaFromArr(config.endPointFillStyle);
     context.save();
 
     context.strokeStyle = color;

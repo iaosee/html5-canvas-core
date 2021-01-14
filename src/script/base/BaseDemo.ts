@@ -98,7 +98,7 @@ export class BaseDemo {
     context.font = '50px Palatino';
     context.textAlign = 'center';
     context.fillStyle = 'rgba(64,158,255,1.0)';
-    context.fillText('Hello World, Hello Canvas !', this.centerX, this.centerY);
+    context.fillText('Hello World, Hello Canvas 😀😂😄 !', this.centerX, this.centerY);
 
     return this;
   }
@@ -147,7 +147,7 @@ export class BaseDemo {
     return this;
   }
 
-  public drawGrid(stepX: number = 20, stepY: number = 20, color: string = 'rgba(0,0,0,0.1)') {
+  public drawGrid(stepX: number = 25, stepY: number = 25, color: string = 'rgba(0,0,0,0.1)') {
     const { context } = this;
 
     context.save();
@@ -248,7 +248,7 @@ export class BaseDemo {
     );
   }
 
-  public rgbaFormArr(rgba: number[]) {
+  public rgbaFromArr(rgba: number[]) {
     return rgba && rgba.length ? `rgba(${rgba[0]},${rgba[1]},${rgba[2]},${rgba[3]})` : null;
   }
 

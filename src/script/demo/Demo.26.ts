@@ -48,7 +48,7 @@ export class Demo extends Rubberband {
     const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
 
     context.lineWidth = 2;
-    context.strokeStyle = this.rgbaFormArr(config.strokeStyle);
+    context.strokeStyle = this.rgbaFromArr(config.strokeStyle);
     config.curveType === 'QuadraticCurve' ? this.drawQuadraticCurve() : this.drawCubeBezier();
 
     return this;

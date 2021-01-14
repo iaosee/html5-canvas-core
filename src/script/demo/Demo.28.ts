@@ -96,8 +96,8 @@ export class Demo extends BaseDemo {
     context.shadowOffsetY = 5;
     context.shadowBlur = 10;
 
-    context.font = '150px Palatino';
-    context.fillStyle = this.rgbaFormArr(config.textColor);
+    context.font = '160px Palatino';
+    context.fillStyle = this.rgbaFromArr(config.textColor);
 
     const text = 'HTML5 Canvas';
     const textInfo = context.measureText(text);
@@ -122,7 +122,7 @@ export class Demo extends BaseDemo {
     context.globalCompositeOperation = config.compositeMode;
     context.beginPath();
     context.arc(loc.x, loc.y, 100, 0, Math.PI * 2, false);
-    context.fillStyle = this.rgbaFormArr(config.coverColor);
+    context.fillStyle = this.rgbaFromArr(config.coverColor);
     context.stroke();
     context.fill();
 
