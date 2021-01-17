@@ -173,20 +173,32 @@ export class Demo extends BaseDemo {
 
   private listenEvents() {
     const { canvas } = this;
-    const onMouseenterHandler = (e: MouseEvent) => {
+    const onMouseenterHandler = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault();
       this.stop();
       this.animateFollw();
     };
-    const onMousemoveHandler = (e: MouseEvent) => {
-      this.mousePosition = this.coordinateTransformation(e.clientX, e.clientY);
+    const onMousemoveHandler = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault();
+      console.log(e);
+      if (e instanceof MouseEvent) {
+        this.mousePosition = this.coordinateTransformation(e.clientX, e.clientY);
+      } else if (e instanceof TouchEvent) {
+        const event: Touch = e.touches[0];
+        this.mousePosition = this.coordinateTransformation(event.clientX, event.clientY);
+      }
     };
-    const onMouseleaveHandler = (e: MouseEvent) => {
+    const onMouseleaveHandler = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault();
       this.start();
     };
 
     canvas.addEventListener('mouseenter', onMouseenterHandler, false);
+    canvas.addEventListener('touchstart', onMouseenterHandler, false);
     canvas.addEventListener('mousemove', onMousemoveHandler, false);
+    canvas.addEventListener('touchmove', onMousemoveHandler, false);
     canvas.addEventListener('mouseleave', onMouseleaveHandler, false);
+    canvas.addEventListener('touchend', onMouseleaveHandler, false);
     document.addEventListener('contextmenu', e => e.preventDefault(), false);
 
     return this;
