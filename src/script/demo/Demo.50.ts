@@ -181,8 +181,12 @@ export class Demo extends BaseDemo {
     const onMousemoveHandler = (e: MouseEvent | TouchEvent) => {
       e.preventDefault();
       console.log(e);
-      const event = e.touches && e.touches.length ? e.touches[0] : e;
-      this.mousePosition = this.coordinateTransformation(event.clientX, event.clientY);
+      if (e instanceof MouseEvent) {
+        this.mousePosition = this.coordinateTransformation(e.clientX, e.clientY);
+      } else if (e instanceof TouchEvent) {
+        const event: Touch = e.touches[0];
+        this.mousePosition = this.coordinateTransformation(event.clientX, event.clientY);
+      }
     };
     const onMouseleaveHandler = (e: MouseEvent | TouchEvent) => {
       e.preventDefault();
