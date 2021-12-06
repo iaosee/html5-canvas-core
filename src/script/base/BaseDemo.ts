@@ -24,6 +24,7 @@ export class BaseDemo {
   }
 
   get width() {
+    console.log(this);
     return this.canvas.getBoundingClientRect().width;
   }
 
@@ -228,7 +229,7 @@ export class BaseDemo {
     return function() {
       const _nowTime = +new Date();
       if (!_lastTime || _nowTime - _lastTime > gapTime) {
-        fn.apply(this, arguments);
+        fn.apply(null, [...arguments]);
         _lastTime = _nowTime;
       }
     };
