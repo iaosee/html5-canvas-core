@@ -4,10 +4,11 @@
   "description": "Canvas Demo.",
   "main": "index.ts",
   "scripts": {
+    "prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run server",
     "build": "cross-env MODE_ENV=true ./node_modules/.bin/webpack",
-    "server": "./node_modules/.bin/webpack-serve --config=./webpack.config.js"
+    "server": "cross-env ./node_modules/.bin/webpack-dev-server --config=./webpack.config.js"
   },
   "repository": {
     "type": "git"
@@ -19,40 +20,32 @@
   "author": "iaosee@outlook.com",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "@babel/runtime": "^7.10.5",
+    "@types/dat.gui": "^0.7.7",
     "@types/node": "^11.15.18",
     "@types/stats.js": "^0.17.0",
-    "babel-loader": "^8.1.0",
-    "clean-webpack-plugin": "^0.1.19",
+    "clean-webpack-plugin": "^4.0.0",
     "cross-env": "^7.0.2",
     "css-loader": "^0.28.11",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "file-loader": "^1.1.11",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "husky": "^2.7.0",
-    "image-webpack-loader": "^4.6.0",
-    "lint-staged": "^8.2.1",
-    "node-sass": "~4.14.0",
-    "postcss-loader": "^2.1.6",
-    "prettier": "^1.19.1",
-    "sass-loader": "^7.3.1",
+    "eslint": "^8.4.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.4",
+    "image-webpack-loader": "^8.0.1",
+    "lint-staged": "^12.1.2",
+    "mini-css-extract-plugin": "^2.4.5",
+    "node-sass": "^6.0.1",
+    "prettier": "^2.5.1",
+    "sass-loader": "^12.3.0",
     "style-loader": "^0.21.0",
-    "stylelint": "^10.1.0",
-    "stylelint-config-standard": "^18.3.0",
-    "ts-loader": "^5.4.5",
-    "ts-node": "~7.0.0",
-    "tslint": "~5.11.0",
-    "typescript": "~3.4.5",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-plugin-serve": "^1.0.1",
-    "webpack-serve": "^3.2.0"
+    "stylelint": "^14.1.0",
+    "stylelint-config-standard": "^24.0.0",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
   },
   "dependencies": {
     "@types/dat.gui": "^0.7.5",
@@ -62,7 +55,7 @@
   "lint-staged": {
     "src/**/*.ts": [
       "./node_modules/.bin/prettier --write",
-      "tslint -c tslint.json --fix",
+      "eslint ./src --ext .js,.ts,.tsx,.jsx --fix --quiet --ignore-path .gitignore",
       "git add"
     ],
     "src/**/*.{css,scss}": [

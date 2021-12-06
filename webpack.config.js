@@ -1,9 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { WebpackPluginServe } = require('webpack-plugin-serve');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 
 const isProd = Boolean(process.env.MODE_ENV);
 const ROOT_PATH = __dirname;
@@ -14,18 +14,16 @@ const PATHS = {
 
 module.exports = {
   mode: isProd ? 'production' : 'development',
-  devtool: isProd ? 'hidden-source-map' : 'cheap-module-eval-source-map',
+  devtool: isProd ? 'hidden-source-map' : 'inline-source-map',
 
   entry: {
     main: PATHS.src + '/index.ts',
   },
-
   output: {
     path: PATHS.build,
     // publicPath: '/www/',
     filename: 'script/[name].bundle.[hash].js',
   },
-
   resolve: {
     extensions: [
       '.js',
@@ -34,25 +32,21 @@ module.exports = {
       '.jsx'
     ]
   },
+  devServer: {
+    // host: "0.0.0.0",
+    port: 6600,
+    open: true,
+    hot: true,
+  },
 
   module: {
     rules: [
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: {
-              minimize: isProd ? true : false
-            },
-          }
-        ]
-      },
+
       {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader',
+            loader: MiniCssExtractPlugin.loader,
           },
           {
             loader: 'css-loader',
@@ -63,7 +57,7 @@ module.exports = {
           },
           {
             loader: 'postcss-loader',
-          }
+          },
         ]
       },
       {
@@ -75,16 +69,13 @@ module.exports = {
         },
       },
       {
-        test: /\.s[c|a]ss/,
-        // reference <https://www.npmjs.com/package/extract-text-webpack-plugin>
-        use: isProd
-        ? ExtractTextPlugin.extract({ fallback: ['style-loader'], use: ['css-loader', 'sass-loader'], publicPath: '../' })
-        : ['style-loader', 'css-loader', 'sass-loader'],
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
         test: /\.less$/,
         use: [
-          { loader: "style-loader" },
+          { loader: MiniCssExtractPlugin.loader },
           { loader: "css-loader", options: { importLoaders: 1 } },
           { loader: "postcss-loader" },
           { loader: "less-loader" }
@@ -97,7 +88,8 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 8192,
-              outputPath: 'images/'
+              outputPath: 'images/',
+              esModule: false,
             }
           },
           // {
@@ -106,7 +98,10 @@ module.exports = {
           // },
           {
             loader: 'image-webpack-loader',
-            options: { bypassOnDebug: true },
+            options: {
+              bypassOnDebug: true,
+              esModule: false,
+            },
           },
         ],
       },
@@ -115,7 +110,8 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[hash].[ext]',
-          outputPath: 'fonts/'
+          outputPath: 'fonts/',
+          esModule: false,
         }
       },
       {
@@ -123,7 +119,8 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[hash].[ext]',
-          outputPath: 'data/'
+          outputPath: 'data/',
+          esModule: false,
         }
       },
       {
@@ -131,7 +128,8 @@ module.exports = {
         loader: 'file-loader',
         options: {
           name: '[name].[hash].[ext]',
-          outputPath: 'videos/'
+          outputPath: 'videos/',
+          esModule: false,
         }
       },
       {
@@ -141,10 +139,8 @@ module.exports = {
       }
     ],
   },
-
   plugins: [
     new webpack.BannerPlugin(' author: @iaosee \r\n email: iaosee@outlook.com' + '\r\n url: www.iaosee.com'),
-    new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       hash: true,
@@ -152,23 +148,13 @@ module.exports = {
         collapseWhitespace: isProd ? true : false,
       },
     }),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: 'style/[name].[hash].css',
       // disable: !isProd
     }),
-    new CleanWebpackPlugin(PATHS.build + '/*', {
-      root: ROOT_PATH,
+    new CleanWebpackPlugin({
       verbose: true,
       dry: false
     }),
-    new WebpackPluginServe({
-      static: PATHS.build,
-      host: '127.0.0.1',
-      port: 6600,
-      open: true,
-      hmr: false,
-      progress: true,
-      liveReload: true,
-    })
   ],
 };
