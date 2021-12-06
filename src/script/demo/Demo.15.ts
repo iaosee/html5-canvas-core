@@ -24,6 +24,8 @@ export class Demo extends BaseDemo {
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
+    console.log(canvas);
+    console.log(canvas);
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {

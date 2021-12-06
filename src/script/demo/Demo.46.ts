@@ -1,5 +1,5 @@
 import * as dat from 'dat.gui';
-import * as Stats from 'stats.js';
+import Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
 import { Point, Circle } from '../interfaces';
@@ -9,7 +9,6 @@ import { Point, Circle } from '../interfaces';
  */
 export class Demo extends BaseDemo {
   public name: string = '动画 —— 帧率显示/基于时间动画';
-  public stats: Stats;
   public circles: Array<Circle> = [];
   public random: Random = Random.init(-5, 5);
   public lastTime = 0;

@@ -1,5 +1,6 @@
 import { Point } from '../geometry/Point';
 import { GUI } from 'dat.gui';
+import Stats from 'stats.js';
 
 /**
  * @description BaseDemo
@@ -24,7 +25,6 @@ export class BaseDemo {
   }
 
   get width() {
-    console.log(this);
     return this.canvas.getBoundingClientRect().width;
   }
 

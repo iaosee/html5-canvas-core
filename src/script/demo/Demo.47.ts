@@ -1,5 +1,5 @@
 import * as dat from 'dat.gui';
-import * as Stats from 'stats.js';
+import Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
 
 /**

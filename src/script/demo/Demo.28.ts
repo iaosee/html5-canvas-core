@@ -63,7 +63,7 @@ export class Demo extends BaseDemo {
     this.gui = new dat.GUI();
     const { gui } = this;
 
-    gui.addColor(config, 'textColor').onFinishChange(value => this.draw());
+    gui.addColor(config, 'textColor').onFinishChange((value: string) => this.draw());
     gui.addColor(config, 'coverColor');
     gui
       .add(config, 'globalAlpha')

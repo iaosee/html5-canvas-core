@@ -44,7 +44,7 @@ export class Demo extends BaseDemo {
       .add(config, 'count')
       .min(5)
       .max(30)
-      .onFinishChange(value => {
+      .onFinishChange((value: string) => {
         this.pointOfLine = [];
         this.triangleOfLine = [];
         this.initDotLine().initTriangleLine();
