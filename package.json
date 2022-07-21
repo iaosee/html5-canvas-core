@@ -17,10 +17,13 @@
     "Canvas",
     "Graphic"
   ],
+  "engines": {
+    "node": ">= 14.0.0"
+  },
   "author": "iaosee@outlook.com",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^11.15.18",
+    "@types/node": "^11.15.54",
     "@types/stats.js": "^0.17.0",
     "cross-env": "^7.0.2",
     "husky": "^2.7.0",
@@ -44,7 +47,7 @@
     ],
     "src/**/*.{css,scss}": [
       "./node_modules/.bin/prettier --write",
-      "stylelint --syntax=scss --fix",
+      "stylelint --fix",
       "git add"
     ],
     "src/**/*.html": [

@@ -281,7 +281,9 @@
   "resolved" "https://registry.npmjs.org/@types/node/-/node-14.0.14.tgz"
   "version" "14.0.14"
 
-"@types/node@^11.15.18":
+"@types/node@^11.15.54":
+  "integrity" "sha512-1RWYiq+5UfozGsU6MwJyFX6BtktcT10XRjvcAQmskCtMcW3tPske88lM/nHv7BQG1w9KBXI1zPGuu5PnNCX14g=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-11.15.54.tgz"
   "version" "11.15.54"
 
 "@types/normalize-package-data@^2.4.0":
