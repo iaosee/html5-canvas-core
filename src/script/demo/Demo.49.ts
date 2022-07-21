@@ -98,11 +98,11 @@ export class Demo extends BaseDemo {
   }
 
   public isPointInCirclePath(pos: Point): boolean {
-    const { context, ball } = this;
+    const { context, dpr, ball } = this;
     context.beginPath();
     context.arc(ball.position.x, ball.position.y, ball.radius, 0, Math.PI * 2, false);
     context.closePath();
-    return context.isPointInPath(pos.x, pos.y);
+    return context.isPointInPath(pos.x * dpr, pos.y * dpr);
   }
 
   public animate() {

@@ -170,14 +170,14 @@ export class Demo extends Rubberband {
   }
 
   public cursorInEndPoint(loc: Point) {
-    const { context, config, endPoints } = this;
+    const { context, dpr, config, endPoints } = this;
     let pt: Point;
 
     endPoints.forEach(point => {
       context.beginPath();
       context.arc(point.x, point.y, config.CONTROL_POINT_RADIUS + config.lineWidth, 0, Math.PI * 2, false);
 
-      if (context.isPointInPath(loc.x, loc.y)) {
+      if (context.isPointInPath(loc.x * dpr, loc.y * dpr)) {
         pt = point;
       }
     });
@@ -186,14 +186,14 @@ export class Demo extends Rubberband {
   }
 
   public cursorInControlPoint(loc: Point) {
-    const { context, config, controlPoints } = this;
+    const { context, dpr, config, controlPoints } = this;
     let pt: Point;
 
     controlPoints.forEach(function(point) {
       context.beginPath();
       context.arc(point.x, point.y, config.CONTROL_POINT_RADIUS + config.lineWidth, 0, Math.PI * 2, false);
 
-      if (context.isPointInPath(loc.x, loc.y)) {
+      if (context.isPointInPath(loc.x * dpr, loc.y * dpr)) {
         pt = point;
       }
     });
