@@ -4,10 +4,11 @@
   "description": "Canvas Demo.",
   "main": "index.ts",
   "scripts": {
+    "vite": "vite",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run server",
-    "build": "cross-env MODE_ENV=true ./node_modules/.bin/webpack",
-    "server": "./node_modules/.bin/webpack-serve --config=./webpack.config.js"
+    "build": "cross-env MODE_ENV=true ./node_modules/.bin/vite build",
+    "server": "./node_modules/.bin/vite --host"
   },
   "repository": {
     "type": "git"
@@ -19,40 +20,16 @@
   "author": "iaosee@outlook.com",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-transform-runtime": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "@babel/runtime": "^7.10.5",
     "@types/node": "^11.15.18",
     "@types/stats.js": "^0.17.0",
-    "babel-loader": "^8.1.0",
-    "clean-webpack-plugin": "^0.1.19",
     "cross-env": "^7.0.2",
-    "css-loader": "^0.28.11",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "file-loader": "^1.1.11",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
     "husky": "^2.7.0",
-    "image-webpack-loader": "^4.6.0",
     "lint-staged": "^8.2.1",
-    "node-sass": "~4.14.0",
-    "postcss-loader": "^2.1.6",
     "prettier": "^1.19.1",
-    "sass-loader": "^7.3.1",
-    "style-loader": "^0.21.0",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
-    "ts-loader": "^5.4.5",
-    "ts-node": "~7.0.0",
-    "tslint": "~5.11.0",
-    "typescript": "~3.4.5",
-    "url-loader": "^1.1.2",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-plugin-serve": "^1.0.1",
-    "webpack-serve": "^3.2.0"
+    "typescript": "^4.7.4",
+    "vite": "^3.0.2"
   },
   "dependencies": {
     "@types/dat.gui": "^0.7.5",

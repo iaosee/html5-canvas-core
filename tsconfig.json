@@ -4,16 +4,17 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "module": "esnext",
-    "target": "es5",
+    "target": "esnext",
     "jsx": "react",
     "allowJs": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "isolatedModules": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
-      "es2017", "es5", "es2015.core", "dom"
+      "es2017", "es2015.core", "dom"
     ],
     "types": ["node"]
   },
