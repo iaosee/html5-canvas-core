@@ -1,5 +1,6 @@
 import { Point } from '../geometry/Point';
 import { GUI } from 'dat.gui';
+import Stats from 'stats.js';
 
 /**
  * @description BaseDemo
@@ -228,7 +229,7 @@ export class BaseDemo {
     return function() {
       const _nowTime = +new Date();
       if (!_lastTime || _nowTime - _lastTime > gapTime) {
-        fn.apply(this, arguments);
+        fn.apply(null, [...arguments]);
         _lastTime = _nowTime;
       }
     };

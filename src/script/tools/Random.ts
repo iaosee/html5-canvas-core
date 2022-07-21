@@ -1,8 +1,8 @@
 export class Random {
-  private minValue: number;
-  private maxValue: number;
+  private minValue: number = 0;
+  private maxValue: number = 0;
 
-  public constructor(min?: number, max?: number) {
+  public constructor(min: number, max: number) {
     if (!(this instanceof Random)) {
       return new Random(min, max);
     }
@@ -11,7 +11,7 @@ export class Random {
     this.maxValue = Number.isFinite(max) ? max : this.maxValue;
   }
 
-  public static init(min?: number, max?: number): Random {
+  public static init(min: number, max: number): Random {
     if (min > max) {
       throw new Error(`min(${min}) greater than max(${max})`);
     }

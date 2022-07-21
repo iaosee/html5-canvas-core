@@ -8,7 +8,7 @@ export class Canvas2DContext {
     this.context = this.context = canvas.getContext('2d');
 
     if (!(Canvas2DContext.prototype as any).arc) {
-      Canvas2DContext.setup.call(this, this.context);
+      Canvas2DContext.setup.call<Canvas2DContext, any, any>(this, this.context);
     }
   }
 

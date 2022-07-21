@@ -1,6 +1,5 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
-import { Point } from '../geometry/Point';
 
 /**
  * @description 图像绘制 —— 使用离屏 Canvas 提高性能
@@ -20,9 +19,11 @@ export class Demo extends BaseDemo {
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
+    const img = require('../../../asset/images/flower.jpg');
+    console.log(img);
 
     this.initOffScreenCanvas();
-    this.loadImage(require('../../../asset/images/flower.jpg'))
+    this.loadImage(img)
       .then(image => (this.image = image))
       .then(() => {
         this.context.drawImage(this.image, 0, 0, this.width, this.height);
