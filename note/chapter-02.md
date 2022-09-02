@@ -201,7 +201,7 @@ Canvas 提供两个方法：
 - https://codeplayer.vip/p/j7scu
 
 
-### 贝赛尔曲线
+### 贝塞尔曲线
 
 - `quadraticCurveTo(cpx, cpy, x, y)` 创建一条表示二次贝塞尔曲线的路径，前两个参数控制点坐标，后两个是锚点坐标。
 - `bezierCurveTo(cpx, cpy, cp2x, cp2y, x, y)` 创建一条表示三次贝塞尔曲线的路径，参数为三个点坐标，前两个点为曲线控制点，最后一个为锚点。
