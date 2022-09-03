@@ -9,7 +9,8 @@
     "start": "npm run server",
     "build": "cross-env MODE_ENV=true ./node_modules/.bin/vite build",
     "server": "./node_modules/.bin/vite --host",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "lint-staged"
   },
   "repository": {
     "type": "git"
@@ -31,21 +32,19 @@
   "devDependencies": {
     "@types/stats.js": "^0.17.0",
     "cross-env": "^7.0.3",
-    "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "typescript": "^4.8.2",
-    "vite": "^3.0.9"
+    "vite": "^3.0.9",
+    "husky": "^8.0.0"
   },
   "lint-staged": {
     "src/**/*.ts": [
       "./node_modules/.bin/prettier --write",
-      "tslint -c tslint.json --fix",
       "git add"
     ],
     "src/**/*.{css,scss}": [
       "./node_modules/.bin/prettier --write",
-      "stylelint --fix",
       "git add"
     ],
     "src/**/*.html": [
@@ -53,7 +52,7 @@
       "git add"
     ]
   },
-  "gitHooks": {
+  "hooks": {
     "pre-commit": "lint-staged",
     "post-commit": "git update-index --again"
   }
