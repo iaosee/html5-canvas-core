@@ -36,7 +36,7 @@ export class Demo extends BaseDemo {
     gui
       .add(config, 'PIVOT_Y')
       .min(50)
-      .max(this.canvas.height - 300)
+      .max(this.height - 300)
       .step(10)
       .onFinishChange(() => this.resetSpriteStatus());
     gui
@@ -64,7 +64,7 @@ export class Demo extends BaseDemo {
   }
 
   public initSprite() {
-    const { canvas, context, config } = this;
+    const { context, config } = this;
 
     // this.pendulum = new Sprite('pendulum', new PendulumPainter(), [ new SwingBehavior() ]);
     this.pendulum = new PendulumSprite();
@@ -89,9 +89,9 @@ export class Demo extends BaseDemo {
   }
 
   public resetSpriteStatus() {
-    const { canvas, config, pendulum } = this;
+    const { config, pendulum } = this;
 
-    this.pendulum.x = canvas.width / 2;
+    this.pendulum.x = this.width / 2;
     this.pendulum.y = config.PIVOT_Y;
     this.pendulum.weightRadius = config.WEIGHT_RADIUS;
     this.pendulum.pivotRadius = config.PIVOT_RADIUS;

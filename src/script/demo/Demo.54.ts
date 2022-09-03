@@ -3,6 +3,7 @@ import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../interfaces';
 import { renderStyle } from '../tools/util';
 import { Sprite, IBehavior } from '../sprite/Sprite';
+import bucket from '../../../asset/images/bucket.png';
 
 const ARENA_LENGTH_IN_METERS = 10;
 const INITIAL_LAUNCH_ANGLE = Math.PI / 4;
@@ -25,7 +26,7 @@ export class Demo extends BaseDemo {
   public lastMouse: Point = { x: 0, y: 0 };
   public launchAngle: number = INITIAL_LAUNCH_ANGLE;
   public launchVelocity: number = 0;
-  public pixelsPerMeter: number = this.canvas.width / ARENA_LENGTH_IN_METERS;
+  public pixelsPerMeter: number = this.width / ARENA_LENGTH_IN_METERS;
   public ballInFlight: boolean = false;
   public threePointer: boolean = false;
   public tipsInfo: HTMLElement = document.createElement('div');
@@ -33,15 +34,15 @@ export class Demo extends BaseDemo {
   public config = {
     ledge: {
       X: 100,
-      Y: this.canvas.height - 100,
+      Y: this.height - 100,
       WIDTH: 100
     },
     ball: {
       RADIUS: 10
     },
     bucket: {
-      X: this.canvas.width - 200,
-      Y: this.canvas.height - 150
+      X: this.width - 200,
+      Y: this.height - 150
     },
     GRAVITY_FORCE: 9.81,
     launchTime: undefined as any
@@ -52,7 +53,7 @@ export class Demo extends BaseDemo {
 
     this.createControl()
       .addTipsToScene()
-      .loadImage(require('../../../asset/images/bucket.png'))
+      .loadImage(bucket)
       .then(image => {
         this.bucketImage = image;
         this.initSprite()
@@ -74,13 +75,13 @@ export class Demo extends BaseDemo {
     gui
       .add(config.ledge, 'X')
       .min(50)
-      .max(this.canvas.width)
+      .max(this.width)
       .step(10)
       .onFinishChange(() => this.resetSpriteStatus());
     gui
       .add(config.ledge, 'Y')
       .min(50)
-      .max(this.canvas.height)
+      .max(this.height)
       .step(10)
       .onFinishChange(() => this.resetSpriteStatus());
     gui
@@ -98,13 +99,13 @@ export class Demo extends BaseDemo {
     gui
       .add(config.bucket, 'X')
       .min(500)
-      .max(this.canvas.width - 100)
+      .max(this.width - 100)
       .step(5)
       .onFinishChange(() => this.resetSpriteStatus());
     gui
       .add(config.bucket, 'Y')
       .min(10)
-      .max(this.canvas.height - 100)
+      .max(this.height - 100)
       .step(5)
       .onFinishChange(() => this.resetSpriteStatus());
 
@@ -294,7 +295,7 @@ export class Demo extends BaseDemo {
   }
 
   public showText(text: string) {
-    const { context, canvas, ball, bucket } = this;
+    const { context, ball, bucket } = this;
     const metrics = context.measureText(text);
     context.font = '42px Helvetica';
 
@@ -303,9 +304,9 @@ export class Demo extends BaseDemo {
     context.strokeStyle = 'rgb(80,120,210)';
     context.fillStyle = 'rgba(100,140,230,0.5)';
 
-    context.fillText(text, canvas.width / 2 - metrics.width / 2, canvas.height / 2);
+    context.fillText(text, this.width / 2 - metrics.width / 2, this.height / 2);
 
-    context.strokeText(text, canvas.width / 2 - metrics.width / 2, canvas.height / 2);
+    context.strokeText(text, this.width / 2 - metrics.width / 2, this.height / 2);
     context.restore();
 
     return this;
@@ -394,7 +395,7 @@ export class LobBallBehavior implements IBehavior {
   public checkBallBounds() {
     const { demo } = this;
     const { ball } = this.demo;
-    if (ball.y > demo.canvas.height || ball.x > demo.canvas.width) {
+    if (ball.y > demo.height || ball.x > demo.width) {
       demo.resetSpriteStatus();
     }
   }

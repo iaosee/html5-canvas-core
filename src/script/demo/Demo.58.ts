@@ -64,7 +64,7 @@ export class Demo extends BaseDemo {
   }
 
   public initDotLine() {
-    const { canvas, context, config } = this;
+    const { context, config } = this;
     const width = this.width;
     const height = this.height;
     const gap = height / config.count;
@@ -104,7 +104,7 @@ export class Demo extends BaseDemo {
   }
 
   public initTriangleLine() {
-    const { canvas, context, pointOfLine } = this;
+    const { context, pointOfLine } = this;
     let odd = true;
 
     for (let y = 0; y < pointOfLine.length - 1; y++) {
@@ -174,7 +174,7 @@ export class Demo extends BaseDemo {
   }
 
   public drawTriangle(p1: MeshPoint, p2: MeshPoint, p3: MeshPoint, color?: string) {
-    const { canvas, context, config } = this;
+    const { context, config } = this;
 
     context.save();
     context.fillStyle = color || p3.color;

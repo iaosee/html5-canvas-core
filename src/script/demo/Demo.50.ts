@@ -20,7 +20,7 @@ export class Demo extends BaseDemo {
     quantity: 50,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(   public canvas: HTMLCanvasElement   ) {
     super(canvas);
 
     const pos: Point = {
@@ -28,7 +28,7 @@ export class Demo extends BaseDemo {
       y: this.centerY,
     };
 
-    this.createControl().drawGrid().createCircle(50).listenEvents();
+    this.createControl().drawGrid().createCircle(50).listenEvents()
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {

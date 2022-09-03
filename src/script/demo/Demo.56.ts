@@ -62,7 +62,7 @@ export class Demo extends BaseDemo {
   }
 
   public initSprite() {
-    const { canvas, pushAnimationTimer } = this;
+    const { pushAnimationTimer } = this;
 
     this.ball = new Sprite('ball', {
       paint: (sprite: Sprite, context: CanvasRenderingContext2D) => this.paintBall(sprite, context)
@@ -86,9 +86,9 @@ export class Demo extends BaseDemo {
     this.ball.addBehavior(this.ballMoveBehavior);
 
     this.ledge.x = 200;
-    this.ledge.y = canvas.height / 2;
+    this.ledge.y = this.height / 2;
     this.ledge.height = 5;
-    this.ledge.width = canvas.width - this.ledge.x * 2;
+    this.ledge.width = this.width - this.ledge.x * 2;
 
     this.ball.width = 50;
     this.ball.height = 50;

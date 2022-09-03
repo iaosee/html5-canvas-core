@@ -1,6 +1,7 @@
 import { BaseDemo } from '../base/BaseDemo';
 import { Sprite, IPainter, ImagePainter } from '../sprite';
 import { DoraemonSprite } from '../sprite/DoraemonSprite';
+import bomb from '../../../asset/images/bomb/bomb.png';
 
 export class BallPainter implements IPainter {
   public paint(sprite: Sprite, context: CanvasRenderingContext2D) {
@@ -90,9 +91,9 @@ export class Demo extends BaseDemo {
 
     this.ball2 = new Sprite('ball2', this.ballPainter);
 
-    this.bomb = new Sprite('bomb', new ImagePainter(require('../../../asset/images/bomb/bomb.png')));
+    this.bomb = new Sprite('bomb', new ImagePainter(bomb));
     this.bomb.x = 100;
-    this.bomb.y = this.canvas.height / 2;
+    this.bomb.y = this.height / 2;
 
     this.doraemon.x = this.width - 300;
     this.doraemon.y = 50;
