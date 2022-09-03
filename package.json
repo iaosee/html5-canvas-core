@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run server",
     "build": "cross-env MODE_ENV=true ./node_modules/.bin/vite build",
-    "server": "./node_modules/.bin/vite --host"
+    "server": "./node_modules/.bin/vite --host",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git"
@@ -18,26 +19,23 @@
     "Graphic"
   ],
   "engines": {
-    "node": ">= 14.0.0"
+    "node": ">= 12.0.0"
   },
   "author": "iaosee@outlook.com",
   "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^11.15.54",
-    "@types/stats.js": "^0.17.0",
-    "cross-env": "^7.0.2",
-    "husky": "^2.7.0",
-    "lint-staged": "^8.2.1",
-    "prettier": "^1.19.1",
-    "stylelint": "^10.1.0",
-    "stylelint-config-standard": "^18.3.0",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.2"
-  },
   "dependencies": {
     "@types/dat.gui": "^0.7.5",
-    "dat.gui": "^0.7.7",
+    "dat.gui": "^0.7.9",
     "stats.js": "^0.17.0"
+  },
+  "devDependencies": {
+    "@types/stats.js": "^0.17.0",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.2",
+    "vite": "^3.0.9"
   },
   "lint-staged": {
     "src/**/*.ts": [
@@ -55,10 +53,8 @@
       "git add"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "post-commit": "git update-index --again"
-    }
+  "gitHooks": {
+    "pre-commit": "lint-staged",
+    "post-commit": "git update-index --again"
   }
 }
