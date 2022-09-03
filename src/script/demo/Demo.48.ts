@@ -1,6 +1,11 @@
 import * as dat from 'dat.gui';
-import Stats  from 'stats.js';
+import * as Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
+import image_sky from '../../../asset/images/sky.png';
+import image_smalltree from '../../../asset/images/smalltree.png';
+import image_tree from '../../../asset/images/tree-twotrunks.png';
+import image_grass from '../../../asset/images/grass.png';
+import image_grass2 from '../../../asset/images/grass2.png';
 
 /**
  * @description 动画 —— 视差滚动
@@ -27,7 +32,7 @@ export class Demo extends BaseDemo {
     SKY_VELOCITY: 20,
     TREE_VELOCITY: 40,
     FAST_TREE_VELOCITY: 60,
-    GRASS_VELOCITY: 100
+    GRASS_VELOCITY: 100,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -36,7 +41,7 @@ export class Demo extends BaseDemo {
     this.createControl()
       .initStats()
       .initResource()
-      .then(images => {
+      .then((images) => {
         this.sky = images[0];
         this.tree = images[1];
         this.nearTree = images[2];
@@ -55,9 +60,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw(timestamp: number) {
-    this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+    this.clearScreen().drawGrid().drawScene(timestamp);
 
     this.stats.update();
     this.lastTime = timestamp;
@@ -77,37 +80,21 @@ export class Demo extends BaseDemo {
     this.gui = new dat.GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'SKY_VELOCITY')
-      .min(10)
-      .max(200)
-      .step(10);
-    gui
-      .add(config, 'TREE_VELOCITY')
-      .min(20)
-      .max(400)
-      .step(10);
-    gui
-      .add(config, 'FAST_TREE_VELOCITY')
-      .min(30)
-      .max(600)
-      .step(10);
-    gui
-      .add(config, 'GRASS_VELOCITY')
-      .min(80)
-      .max(800)
-      .step(10);
+    gui.add(config, 'SKY_VELOCITY').min(10).max(200).step(10);
+    gui.add(config, 'TREE_VELOCITY').min(20).max(400).step(10);
+    gui.add(config, 'FAST_TREE_VELOCITY').min(30).max(600).step(10);
+    gui.add(config, 'GRASS_VELOCITY').min(80).max(800).step(10);
 
     return this;
   }
 
   public initResource(): Promise<HTMLImageElement[]> {
     return Promise.all([
-      this.loadImage(require('../../../asset/images/sky.png')),
-      this.loadImage(require('../../../asset/images/smalltree.png')),
-      this.loadImage(require('../../../asset/images/tree-twotrunks.png')),
-      this.loadImage(require('../../../asset/images/grass.png')),
-      this.loadImage(require('../../../asset/images/grass2.png'))
+      this.loadImage(image_sky),
+      this.loadImage(image_smalltree),
+      this.loadImage(image_tree),
+      this.loadImage(image_grass),
+      this.loadImage(image_grass2),
     ]);
   }
 
@@ -125,28 +112,28 @@ export class Demo extends BaseDemo {
     this.grassOffset = this.grassOffset < grass.width ? this.grassOffset + config.GRASS_VELOCITY / fps : 0;
 
     context.save();
-    context.translate(-this.skyOffset, 0);
+    context.translate(-this.skyOffset, -1200);
     context.drawImage(sky, 0, canvas.height - sky.height + 80);
     context.drawImage(sky, sky.width - 2, canvas.height - sky.height + 80);
     context.drawImage(sky, (sky.width - 2) * 2, canvas.height - sky.height + 80);
     context.restore();
 
     context.save();
-    context.translate(-this.treeOffset, 0);
+    context.translate(-this.treeOffset, -1200);
     for (let i = 0; i <= 8; i++) {
       context.drawImage(tree, (canvas.width / 6) * i, canvas.height - tree.height);
     }
     context.restore();
 
     context.save();
-    context.translate(-this.nearTreeOffset, 0);
+    context.translate(-this.nearTreeOffset, -1200);
     for (let i = 0; i <= 6; i++) {
       context.drawImage(nearTree, (canvas.width / 4) * i, canvas.height - nearTree.height);
     }
     context.restore();
 
     context.save();
-    context.translate(-this.grassOffset, 0);
+    context.translate(-this.grassOffset, -1200);
     context.drawImage(grass, 0, canvas.height - grass.height);
     context.drawImage(grass, grass.width, canvas.height - grass.height);
     context.drawImage(grass, grass.width * 2, canvas.height - grass.height);

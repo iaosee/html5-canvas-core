@@ -5,6 +5,7 @@ import { NegativeFilter } from '../filters/NegativeFilter';
 import { BlackWhiteFilter } from '../filters/BlackWhiteFilter';
 import { EmbossmentFilter } from '../filters/EmbossmentFilter';
 import { SunglassesFilter } from '../filters/SunglassesFilter';
+import video_url from '../../../asset/videos/video-01.mp4';
 
 /**
  * @description 绘制视频数据
@@ -29,16 +30,13 @@ export class Demo extends BaseDemo {
     color: true,
     flip: false,
     play: () => this.playVideo(),
-    pause: () => this.pauseVideo()
+    pause: () => this.pauseVideo(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createVedio()
-      .createControl()
-      .initOffScreenCanvas()
-      .listenEvents();
+    this.createVedio().createControl().initOffScreenCanvas().listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -82,12 +80,12 @@ export class Demo extends BaseDemo {
 
   public createVedio() {
     this.video = document.createElement('video');
-    this.video.src = require('../../../asset/videos/video-01.mp4');
+    this.video.src = video_url;
     return this;
   }
 
   public playVideo() {
-    const { context, config } = this;
+    const { canvas, context, config } = this;
 
     if (!this.video.paused) {
       return this;
@@ -142,9 +140,9 @@ export class Demo extends BaseDemo {
     const { canvas, context, offScreenCanvas } = this;
     context.save();
 
-    context.translate(canvas.width / 2, canvas.height / 2);
+    context.translate(this.width / 2, this.height / 2);
     context.rotate(Math.PI);
-    context.translate(-canvas.width / 2, -canvas.height / 2);
+    context.translate(-this.width / 2, -this.height / 2);
     context.drawImage(offScreenCanvas, 0, 0);
 
     context.restore();
@@ -153,7 +151,7 @@ export class Demo extends BaseDemo {
   public listenEvents() {
     const { canvas } = this;
 
-    canvas.addEventListener('click', e => {
+    canvas.addEventListener('click', (e) => {
       console.log(e);
     });
 

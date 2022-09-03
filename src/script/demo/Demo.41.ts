@@ -6,6 +6,7 @@ import { BlackWhiteFilter } from '../filters/BlackWhiteFilter';
 import { NegativeFilter } from '../filters/NegativeFilter';
 import { EmbossmentFilter } from '../filters/EmbossmentFilter';
 import { SunglassesFilter } from '../filters/SunglassesFilter';
+import image_flower_url from '../../../asset/images/flower.jpg';
 
 /**
  * @description 像素处理与裁剪
@@ -20,17 +21,17 @@ export class Demo extends BaseDemo {
   public config = {
     scale: 0.2,
     filter: 0,
-    LENS_RADIUS: this.canvas.width / 5,
+    LENS_RADIUS: this.width / 5,
     resetScene: () => this.drawScene(),
-    putFilterOn: () => this.putFilterOn()
+    putFilterOn: () => this.putFilterOn(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.initOffScreenCanvas();
-    this.loadImage(require('../../../asset/images/flower.jpg'))
-      .then(image => (this.image = image))
+    this.loadImage(image_flower_url)
+      .then((image) => (this.image = image))
       .then(() => {
         this.drawScene();
       });
@@ -56,6 +57,7 @@ export class Demo extends BaseDemo {
     this.offScreenContext = this.offScreenCanvas.getContext('2d');
     this.offScreenCanvas.width = canvas.width;
     this.offScreenCanvas.height = canvas.height;
+    this.offScreenContext.scale(this.dpr, this.dpr);
   }
 
   private createControl() {
@@ -75,7 +77,7 @@ export class Demo extends BaseDemo {
         negative: 1,
         black_white: 2,
         embossment: 3,
-        sunglasses: 4
+        sunglasses: 4,
       })
       .onFinishChange((v: string) => (this.config.filter = Number(v)));
 
@@ -86,7 +88,7 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene() {
-    const { context, config, image } = this;
+    const { canvas, context, config, image } = this;
 
     // 画布宽高
     const w = this.width;
@@ -98,20 +100,20 @@ export class Demo extends BaseDemo {
     const sh = image.height * ratio;
 
     // 绘制到画布中心
-    context.clearRect(0, 0, this.width, this.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
     context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
-    this.originalImageData = context.getImageData(0, 0, this.width, this.height);
+    this.originalImageData = context.getImageData(0, 0, canvas.width, canvas.height);
     return this;
   }
 
   public putFilterOn() {
-    const { context, config } = this;
+    const { canvas, context, config } = this;
     const leftLensLocation: Point = { x: this.center.x - config.LENS_RADIUS - 10, y: this.center.y };
     const rightLensLocation: Point = { x: this.center.x + config.LENS_RADIUS + 10, y: this.center.y };
     let filter: IFilter = null;
 
     context.putImageData(this.originalImageData, 0, 0);
-    const imagedata = context.getImageData(0, 0, this.width, this.height);
+    const imagedata = context.getImageData(0, 0, canvas.width, canvas.height);
 
     switch (config.filter) {
       case 1:
@@ -139,7 +141,7 @@ export class Demo extends BaseDemo {
   }
 
   public drawLenses(leftLensLocation: Point, rightLensLocation: Point) {
-    const { context, canvas, config, offScreenCanvas } = this;
+    const { context, config, offScreenCanvas } = this;
 
     context.save();
     context.beginPath();
@@ -154,7 +156,7 @@ export class Demo extends BaseDemo {
 
     context.clip();
 
-    context.drawImage(offScreenCanvas, 0, 0, canvas.width, canvas.height);
+    context.drawImage(offScreenCanvas, 0, 0, this.canvas.width, this.canvas.height);
     context.restore();
 
     return this;
