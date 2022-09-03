@@ -4,11 +4,13 @@
   "description": "Canvas Demo.",
   "main": "index.ts",
   "scripts": {
-    "prepare": "husky install",
+    "vite": "vite",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run server",
-    "build": "cross-env MODE_ENV=true ./node_modules/.bin/webpack",
-    "server": "cross-env ./node_modules/.bin/webpack-dev-server --config=./webpack.config.js"
+    "build": "cross-env MODE_ENV=true ./node_modules/.bin/vite build",
+    "server": "./node_modules/.bin/vite --host",
+    "prepare": "husky install",
+    "lint": "lint-staged"
   },
   "repository": {
     "type": "git"
@@ -17,61 +19,34 @@
     "Canvas",
     "Graphic"
   ],
+  "engines": {
+    "node": ">= 12.0.0"
+  },
   "author": "iaosee@outlook.com",
   "license": "ISC",
-  "devDependencies": {
-    "@types/dat.gui": "^0.7.7",
-    "@types/node": "^11.15.18",
-    "@types/stats.js": "^0.17.0",
-    "clean-webpack-plugin": "^4.0.0",
-    "cross-env": "^7.0.2",
-    "css-loader": "^0.28.11",
-    "eslint": "^8.4.0",
-    "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^5.5.0",
-    "husky": "^7.0.4",
-    "image-webpack-loader": "^8.0.1",
-    "lint-staged": "^12.1.2",
-    "mini-css-extract-plugin": "^2.4.5",
-    "node-sass": "^6.0.1",
-    "prettier": "^2.5.1",
-    "sass-loader": "^12.3.0",
-    "style-loader": "^0.21.0",
-    "stylelint": "^14.1.0",
-    "stylelint-config-standard": "^24.0.0",
-    "ts-loader": "^9.2.6",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.2",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.64.4",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.6.0"
-  },
   "dependencies": {
     "@types/dat.gui": "^0.7.5",
-    "dat.gui": "^0.7.7",
+    "dat.gui": "^0.7.9",
     "stats.js": "^0.17.0"
+  },
+  "devDependencies": {
+    "@types/stats.js": "^0.17.0",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.2",
+    "vite": "^3.0.9"
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "./node_modules/.bin/prettier --write",
-      "eslint ./src --ext .js,.ts,.tsx,.jsx --fix --quiet --ignore-path .gitignore",
-      "git add"
+      "./node_modules/.bin/prettier --write"
     ],
     "src/**/*.{css,scss}": [
-      "./node_modules/.bin/prettier --write",
-      "stylelint --syntax=scss --fix",
-      "git add"
+      "./node_modules/.bin/prettier --write"
     ],
     "src/**/*.html": [
-      "./node_modules/.bin/prettier --write",
-      "git add"
+      "./node_modules/.bin/prettier --write"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "post-commit": "git update-index --again"
-    }
   }
 }

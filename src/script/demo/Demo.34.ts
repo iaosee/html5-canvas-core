@@ -1,6 +1,6 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
-const IMG_URL = require('../../../asset/images/image-01.jpg');
+import IMG_URL from '../../../asset/images/image-01.jpg';
 
 enum ShapeStyle {
   Linellae = 'linellae',

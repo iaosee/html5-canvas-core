@@ -2,6 +2,7 @@ import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../geometry/Point';
 import { Rectangle } from '../interfaces';
+import image_flower_url from '../../../asset/images/flower.jpg';
 
 /**
  * @description 绘制放大镜效果
@@ -21,15 +22,15 @@ export class Demo extends BaseDemo {
     scale: 0.2,
     zoomScale: 2,
     zoomRadius: 150,
-    resetScene: () => this.drawScene()
+    resetScene: () => this.drawScene(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.initOffScreenCanvas();
-    this.loadImage(require('../../../asset/images/flower.jpg'))
-      .then(image => (this.image = image))
+    this.loadImage(image_flower_url)
+      .then((image) => (this.image = image))
       .then(() => {
         this.drawScene();
       });
@@ -69,16 +70,8 @@ export class Demo extends BaseDemo {
       .max(1)
       .onChange(() => this.drawScene());
 
-    gui
-      .add(config, 'zoomScale')
-      .step(1)
-      .min(0.5)
-      .max(10);
-    gui
-      .add(config, 'zoomRadius')
-      .step(10)
-      .min(50)
-      .max(1000);
+    gui.add(config, 'zoomScale').step(1).min(0.5).max(10);
+    gui.add(config, 'zoomRadius').step(10).min(50).max(1000);
 
     return this;
   }
@@ -87,8 +80,8 @@ export class Demo extends BaseDemo {
     const { context, offScreenContext, canvas, config, image } = this;
 
     // 画布宽高
-    const w = canvas.width;
-    const h = canvas.height;
+    const w = this.width;
+    const h = this.height;
 
     // 缩放后的图像宽高
     const ratio = (image.width * config.scale) / image.width;
@@ -125,7 +118,7 @@ export class Demo extends BaseDemo {
 
     const scaledMagnifyRectangle = {
       width: this.magnifyRectangle.width * config.zoomScale,
-      height: this.magnifyRectangle.height * config.zoomScale
+      height: this.magnifyRectangle.height * config.zoomScale,
     };
 
     // context.lineWidth = config.zoomRadius * 0.1;
@@ -176,7 +169,7 @@ export class Demo extends BaseDemo {
       x: pos.x - config.zoomRadius,
       y: pos.y - config.zoomRadius,
       width: config.zoomRadius * 2 + 2 * context.lineWidth,
-      height: config.zoomRadius * 2 + 2 * context.lineWidth
+      height: config.zoomRadius * 2 + 2 * context.lineWidth,
     };
 
     const top = this.magnifyRectangle.y;
@@ -254,7 +247,7 @@ export class Demo extends BaseDemo {
   public listenEvents() {
     const { canvas } = this;
 
-    canvas.addEventListener('mousemove', e => {
+    canvas.addEventListener('mousemove', (e) => {
       const pos = this.coordinateTransformation(e.clientX, e.clientY);
       this.drawMagnifyingGlass(pos);
     });

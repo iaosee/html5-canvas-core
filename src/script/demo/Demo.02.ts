@@ -1,5 +1,6 @@
 import { Point } from '../interfaces';
 import { BaseDemo } from '../base/BaseDemo';
+import imgUrl from '../../../asset/images/presta_illustration_20.jpg';
 
 /**
  * @description 鼠标坐标
@@ -13,7 +14,8 @@ export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.loadImage(require('../../../asset/images/presta_illustration_20.jpg')).then((sprite: HTMLImageElement) => {
+    this.loadImage(imgUrl).then((sprite: HTMLImageElement) => {
+      console.log(sprite);
       this.spritesheet = sprite;
       // this.drawSpritesheet(sprite);
     });

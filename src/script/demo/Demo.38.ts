@@ -1,6 +1,7 @@
 import * as dat from 'dat.gui';
 import { Point } from '../geometry/Point';
 import { Rubberband } from '../base/Rubberband';
+import image_flower_url from '../../../asset/images/flower.jpg';
 
 /**
  * @description 图像绘制 —— 选区像素
@@ -18,7 +19,7 @@ export class Demo extends Rubberband {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.loadImage(require('../../../asset/images/flower.jpg'))
+    this.loadImage(image_flower_url)
       .then(image => (this.image = image))
       .then(() => {
         this.drawScene();
@@ -84,10 +85,10 @@ export class Demo extends Rubberband {
 
     context.drawImage(
       canvas,
-      rubberbandRect.x + context.lineWidth * 2,
-      rubberbandRect.y + context.lineWidth * 2,
-      rubberbandRect.width - 4 * context.lineWidth,
-      rubberbandRect.height - 4 * context.lineWidth,
+      (rubberbandRect.x + context.lineWidth * 2) * this.dpr,
+      (rubberbandRect.y + context.lineWidth * 2) * this.dpr,
+      (rubberbandRect.width - 4 * context.lineWidth) * this.dpr,
+      (rubberbandRect.height - 4 * context.lineWidth) * this.dpr,
       0,
       0,
       this.width,

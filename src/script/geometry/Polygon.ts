@@ -2,6 +2,7 @@ import { Point } from './Point';
 import { Shape } from './Shape';
 
 export class Polygon extends Shape {
+  private dpr = window.devicePixelRatio || 1;
   public constructor(
     public context: CanvasRenderingContext2D,
     public position: Point,
@@ -69,19 +70,19 @@ export class Polygon extends Shape {
     eventType: K,
     listener: (this: Polygon, ev: CanvasEventMap[K]) => any
   ): void {
-    const { context } = this;
+    const { context, dpr } = this;
     context.canvas.addEventListener(eventType, (event: MouseEvent) => {
       this.createPath();
-      if (context.isPointInPath(event.clientX, event.clientY)) {
+      if (context.isPointInPath(event.clientX * dpr, event.clientY * dpr)) {
         listener.call(this, event);
       }
     });
   }
 
   public pointInPath(p: Point) {
-    const { context } = this;
+    const { context, dpr } = this;
     this.createPath();
-    return context.isPointInPath(p.x, p.y);
+    return context.isPointInPath(p.x * dpr, p.y * dpr);
   }
 }
 

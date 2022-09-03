@@ -1,7 +1,7 @@
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../interfaces';
 import { renderStyle } from '../tools/util';
-const IMG_URL = require('../../../asset/images/presta_illustration_20.jpg');
+import IMG_URL from '../../../asset/images/presta_illustration_20.jpg';
 
 /**
  * @description 图像选区

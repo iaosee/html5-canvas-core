@@ -1,9 +1,10 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
+import image_flower_url from '../../../asset/images/flower.jpg';
 
 enum FadeType {
   FadeIn,
-  FadeOut
+  FadeOut,
 }
 
 /**
@@ -24,15 +25,15 @@ export class Demo extends BaseDemo {
     LENS_RADIUS: this.canvas.width / 5,
     resetScene: () => this.drawScene(),
     fadeIn: () => this.fadeIn(),
-    fadeOut: () => this.fadeOut()
+    fadeOut: () => this.fadeOut(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.initOffScreenCanvas();
-    this.loadImage(require('../../../asset/images/flower.jpg'))
-      .then(image => (this.image = image))
+    this.loadImage(image_flower_url)
+      .then((image) => (this.image = image))
       .then(() => {
         this.drawScene();
       });

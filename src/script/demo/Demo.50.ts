@@ -14,24 +14,21 @@ export class Demo extends BaseDemo {
   public random: Random = Random.init(-5, 5);
   public mousePosition: Point = {
     x: this.centerX,
-    y: this.centerY
+    y: this.centerY,
   };
   public config = {
-    quantity: 50
+    quantity: 50,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(   public canvas: HTMLCanvasElement   ) {
     super(canvas);
 
     const pos: Point = {
       x: this.centerX,
-      y: this.centerY
+      y: this.centerY,
     };
 
-    this.createControl()
-      .drawGrid()
-      .createCircle(50)
-      .listenEvents();
+    this.createControl().drawGrid().createCircle(50).listenEvents()
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -43,10 +40,7 @@ export class Demo extends BaseDemo {
   // }
 
   public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawCircles()
-      .updateCircle();
+    return this.clearScreen().drawGrid().drawCircles().updateCircle();
   }
 
   private createControl() {
@@ -80,7 +74,7 @@ export class Demo extends BaseDemo {
         y: this.random
           .min(radius)
           .max(this.height - radius)
-          .getOne()
+          .getOne(),
       };
 
       this.circles.push({
@@ -88,7 +82,7 @@ export class Demo extends BaseDemo {
         velocityX: Math.random() * (this.random.range(-5, 5).getOne() || 5),
         velocityY: Math.random() * (this.random.range(-5, 5).getOne() || 5),
         radius: radius,
-        color: this.randomRgba()
+        color: this.randomRgba(),
       });
     }
 
@@ -97,7 +91,7 @@ export class Demo extends BaseDemo {
 
   private drawCircles() {
     const { context, config } = this;
-    this.circles.forEach(circle => {
+    this.circles.forEach((circle) => {
       context.beginPath();
       context.arc(circle.position.x, circle.position.y, circle.radius, 0, Math.PI * 2, false);
 
@@ -112,7 +106,7 @@ export class Demo extends BaseDemo {
   }
 
   public updateCircle() {
-    this.circles.forEach(circle => this.updatePosition(circle));
+    this.circles.forEach((circle) => this.updatePosition(circle));
 
     return this;
   }
@@ -165,9 +159,7 @@ export class Demo extends BaseDemo {
 
   public animateFollw() {
     this.moveFollow();
-    this.clearScreen()
-      .drawGrid()
-      .drawCircles();
+    this.clearScreen().drawGrid().drawCircles();
     this.player = requestAnimationFrame(this.animateFollw.bind(this));
   }
 
@@ -199,7 +191,7 @@ export class Demo extends BaseDemo {
     canvas.addEventListener('touchmove', onMousemoveHandler, false);
     canvas.addEventListener('mouseleave', onMouseleaveHandler, false);
     canvas.addEventListener('touchend', onMouseleaveHandler, false);
-    document.addEventListener('contextmenu', e => e.preventDefault(), false);
+    document.addEventListener('contextmenu', (e) => e.preventDefault(), false);
 
     return this;
   }

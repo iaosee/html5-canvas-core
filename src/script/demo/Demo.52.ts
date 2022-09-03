@@ -4,6 +4,10 @@ import { AnimationTimer } from '../sprite/AnimationTimer';
 import { ImagePainter, SheetCell, Sprite, SpriteSheetPainter, IPainter, SpriteAnimator } from '../sprite';
 import { RunInPlaceBehavior, MoveLeftToRightBehavior, JumpBehavior, MoveBehavior } from '../sprite/RunnerSprite';
 
+import bomb from '../../../asset/images/bomb/bomb.png';
+import bomb_no_fuse from '../../../asset/images/bomb/bomb-no-fuse.png';
+import running_sprite_sheet from '../../../asset/images/running-sprite-sheet.png';
+
 /**
  * @description 精灵绘制器 —— 精灵表绘制器
  */
@@ -86,21 +90,21 @@ export class Demo extends BaseDemo {
     ];
     this.sprite = new Sprite(
       'Sprite 1',
-      new SpriteSheetPainter(require('../../../asset/images/running-sprite-sheet.png'), runnerCells)
+      new SpriteSheetPainter(running_sprite_sheet, runnerCells)
     );
     this.sprite2 = new Sprite(
       'Sprite 2',
-      new SpriteSheetPainter(require('../../../asset/images/running-sprite-sheet.png'), runnerCells),
+      new SpriteSheetPainter(running_sprite_sheet, runnerCells),
       [new RunInPlaceBehavior(), new MoveLeftToRightBehavior()]
     );
     this.sprite3 = new Sprite(
       'Sprite 3',
-      new SpriteSheetPainter(require('../../../asset/images/running-sprite-sheet.png'), runnerCells),
+      new SpriteSheetPainter(running_sprite_sheet, runnerCells),
       [new RunInPlaceBehavior(), new MoveLeftToRightBehavior(), new JumpBehavior()]
     );
     this.sprite4 = new Sprite(
       'Sprite 4',
-      new SpriteSheetPainter(require('../../../asset/images/running-sprite-sheet.png'), runnerCells),
+      new SpriteSheetPainter(running_sprite_sheet, runnerCells),
       [new RunInPlaceBehavior(), new MoveBehavior(this.pushTimer)]
     );
 
@@ -124,19 +128,19 @@ export class Demo extends BaseDemo {
     const NUM_FUSE_PAINTERS = 9;
     const NUM_EXPLOSION_PAINTERS = 9;
 
-    this.bombPainter = new ImagePainter(require('../../../asset/images/bomb/bomb.png'));
-    this.bombNoFusePainter = new ImagePainter(require('../../../asset/images/bomb/bomb-no-fuse.png'));
+    this.bombPainter = new ImagePainter(bomb);
+    this.bombNoFusePainter = new ImagePainter(bomb_no_fuse);
     this.bomb = new Sprite('bomb', this.bombPainter);
 
     this.bomb.setX(500);
     this.bomb.setY(500);
 
     for (let i = 0; i < NUM_FUSE_PAINTERS; ++i) {
-      this.fuseBurningPainters.push(new ImagePainter(require('../../../asset/images/bomb/fuse-0' + i + '.png')));
+      // this.fuseBurningPainters.push(new ImagePainter(new URL('../../../asset/images/bomb/fuse-0' + i + '.png', import.meta.url).href));
     }
 
     for (let i = 0; i < NUM_EXPLOSION_PAINTERS; ++i) {
-      this.explosionPainters.push(new ImagePainter(require('../../../asset/images/bomb/explosion-0' + i + '.png')));
+      // this.explosionPainters.push(new ImagePainter(new URL('../../../asset/images/bomb/explosion-0' + i + '.png', import.meta.url).href));
     }
 
     this.fuseBurningAnimator = new SpriteAnimator(this.fuseBurningPainters, () => {

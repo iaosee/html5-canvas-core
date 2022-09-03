@@ -14,7 +14,7 @@ export class Demo extends BaseDemo {
     velocityX: 5,
     velocityY: 5,
     radius: 100,
-    color: this.randomRgba()
+    color: this.randomRgba(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -34,9 +34,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawCircle();
+    return this.clearScreen().drawGrid().drawCircle();
   }
 
   public drawCircle() {
@@ -55,18 +53,18 @@ export class Demo extends BaseDemo {
   }
 
   public setCirclePosition(pos: Point) {
-    const { context, canvas, ball } = this;
+    const { context, ball } = this;
 
     ball.position = pos;
 
-    if (ball.position.x + ball.radius > canvas.width) {
-      ball.position.x = canvas.width - ball.radius;
+    if (ball.position.x + ball.radius > this.width) {
+      ball.position.x = this.width - ball.radius;
     }
     if (ball.position.x - ball.radius < 0) {
       ball.position.x = ball.radius;
     }
-    if (ball.position.y + ball.radius > canvas.height) {
-      ball.position.y = canvas.height - ball.radius;
+    if (ball.position.y + ball.radius > this.height) {
+      ball.position.y = this.height - ball.radius;
     }
     if (ball.position.y - ball.radius < 0) {
       ball.position.y = ball.radius;
@@ -76,16 +74,16 @@ export class Demo extends BaseDemo {
   }
 
   private updatePosition() {
-    const { canvas, ball } = this;
+    const { ball } = this;
 
     if (
-      ball.position.x + ball.velocityX + ball.radius > canvas.width ||
+      ball.position.x + ball.velocityX + ball.radius > this.width ||
       ball.position.x + ball.velocityX - ball.radius < 0
     ) {
       ball.velocityX = -ball.velocityX * 0.8;
     }
     if (
-      ball.position.y + ball.velocityY + ball.radius > canvas.height ||
+      ball.position.y + ball.velocityY + ball.radius > this.height ||
       ball.position.y + ball.velocityY - ball.radius < 0
     ) {
       ball.velocityY = -ball.velocityY * 0.8;
@@ -98,11 +96,11 @@ export class Demo extends BaseDemo {
   }
 
   public isPointInCirclePath(pos: Point): boolean {
-    const { context, ball } = this;
+    const { context, dpr, ball } = this;
     context.beginPath();
     context.arc(ball.position.x, ball.position.y, ball.radius, 0, Math.PI * 2, false);
     context.closePath();
-    return context.isPointInPath(pos.x, pos.y);
+    return context.isPointInPath(pos.x * dpr, pos.y * dpr);
   }
 
   public animate() {
@@ -156,7 +154,7 @@ export class Demo extends BaseDemo {
     canvas.addEventListener('mousedown', onMousedownHandler, false);
     canvas.addEventListener('mousemove', onMousemoveHandler, false);
     document.addEventListener('mouseup', onMouseupHandler, false);
-    document.addEventListener('contextmenu', e => e.preventDefault(), false);
+    document.addEventListener('contextmenu', (e) => e.preventDefault(), false);
 
     return this;
   }

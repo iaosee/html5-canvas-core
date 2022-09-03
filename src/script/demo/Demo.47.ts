@@ -1,6 +1,7 @@
 import * as dat from 'dat.gui';
-import Stats from 'stats.js';
+import * as Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
+import imageSky from '../../../asset/images/sky.png';
 
 /**
  * @description 动画 —— 背景动画
@@ -13,7 +14,7 @@ export class Demo extends BaseDemo {
   public skyOffset: number = 0;
 
   public config = {
-    SKY_VELOCITY: 100 // pixels/second
+    SKY_VELOCITY: 100, // pixels/second
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -21,8 +22,8 @@ export class Demo extends BaseDemo {
 
     this.createControl()
       .initStats()
-      .loadImage(require('../../../asset/images/sky.png'))
-      .then(image => (this.sky = image))
+      .loadImage(imageSky)
+      .then((image) => (this.sky = image))
       .then(() => this.startPlay());
   }
 
@@ -35,9 +36,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw(timestamp: number) {
-    this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+    this.clearScreen().drawGrid().drawScene(timestamp);
 
     this.stats.update();
     this.lastTime = timestamp;
@@ -57,11 +56,7 @@ export class Demo extends BaseDemo {
     this.gui = new dat.GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'SKY_VELOCITY')
-      .min(10)
-      .max(1000)
-      .step(10);
+    gui.add(config, 'SKY_VELOCITY').min(10).max(1000).step(10);
 
     return this;
   }

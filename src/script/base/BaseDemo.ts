@@ -1,6 +1,6 @@
 import { Point } from '../geometry/Point';
 import { GUI } from 'dat.gui';
-import Stats from 'stats.js';
+import * as Stats from 'stats.js';
 
 /**
  * @description BaseDemo
@@ -10,6 +10,7 @@ export class BaseDemo {
   public config: any = {};
   public player: number = null;
   public context: CanvasRenderingContext2D;
+  public dpr: number = window.devicePixelRatio || 1;
 
   public gui: GUI;
   public stats: Stats;
@@ -68,8 +69,7 @@ export class BaseDemo {
   }
 
   public setViewport() {
-    const { canvas, context } = this;
-    const dpr = window.devicePixelRatio || 1;
+    const { canvas, context, dpr } = this;
     const boundingRect = canvas.getBoundingClientRect();
     const width = boundingRect.width;
     const height = boundingRect.height;
@@ -217,7 +217,9 @@ export class BaseDemo {
   public coordinateTransformation(x: number, y: number): Point {
     const { canvas } = this;
     const bbox = canvas.getBoundingClientRect();
-    return new Point(x - bbox.left * (this.width / bbox.width), y - bbox.top * (this.height / bbox.height));
+    const pX = x - bbox.left * (this.width / bbox.width);
+    const pY = y - bbox.top * (this.height / bbox.height)
+    return new Point(pX, pY);
     // return {
     //   x: x - bbox.left * (this.width / bbox.width),
     //   y: y - bbox.top * (canvas.height / bbox.height)
