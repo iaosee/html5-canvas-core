@@ -40,16 +40,13 @@
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "./node_modules/.bin/prettier --write",
-      "git add"
+      "./node_modules/.bin/prettier --write"
     ],
     "src/**/*.{css,scss}": [
-      "./node_modules/.bin/prettier --write",
-      "git add"
+      "./node_modules/.bin/prettier --write"
     ],
     "src/**/*.html": [
-      "./node_modules/.bin/prettier --write",
-      "git add"
+      "./node_modules/.bin/prettier --write"
     ]
   }
 }
