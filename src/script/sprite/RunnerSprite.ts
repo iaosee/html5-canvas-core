@@ -1,6 +1,7 @@
 import { AnimationTimer } from './AnimationTimer';
 import { Sprite, SheetCell, IBehavior } from './Sprite';
 import { SpriteSheetPainter } from './SpriteSheetPainter';
+import running_sprite_sheet from '../../../asset/images/running-sprite-sheet.png';
 
 export class RunnerSprite extends Sprite<SpriteSheetPainter> {
   private runnerCells: SheetCell[] = [
@@ -17,7 +18,7 @@ export class RunnerSprite extends Sprite<SpriteSheetPainter> {
 
   public constructor(name: string = 'RunnerSprite') {
     super(name);
-    this.painter = new SpriteSheetPainter(require('../../../asset/images/running-sprite-sheet.png'), this.runnerCells);
+    this.painter = new SpriteSheetPainter(running_sprite_sheet, this.runnerCells);
     const cell = this.runnerCells[this.painter.cellIndex];
     this.width = cell.width;
     this.height = cell.height;

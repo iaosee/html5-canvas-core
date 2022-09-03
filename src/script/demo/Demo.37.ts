@@ -1,5 +1,6 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
+import image_flower_url from '../../../asset/images/flower.jpg';
 
 /**
  * @description 图像绘制 —— 使用离屏 Canvas 提高性能
@@ -19,7 +20,7 @@ export class Demo extends BaseDemo {
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
-    const img = require('../../../asset/images/flower.jpg');
+    const img = image_flower_url;
     console.log(img);
 
     this.initOffScreenCanvas();
@@ -54,6 +55,7 @@ export class Demo extends BaseDemo {
     this.offScreenContext = this.offScreenCanvas.getContext('2d');
     this.offScreenCanvas.width = canvas.width;
     this.offScreenCanvas.height = canvas.height;
+    this.offScreenContext.scale(this.dpr, this.dpr);
   }
 
   private createControl() {
@@ -88,7 +90,7 @@ export class Demo extends BaseDemo {
 
     context.font = FONT_HEIGHT + 'px Arial';
     textMetrics = context.measureText(lineOne);
-    context.translate(canvas.width / 2, canvas.height - canvas.height / 2);
+    context.translate(this.width / 2, this.height - this.height / 2);
     context.fillText(lineOne, -textMetrics.width / 2, 0);
     context.strokeText(lineOne, -textMetrics.width / 2, 0);
 
@@ -102,15 +104,15 @@ export class Demo extends BaseDemo {
     const { context, offScreenCanvas, canvas, config } = this;
 
     // 画布宽高
-    const w = canvas.width;
-    const h = canvas.height;
+    const w = this.width;
+    const h = this.height;
 
     // 缩放后的图像宽高
     const sw = w * config.scale;
     const sh = h * config.scale;
 
     // 绘制到画布中心
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.clearRect(0, 0, this.width, this.height);
     // context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
     context.drawImage(
       offScreenCanvas,

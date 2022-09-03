@@ -18,7 +18,7 @@ export class Demo extends BaseDemo {
   }
 
   public createGradient() {
-    const { context, canvas } = this;
+    const { context } = this;
 
     const gradient1 = context.createLinearGradient(0, 0, this.centerX, 0);
     gradient1.addColorStop(0.0, 'blue');

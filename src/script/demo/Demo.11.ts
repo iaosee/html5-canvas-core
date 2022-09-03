@@ -1,4 +1,5 @@
 import { BaseDemo } from '../base/BaseDemo';
+import imgUrl from '../../../asset/images/redball.png';
 
 /**
  * @description 创建图案
@@ -28,7 +29,7 @@ export class Demo extends BaseDemo {
   }
 
   public async loadAssets() {
-    const image = await this.loadImage(require('../../../asset/images/redball.png'));
+    const image = await this.loadImage(imgUrl);
     return image;
   }
 

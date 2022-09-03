@@ -1,6 +1,7 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../geometry/Point';
+import image_flower_url from '../../../asset/images/flower.jpg';
 
 /**
  * @description 图像绘制
@@ -18,7 +19,7 @@ export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.loadImage(require('../../../asset/images/flower.jpg'))
+    this.loadImage(image_flower_url)
       .then(image => (this.image = image))
       .then(() => this.clearScreen().drawScene());
 

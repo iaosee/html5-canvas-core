@@ -18,7 +18,7 @@ export class Demo extends BaseDemo {
   }
 
   public createGradient() {
-    const { context, canvas } = this;
+    const { context } = this;
 
     const gradient1 = context.createRadialGradient(
       this.centerX / 2,
@@ -34,16 +34,16 @@ export class Demo extends BaseDemo {
     gradient1.addColorStop(0.75, 'red');
     gradient1.addColorStop(1.0, 'yellow');
     context.fillStyle = gradient1;
-    context.fillRect(0, 0, this.centerX, canvas.height / 2);
+    context.fillRect(0, 0, this.centerX, this.height / 2);
 
-    const gradient2 = context.createRadialGradient(this.centerX, canvas.height / 2, 20, canvas.width, 0, 200);
+    const gradient2 = context.createRadialGradient(this.centerX, this.height / 2, 20, this.width, 0, 200);
     gradient2.addColorStop(0.0, 'blue');
     gradient2.addColorStop(0.25, 'white');
     gradient2.addColorStop(0.5, 'yellow');
     gradient2.addColorStop(0.75, 'red');
     gradient2.addColorStop(1.0, 'purple');
     context.fillStyle = gradient2;
-    context.fillRect(this.centerX, 0, canvas.width / 2, canvas.height / 2);
+    context.fillRect(this.centerX, 0, this.width / 2, this.height / 2);
 
     const gradient3 = context.createRadialGradient(
       this.centerX / 2,
@@ -59,7 +59,7 @@ export class Demo extends BaseDemo {
     // gradient3.addColorStop(0.75, 'red');
     gradient3.addColorStop(1.0, 'white');
     context.fillStyle = gradient3;
-    context.fillRect(0, this.centerY, canvas.width / 2, canvas.height / 2);
+    context.fillRect(0, this.centerY, this.width / 2, this.height / 2);
 
     const gradient4 = context.createRadialGradient(
       this.centerX * 1.5,

@@ -1,5 +1,6 @@
 import * as dat from 'dat.gui';
 import { BaseDemo } from '../base/BaseDemo';
+import image_flower_url from '../../../asset/images/flower.jpg';
 
 /**
  * @description 像素处理 - 负片滤镜
@@ -17,7 +18,7 @@ export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.loadImage(require('../../../asset/images/flower.jpg'))
+    this.loadImage(image_flower_url)
       .then(image => (this.image = image))
       .then(() => {
         this.drawScene();
@@ -56,7 +57,7 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene() {
-    const { context, config, image } = this;
+    const { canvas, context, config, image } = this;
 
     // 画布宽高
     const w = this.width;
@@ -64,11 +65,11 @@ export class Demo extends BaseDemo {
 
     // 缩放后的图像宽高
     const ratio = (image.width * config.scale) / image.width;
-    const sw = image.width * config.scale;
-    const sh = image.height * ratio;
+    const sw = image.width * config.scale / this.dpr;
+    const sh = image.height * ratio / this.dpr;
 
     // 绘制到画布中心
-    context.clearRect(0, 0, this.width, this.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
     context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
 
     return this;
@@ -77,7 +78,7 @@ export class Demo extends BaseDemo {
   public updatePixel() {
     const { context } = this;
 
-    const imagedata = context.getImageData(0, 0, this.width, this.height);
+    const imagedata = context.getImageData(0, 0, this.canvas.width, this.canvas.height);
     const data = imagedata.data;
 
     for (let i = 0; i <= data.length - 4; i += 4) {

@@ -5,6 +5,7 @@ import { BlackWhiteFilter } from '../filters/BlackWhiteFilter';
 import { NegativeFilter } from '../filters/NegativeFilter';
 import { EmbossmentFilter } from '../filters/EmbossmentFilter';
 import { SunglassesFilter } from '../filters/SunglassesFilter';
+import image_flower_url from '../../../asset/images/flower.jpg';
 
 /**
  * @description 像素处理与裁剪
@@ -23,7 +24,7 @@ export class Demo extends BaseDemo {
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.loadImage(require('../../../asset/images/flower.jpg'))
+    this.loadImage(image_flower_url)
       .then(image => (this.image = image))
       .then(() => {
         this.drawScene();
@@ -82,7 +83,7 @@ export class Demo extends BaseDemo {
     const sh = image.height * ratio;
 
     // 绘制到画布中心
-    context.clearRect(0, 0, this.width, this.height);
+    context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     context.drawImage(this.image, -sw / 2 + w / 2, -sh / 2 + h / 2, sw, sh);
 
     return this;
@@ -93,7 +94,7 @@ export class Demo extends BaseDemo {
     this.drawScene();
 
     let filter: IFilter = null;
-    const imagedata = context.getImageData(0, 0, this.width, this.height);
+    const imagedata = context.getImageData(0, 0, this.canvas.width, this.canvas.height);
 
     switch (type) {
       case 1:
