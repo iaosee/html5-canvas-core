@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 
 import { Random } from '../tools/Random';
 import { BaseDemo } from '../base/BaseDemo';
@@ -243,7 +243,7 @@ export class Demo extends BaseDemo {
     '👀',
     '🦴',
     '🦷',
-    '👄'
+    '👄',
   ];
 
   private mousePosition: Point = { x: 0, y: 0 };
@@ -251,15 +251,13 @@ export class Demo extends BaseDemo {
     quantity: 100,
     letterType: 1,
     lineType: 0,
-    displayLetter: true
+    displayLetter: true,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl()
-      .createLetter(null, this.config.quantity)
-      .listenEvents();
+    this.createControl().createLetter(null, this.config.quantity).listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -267,15 +265,12 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawLines()
-      .drawLetters();
+    return this.clearScreen().drawGrid().drawLines().drawLetters();
   }
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui
@@ -307,7 +302,7 @@ export class Demo extends BaseDemo {
 
     position = position || {
       x: this.random.range(0, this.width).getOne(),
-      y: this.random.range(0, this.height).getOne()
+      y: this.random.range(0, this.height).getOne(),
     };
 
     clean && this.letters.splice(0, this.letters.length);
@@ -315,7 +310,7 @@ export class Demo extends BaseDemo {
     for (let i = 0; i < quantity; i++) {
       const point: Point = {
         x: position.x || this.centerX,
-        y: position.y || this.centerY
+        y: position.y || this.centerY,
       };
       const randIndex = this.random.range(0, characters.length - 1).getOne();
 
@@ -325,7 +320,7 @@ export class Demo extends BaseDemo {
         velocityY: Math.random() * (this.random.range(-4, 4).getOne() || 4),
         color: this.randomRgba(),
         size: this.random.range(12, 50).getOne(),
-        symbol: characters[randIndex]
+        symbol: characters[randIndex],
       });
     }
 

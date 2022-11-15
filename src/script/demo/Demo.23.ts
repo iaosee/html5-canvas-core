@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { Point } from '../interfaces';
 import { Rubberband } from '../base/Rubberband';
 
@@ -11,7 +11,7 @@ export class Demo extends Rubberband {
     sides: 5,
     startAngle: 0,
     fillStyle: [71, 163, 56, 0.2],
-    strokeStyle: [0, 128, 255, 0.8]
+    strokeStyle: [0, 128, 255, 0.8],
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -34,20 +34,12 @@ export class Demo extends Rubberband {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'sides')
-      .min(3)
-      .max(50)
-      .step(1);
+    gui.add(config, 'sides').min(3).max(50).step(1);
 
-    gui
-      .add(config, 'startAngle')
-      .min(0)
-      .max(180)
-      .step(15);
+    gui.add(config, 'startAngle').min(0).max(180).step(15);
 
     gui.addColor(config, 'fillStyle');
     gui.addColor(config, 'strokeStyle');
@@ -87,7 +79,7 @@ export class Demo extends Rubberband {
     for (let i = 0; i < sides; i++) {
       points.push({
         x: center.x + Math.sin(startAngle) * radius,
-        y: center.y - Math.cos(startAngle) * radius
+        y: center.y - Math.cos(startAngle) * radius,
       });
       startAngle += (2 * Math.PI) / sides;
     }

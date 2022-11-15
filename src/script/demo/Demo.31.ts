@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 
 /**
@@ -8,7 +8,7 @@ export class Demo extends BaseDemo {
   public name: string = '波浪效果';
   public points: any[] = [];
   public config = {
-    fluctuateRange: 10 // 波动幅度
+    fluctuateRange: 10, // 波动幅度
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -21,21 +21,14 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .update()
-      .drawScene();
+    return this.clearScreen().drawGrid().update().drawScene();
   }
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'fluctuateRange')
-      .min(5)
-      .max(50)
-      .step(1);
+    gui.add(config, 'fluctuateRange').min(5).max(50).step(1);
 
     return this;
   }

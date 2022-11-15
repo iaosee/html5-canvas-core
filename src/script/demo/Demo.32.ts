@@ -1,15 +1,15 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../geometry/Point';
 
 enum ShapeStyle {
   Linellae = 'linellae',
-  Circle = 'circle'
+  Circle = 'circle',
 }
 
 enum BackgroundColor {
   Light = 'light',
-  Dark = 'dark'
+  Dark = 'dark',
 }
 
 /**
@@ -26,15 +26,13 @@ export class Demo extends BaseDemo {
     maxRangeRadius: 800,
     maxStarRadius: 5,
     shapeStyle: ShapeStyle.Linellae,
-    backgroundColor: BackgroundColor.Dark
+    backgroundColor: BackgroundColor.Dark,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl()
-      .generatePoint()
-      .listenEvents();
+    this.createControl().generatePoint().listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -56,7 +54,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui
@@ -80,11 +78,11 @@ export class Demo extends BaseDemo {
 
     gui.add(config, 'shapeStyle', {
       linellae: ShapeStyle.Linellae,
-      circle: ShapeStyle.Circle
+      circle: ShapeStyle.Circle,
     });
     gui.add(config, 'backgroundColor', {
       light: BackgroundColor.Light,
-      dark: BackgroundColor.Dark
+      dark: BackgroundColor.Dark,
     });
     gui.add(config, 'isFill');
 
@@ -117,7 +115,7 @@ export class Demo extends BaseDemo {
 
   public drawScene() {
     const { stars } = this;
-    stars.forEach(star => star.draw(this));
+    stars.forEach((star) => star.draw(this));
     return this;
   }
 

@@ -1,9 +1,9 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 
 enum ShapeStyle {
   Linellae = 'linellae',
-  Circle = 'circle'
+  Circle = 'circle',
 }
 
 /**
@@ -14,7 +14,7 @@ export class Demo extends BaseDemo {
   public config = {
     radius: 300,
     fontSize: 50,
-    text: 'Hello canvas, hello world. It\'s so funny. '
+    text: "Hello canvas, hello world. It's so funny. ",
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -28,9 +28,7 @@ export class Demo extends BaseDemo {
   }
 
   public start() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene();
+    return this.clearScreen().drawGrid().drawScene();
   }
 
   public draw() {
@@ -39,7 +37,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'text').onFinishChange(() => this.start());

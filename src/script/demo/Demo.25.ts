@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { Rubberband } from '../base/Rubberband';
 
 import { Point } from '../geometry/Point';
@@ -22,10 +22,8 @@ export class Demo extends Rubberband {
     editing: false,
     redraw: () => {
       console.log('redraw');
-      this.clearScreen()
-        .drawGrid()
-        .drawPolygons();
-    }
+      this.clearScreen().drawGrid().drawPolygons();
+    },
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -48,20 +46,12 @@ export class Demo extends Rubberband {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'sides')
-      .min(3)
-      .max(50)
-      .step(1);
+    gui.add(config, 'sides').min(3).max(50).step(1);
 
-    gui
-      .add(config, 'startAngle')
-      .min(0)
-      .max(180)
-      .step(15);
+    gui.add(config, 'startAngle').min(0).max(180).step(15);
 
     gui.add(config, 'filled');
     gui.addColor(config, 'fillStyle');
@@ -104,13 +94,13 @@ export class Demo extends Rubberband {
   }
 
   public drawPolygons() {
-    this.polygons.forEach(polygon => this.drawPolygon(polygon));
+    this.polygons.forEach((polygon) => this.drawPolygon(polygon));
     return this;
   }
 
   public listenEvents() {
     super.listenEvents();
-    window.addEventListener('keydown', e => e.key === 'c' && (this.polygons = []));
+    window.addEventListener('keydown', (e) => e.key === 'c' && (this.polygons = []));
 
     return this;
   }
@@ -125,7 +115,7 @@ export class Demo extends Rubberband {
 
     if (config.editing) {
       // this.drawPolygons();
-      this.polygons.forEach(polygon => {
+      this.polygons.forEach((polygon) => {
         if (!polygon.pointInPath(new Point(event.clientX, event.clientY))) {
           return;
         }
@@ -151,9 +141,7 @@ export class Demo extends Rubberband {
           new Point(this.mousemovePos.x - this.draggingOffsetPos.x, this.mousemovePos.y - this.draggingOffsetPos.y)
         );
 
-      this.clearScreen()
-        .drawGrid()
-        .drawPolygons();
+      this.clearScreen().drawGrid().drawPolygons();
     } else if (this.dragging) {
       this.restoreDrawingSurface();
       this.updateRubberband(this.mousemovePos);

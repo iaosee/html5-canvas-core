@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../geometry/Point';
 import image_flower_url from '../../../asset/images/flower.jpg';
@@ -13,14 +13,14 @@ export class Demo extends BaseDemo {
   public config = {
     scale: 1.0,
     minScale: 0.1,
-    maxScale: 5.0
+    maxScale: 5.0,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(image_flower_url)
-      .then(image => (this.image = image))
+      .then((image) => (this.image = image))
       .then(() => this.clearScreen().drawScene());
 
     this.createControl().listenEvents();
@@ -40,7 +40,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui

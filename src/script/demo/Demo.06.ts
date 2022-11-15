@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 
 import { Random } from '../tools/Random';
 import { BaseDemo } from '../base/BaseDemo';
@@ -14,19 +14,17 @@ export class Demo extends BaseDemo {
   private mousePosition: Point = { x: 0, y: 0 };
   public config: any = {
     circleQuantity: 50,
-    lineType: 1
+    lineType: 1,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
     const pos: Point = {
       x: this.centerX,
-      y: this.centerY
+      y: this.centerY,
     };
 
-    this.createControl()
-      .createCircle(pos, this.config.circleQuantity)
-      .listenEvents();
+    this.createControl().createCircle(pos, this.config.circleQuantity).listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -34,16 +32,13 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawCircles()
-      .drawLines();
+    return this.clearScreen().drawGrid().drawLines().drawCircles();
   }
 
   private createControl() {
     const { config } = this;
 
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui
@@ -67,7 +62,7 @@ export class Demo extends BaseDemo {
     for (let i = 0; i < quantity; i++) {
       const point: Point = {
         x: position.x || this.centerX,
-        y: position.y || this.centerY
+        y: position.y || this.centerY,
       };
 
       this.circles.push({
@@ -75,7 +70,7 @@ export class Demo extends BaseDemo {
         velocityX: Math.random() * (this.random.range(-2, 2).getOne() || 2),
         velocityY: Math.random() * (this.random.range(-2, 2).getOne() || 2),
         radius: this.random.range(5, 10).getOne(),
-        color: this.randomRgba()
+        color: this.randomRgba(),
       });
     }
 
@@ -84,7 +79,7 @@ export class Demo extends BaseDemo {
 
   private drawCircles() {
     const { context } = this;
-    this.circles.forEach(circle => {
+    this.circles.forEach((circle) => {
       context.beginPath();
       context.arc(circle.position.x, circle.position.y, circle.radius, 0, Math.PI * 2, false);
 
@@ -192,7 +187,7 @@ export class Demo extends BaseDemo {
       if (!(circle as any).origin_radius) {
         (circle as any).origin_radius = circle.radius;
       }
-      if (circle.radius <= 100) {
+      if (circle.radius <= 50) {
         circle.radius += 2;
       }
     } else if (circle.radius >= (circle as any).origin_radius) {

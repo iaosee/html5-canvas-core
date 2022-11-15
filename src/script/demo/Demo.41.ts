@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { Point } from '../interfaces';
 import { BaseDemo } from '../base/BaseDemo';
 import { IFilter } from '../filters/IFilter';
@@ -62,7 +62,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui

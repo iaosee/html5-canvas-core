@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Sprite, IBehavior, IPainter } from '../sprite/Sprite';
 
@@ -16,7 +16,7 @@ export class Demo extends BaseDemo {
     PIVOT_RADIUS: 7,
     WEIGHT_RADIUS: 25,
     INITIAL_ANGLE: Math.PI / 4,
-    ROD_LENGTH_IN_PIXELS: 300
+    ROD_LENGTH_IN_PIXELS: 300,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -30,7 +30,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui
@@ -58,9 +58,7 @@ export class Demo extends BaseDemo {
   public draw(timestamp: number) {
     // const now = +new Date();
 
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+    return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
   public initSprite() {

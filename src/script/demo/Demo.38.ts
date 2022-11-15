@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { Point } from '../geometry/Point';
 import { Rubberband } from '../base/Rubberband';
 import image_flower_url from '../../../asset/images/flower.jpg';
@@ -13,14 +13,14 @@ export class Demo extends Rubberband {
 
   public config = {
     scale: 1.0,
-    resetScene: () => this.drawScene()
+    resetScene: () => this.drawScene(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(image_flower_url)
-      .then(image => (this.image = image))
+      .then((image) => (this.image = image))
       .then(() => {
         this.drawScene();
       });
@@ -42,7 +42,7 @@ export class Demo extends Rubberband {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui

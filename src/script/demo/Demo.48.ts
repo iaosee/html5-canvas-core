@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import * as Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
 import image_sky from '../../../asset/images/sky.png';
@@ -77,7 +77,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'SKY_VELOCITY').min(10).max(200).step(10);

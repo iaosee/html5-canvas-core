@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import image_flower_url from '../../../asset/images/flower.jpg';
 
@@ -12,14 +12,14 @@ export class Demo extends BaseDemo {
   public config = {
     scale: 0.2,
     resetScene: () => this.drawScene(),
-    negative: () => this.updatePixel()
+    negative: () => this.updatePixel(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(image_flower_url)
-      .then(image => (this.image = image))
+      .then((image) => (this.image = image))
       .then(() => {
         this.drawScene();
       });
@@ -41,7 +41,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui
@@ -65,8 +65,8 @@ export class Demo extends BaseDemo {
 
     // 缩放后的图像宽高
     const ratio = (image.width * config.scale) / image.width;
-    const sw = image.width * config.scale / this.dpr;
-    const sh = image.height * ratio / this.dpr;
+    const sw = (image.width * config.scale) / this.dpr;
+    const sh = (image.height * ratio) / this.dpr;
 
     // 绘制到画布中心
     context.clearRect(0, 0, canvas.width, canvas.height);

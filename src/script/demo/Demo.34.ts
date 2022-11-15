@@ -1,10 +1,10 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import IMG_URL from '../../../asset/images/image-01.jpg';
 
 enum ShapeStyle {
   Linellae = 'linellae',
-  Circle = 'circle'
+  Circle = 'circle',
 }
 
 /**
@@ -13,7 +13,7 @@ enum ShapeStyle {
 export class Demo extends BaseDemo {
   public name: string = '文字填充';
   public config = {
-    text: 'Hello, Canvas'
+    text: 'Hello, Canvas',
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -27,9 +27,7 @@ export class Demo extends BaseDemo {
   }
 
   public start() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene();
+    return this.clearScreen().drawGrid().drawScene();
   }
 
   public draw() {
@@ -38,7 +36,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'text').onFinishChange(() => this.start());
@@ -57,7 +55,7 @@ export class Demo extends BaseDemo {
     context.shadowColor = 'rgba(100, 100, 150, 0.8)';
 
     this.drawGradientText();
-    this.loadImage(IMG_URL).then(image => this.drawPatternText(image));
+    this.loadImage(IMG_URL).then((image) => this.drawPatternText(image));
 
     return this;
   }

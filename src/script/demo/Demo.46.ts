@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
@@ -18,20 +18,17 @@ export class Demo extends BaseDemo {
 
   public fps = 0;
   public config = {
-    timeBased: false
+    timeBased: false,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
     const pos: Point = {
       x: this.centerX,
-      y: this.centerY
+      y: this.centerY,
     };
 
-    this.createControl()
-      .initStats()
-      .createCircle(pos, 50)
-      .listenEvents();
+    this.createControl().initStats().createCircle(pos, 50).listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -49,10 +46,7 @@ export class Demo extends BaseDemo {
       this.lastFpsUpdateTime = now;
     }
 
-    this.clearScreen()
-      .drawGrid()
-      .drawCircles()
-      .drawFpsLabel(this.lastFpsUpdate);
+    this.clearScreen().drawGrid().drawCircles().drawFpsLabel(this.lastFpsUpdate);
 
     this.stats.update();
     this.lastTime = timestamp;
@@ -69,7 +63,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'timeBased');
@@ -82,7 +76,7 @@ export class Demo extends BaseDemo {
     for (let i = 0; i < quantity; i++) {
       const point: Point = {
         x: position.x || this.centerX,
-        y: position.y || this.centerY
+        y: position.y || this.centerY,
       };
 
       this.circles.push({
@@ -90,7 +84,7 @@ export class Demo extends BaseDemo {
         velocityX: Math.random() * (this.random.range(-8, 8).getOne() || 8),
         velocityY: Math.random() * (this.random.range(-8, 8).getOne() || 8),
         radius: Math.random() * 20,
-        color: this.randomRgba()
+        color: this.randomRgba(),
       });
     }
 
@@ -99,7 +93,7 @@ export class Demo extends BaseDemo {
 
   private drawCircles() {
     const { context, config } = this;
-    this.circles.forEach(circle => {
+    this.circles.forEach((circle) => {
       context.beginPath();
       context.arc(circle.position.x, circle.position.y, circle.radius, 0, Math.PI * 2, false);
 

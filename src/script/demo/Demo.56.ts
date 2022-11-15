@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { AnimationTimer } from '../sprite/AnimationTimer';
 import { IBehavior, Sprite } from '../sprite/Sprite';
@@ -20,13 +20,13 @@ export class Demo extends BaseDemo {
     easeOut: AnimationTimer.easeOut(2),
     easeInOut: AnimationTimer.easeInOut(),
     elastic: AnimationTimer.elastic(4),
-    bounce: AnimationTimer.bounce(4)
+    bounce: AnimationTimer.bounce(4),
   };
 
   public config = {
     trace: false,
     animationFn: 'linear',
-    restartAnimation: () => this.restartAnimationTimer()
+    restartAnimation: () => this.restartAnimationTimer(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -41,11 +41,11 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'trace');
-    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange(value => {
+    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange((value) => {
       this.pushAnimationTimer.setTimeWarp(this.animationFnMap[value]);
     });
     gui.add(config, 'restartAnimation');
@@ -56,16 +56,14 @@ export class Demo extends BaseDemo {
   public draw(timestamp: number) {
     // const now = +new Date();
 
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+    return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
   public initSprite() {
     const { pushAnimationTimer } = this;
 
     this.ball = new Sprite('ball', {
-      paint: (sprite: Sprite, context: CanvasRenderingContext2D) => this.paintBall(sprite, context)
+      paint: (sprite: Sprite, context: CanvasRenderingContext2D) => this.paintBall(sprite, context),
     });
 
     this.ledge = new Sprite('ledge', {
@@ -79,7 +77,7 @@ export class Demo extends BaseDemo {
         context.fillStyle = 'rgba(255,255,0,0.6)';
         context.fillRect(sprite.x, sprite.y, sprite.width, sprite.height);
         context.restore();
-      }
+      },
     });
 
     this.ballMoveBehavior = new MoveBallBehavior(this.ball, this.ledge, pushAnimationTimer);
@@ -109,7 +107,7 @@ export class Demo extends BaseDemo {
     ledge.paint(context);
 
     config.trace &&
-      ballMoveBehavior.ballLocations.forEach(loc => {
+      ballMoveBehavior.ballLocations.forEach((loc) => {
         this.paintBall(ball, context, loc);
       });
 

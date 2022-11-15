@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { Rubberband } from '../base/Rubberband';
 import { Point } from '../geometry/Point';
 import { BezierCurve } from '../geometry/BezierCurve';
@@ -18,7 +18,7 @@ export class Demo extends Rubberband {
     endPointFillStyle: [255, 124, 3, 0.5],
     ctrlPointFillStyle: [30, 130, 13, 0.5],
     strokeStyle: [0, 128, 255, 0.8],
-    CONTROL_POINT_RADIUS: 5
+    CONTROL_POINT_RADIUS: 5,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -41,15 +41,11 @@ export class Demo extends Rubberband {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     // gui.add(config, 'curveType', ['QuadraticCurve', 'CubeBezier']);
-    gui
-      .add(config, 'lineWidth')
-      .min(1)
-      .max(20)
-      .step(1);
+    gui.add(config, 'lineWidth').min(1).max(20).step(1);
     gui.addColor(config, 'strokeStyle');
     gui.addColor(config, 'endPointFillStyle');
     gui.addColor(config, 'ctrlPointFillStyle');
@@ -173,7 +169,7 @@ export class Demo extends Rubberband {
     const { context, dpr, config, endPoints } = this;
     let pt: Point;
 
-    endPoints.forEach(point => {
+    endPoints.forEach((point) => {
       context.beginPath();
       context.arc(point.x, point.y, config.CONTROL_POINT_RADIUS + config.lineWidth, 0, Math.PI * 2, false);
 
@@ -189,7 +185,7 @@ export class Demo extends Rubberband {
     const { context, dpr, config, controlPoints } = this;
     let pt: Point;
 
-    controlPoints.forEach(function(point) {
+    controlPoints.forEach(function (point) {
       context.beginPath();
       context.arc(point.x, point.y, config.CONTROL_POINT_RADIUS + config.lineWidth, 0, Math.PI * 2, false);
 
