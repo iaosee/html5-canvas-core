@@ -1,9 +1,9 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 
 enum ShapeStyle {
   Linellae = 'linellae',
-  Circle = 'circle'
+  Circle = 'circle',
 }
 
 /**
@@ -20,7 +20,7 @@ export class Demo extends BaseDemo {
 
   public config = {
     noise: 20,
-    speed: 0.2
+    speed: 0.2,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -34,9 +34,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene();
+    return this.clearScreen().drawGrid().drawScene();
   }
 
   public clearScreen() {
@@ -51,20 +49,12 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'noise')
-      .min(1)
-      .max(500)
-      .step(1);
+    gui.add(config, 'noise').min(1).max(500).step(1);
 
-    gui
-      .add(config, 'speed')
-      .min(0.01)
-      .max(0.5)
-      .step(0.01);
+    gui.add(config, 'speed').min(0.01).max(0.5).step(0.01);
 
     return this;
   }

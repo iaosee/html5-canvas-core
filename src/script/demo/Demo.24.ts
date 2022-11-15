@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { Rubberband } from '../base/Rubberband';
 
 import { Point } from '../geometry/Point';
@@ -19,10 +19,8 @@ export class Demo extends Rubberband {
     filled: true,
     redraw: () => {
       console.log('redraw');
-      this.clearScreen()
-        .drawGrid()
-        .drawPolygons();
-    }
+      this.clearScreen().drawGrid().drawPolygons();
+    },
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -45,20 +43,12 @@ export class Demo extends Rubberband {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'sides')
-      .min(3)
-      .max(50)
-      .step(1);
+    gui.add(config, 'sides').min(3).max(50).step(1);
 
-    gui
-      .add(config, 'startAngle')
-      .min(0)
-      .max(180)
-      .step(15);
+    gui.add(config, 'startAngle').min(0).max(180).step(15);
 
     gui.add(config, 'filled');
     gui.addColor(config, 'fillStyle');
@@ -97,14 +87,11 @@ export class Demo extends Rubberband {
       console.log(radius);
       console.log(radius2);
 
-      polygon.on('click', function(e: MouseEvent) {
+      polygon.on('click', function (e: MouseEvent) {
         console.log(this);
         console.log(e);
         this.fillStyle = _this.randomRgba();
-        _this
-          .clearScreen()
-          .drawGrid()
-          .drawPolygons();
+        _this.clearScreen().drawGrid().drawPolygons();
       });
 
       this.polygons.push(polygon);
@@ -114,7 +101,7 @@ export class Demo extends Rubberband {
 
   public drawPolygons() {
     const { context } = this;
-    this.polygons.forEach(polygon => {
+    this.polygons.forEach((polygon) => {
       polygon.stroke();
       if (polygon.filled) {
         polygon.fill();
@@ -126,7 +113,7 @@ export class Demo extends Rubberband {
 
   public listenEvents() {
     super.listenEvents();
-    window.addEventListener('keydown', e => e.key === 'c' && (this.polygons = []));
+    window.addEventListener('keydown', (e) => e.key === 'c' && (this.polygons = []));
 
     return this;
   }

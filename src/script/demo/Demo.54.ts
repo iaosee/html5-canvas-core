@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../interfaces';
 import { renderStyle } from '../tools/util';
@@ -35,17 +35,17 @@ export class Demo extends BaseDemo {
     ledge: {
       X: 100,
       Y: this.height - 100,
-      WIDTH: 100
+      WIDTH: 100,
     },
     ball: {
-      RADIUS: 10
+      RADIUS: 10,
     },
     bucket: {
       X: this.width - 200,
-      Y: this.height - 150
+      Y: this.height - 150,
     },
     GRAVITY_FORCE: 9.81,
-    launchTime: undefined as any
+    launchTime: undefined as any,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -54,12 +54,9 @@ export class Demo extends BaseDemo {
     this.createControl()
       .addTipsToScene()
       .loadImage(bucket)
-      .then(image => {
+      .then((image) => {
         this.bucketImage = image;
-        this.initSprite()
-          .resetSpriteStatus()
-          .listenEvents()
-          .startPlay();
+        this.initSprite().resetSpriteStatus().listenEvents().startPlay();
       });
   }
 
@@ -69,7 +66,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui
@@ -117,9 +114,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw(timestamp: number) {
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+    return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
   public destroy() {
@@ -134,7 +129,7 @@ export class Demo extends BaseDemo {
       cursor: 'crosshair',
       top: '0',
       left: '50%',
-      transform: 'translate(-50%, 0)'
+      transform: 'translate(-50%, 0)',
     });
     document.body.appendChild(this.tipsInfo);
     return this;
@@ -158,7 +153,7 @@ export class Demo extends BaseDemo {
         context.fill();
         context.stroke();
         context.restore();
-      }
+      },
     });
     this.ball = new Sprite(
       'ball',
@@ -203,7 +198,7 @@ export class Demo extends BaseDemo {
           context.stroke();
 
           context.restore();
-        }
+        },
       },
       []
     );
@@ -214,7 +209,7 @@ export class Demo extends BaseDemo {
         context.rect(sprite.x, sprite.y, sprite.width, sprite.height);
         context.stroke();
         context.drawImage(bucketImage, sprite.x, sprite.y);
-      }
+      },
     });
 
     const ballBehavior = new LobBallBehavior(this);

@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
 import { Point, Circle } from '../interfaces';
@@ -15,19 +15,17 @@ export class Demo extends BaseDemo {
     circleMinRadius: 5,
     circleMaxRadius: 50,
     throttleValue: 100,
-    collisionDetection: false
+    collisionDetection: false,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
     const pos: Point = {
       x: this.centerX,
-      y: this.centerY
+      y: this.centerY,
     };
 
-    this.createControl()
-      .createCircle()
-      .listenEvents();
+    this.createControl().createCircle().listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -35,39 +33,21 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawCircles();
+    return this.clearScreen().drawGrid().drawCircles();
   }
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'circleQuantity')
-      .min(0)
-      .max(100)
-      .step(1);
+    gui.add(config, 'circleQuantity').min(0).max(100).step(1);
 
-    gui
-      .add(config, 'circleMinRadius')
-      .min(1)
-      .max(50)
-      .step(1);
+    gui.add(config, 'circleMinRadius').min(1).max(50).step(1);
 
-    gui
-      .add(config, 'circleMaxRadius')
-      .min(5)
-      .max(100)
-      .step(1);
+    gui.add(config, 'circleMaxRadius').min(5).max(100).step(1);
 
-    gui
-      .add(config, 'throttleValue')
-      .min(0)
-      .max(1000)
-      .step(10);
+    gui.add(config, 'throttleValue').min(0).max(1000).step(10);
 
     gui.add(config, 'collisionDetection');
 
@@ -85,7 +65,7 @@ export class Demo extends BaseDemo {
     for (let i = 0; i < quantity; i++) {
       const point: Point = {
         x: position.x || Math.random() * this.width,
-        y: position.y || Math.random() * this.height
+        y: position.y || Math.random() * this.height,
       };
 
       const radius = Random.init(config.circleMinRadius, config.circleMaxRadius).getOne();
@@ -95,7 +75,7 @@ export class Demo extends BaseDemo {
         velocityX: Math.random() * (this.random.range(-20, 20).getOne() || 20),
         velocityY: Math.random() * (this.random.range(-20, 20).getOne() || 20),
         radius: radius,
-        gravity: Math.random() * (radius / config.circleMaxRadius)
+        gravity: Math.random() * (radius / config.circleMaxRadius),
       });
     }
 
@@ -104,7 +84,7 @@ export class Demo extends BaseDemo {
 
   private drawCircles() {
     const { context } = this;
-    this.circles.forEach(circle => {
+    this.circles.forEach((circle) => {
       context.beginPath();
       context.arc(circle.position.x, circle.position.y, circle.radius, 0, Math.PI * 2, false);
 

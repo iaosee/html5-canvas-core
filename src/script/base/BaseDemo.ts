@@ -1,5 +1,5 @@
 import { Point } from '../geometry/Point';
-import { GUI } from 'dat.gui';
+import { GUI } from 'lil-gui';
 import * as Stats from 'stats.js';
 
 /**
@@ -218,7 +218,7 @@ export class BaseDemo {
     const { canvas } = this;
     const bbox = canvas.getBoundingClientRect();
     const pX = x - bbox.left * (this.width / bbox.width);
-    const pY = y - bbox.top * (this.height / bbox.height)
+    const pY = y - bbox.top * (this.height / bbox.height);
     return new Point(pX, pY);
     // return {
     //   x: x - bbox.left * (this.width / bbox.width),
@@ -228,7 +228,7 @@ export class BaseDemo {
 
   public throttle(fn: (...args: any) => void, gapTime: number) {
     let _lastTime: any = null;
-    return function() {
+    return function () {
       const _nowTime = +new Date();
       if (!_lastTime || _nowTime - _lastTime > gapTime) {
         fn.apply(null, [...arguments]);

@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 
 const compositeModes = [
@@ -27,7 +27,7 @@ const compositeModes = [
   'hue',
   'saturation',
   'color',
-  'luminosity'
+  'luminosity',
 ] as const;
 
 type CompositeMode = typeof compositeModes[number];
@@ -41,7 +41,7 @@ export class Demo extends BaseDemo {
     globalAlpha: 1.0,
     compositeMode: 'source-over',
     textColor: [100, 149, 237, 0.8],
-    coverColor: [255, 0, 0, 0.8]
+    coverColor: [255, 0, 0, 0.8],
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -60,25 +60,19 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.addColor(config, 'textColor').onFinishChange((value: string) => this.draw());
     gui.addColor(config, 'coverColor');
-    gui
-      .add(config, 'globalAlpha')
-      .min(0.1)
-      .max(1.0)
-      .step(0.1);
+    gui.add(config, 'globalAlpha').min(0.1).max(1.0).step(0.1);
     gui.add(config, 'compositeMode', compositeModes);
 
     return this;
   }
 
   public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawText();
+    return this.clearScreen().drawGrid().drawText();
   }
 
   public setComposite(composite: CompositeMode) {
@@ -132,7 +126,7 @@ export class Demo extends BaseDemo {
   public listenEvents() {
     const { canvas } = this;
 
-    canvas.addEventListener('mousemove', e => this.draw().drawCover(e));
+    canvas.addEventListener('mousemove', (e) => this.draw().drawCover(e));
 
     return this;
   }

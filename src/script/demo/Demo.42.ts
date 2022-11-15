@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import image_flower_url from '../../../asset/images/flower.jpg';
 
@@ -63,7 +63,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui

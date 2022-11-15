@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 
 import { BaseDemo } from '../base/BaseDemo';
 import { Sprite, RunnerSprite, AnimationTimer, IBehavior } from '../sprite';
@@ -23,13 +23,13 @@ export class Demo extends BaseDemo {
     easeOut: AnimationTimer.easeOut(2),
     easeInOut: AnimationTimer.easeInOut(),
     elastic: AnimationTimer.elastic(4),
-    bounce: AnimationTimer.bounce(4)
+    bounce: AnimationTimer.bounce(4),
   };
 
   public config = {
     animationFn: 'linear',
     startRun: () => this.startAnimation(),
-    endRun: () => this.endAnimation()
+    endRun: () => this.endAnimation(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -44,10 +44,10 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
-    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange(value => {
+    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange((value) => {
       this.animationTimer.setTimeWarp(this.animationFnMap[value]);
     });
     gui.add(config, 'startRun');
@@ -59,9 +59,7 @@ export class Demo extends BaseDemo {
     // const now = +new Date();
     // console.log(timestamp);
 
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+    return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
   public initSprite() {
@@ -76,7 +74,7 @@ export class Demo extends BaseDemo {
         context.fillStyle = 'rgba(204,204,0,0.6)';
         context.fillRect(sprite.x, sprite.y, sprite.width, sprite.height);
         context.restore();
-      }
+      },
     });
 
     this.ledge.x = 0;

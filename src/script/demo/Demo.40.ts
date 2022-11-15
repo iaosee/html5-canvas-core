@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { IFilter } from '../filters/IFilter';
 import { BlackWhiteFilter } from '../filters/BlackWhiteFilter';
@@ -18,14 +18,14 @@ export class Demo extends BaseDemo {
   public config = {
     scale: 0.2,
     resetScene: () => this.drawScene(),
-    filter: 0
+    filter: 0,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(image_flower_url)
-      .then(image => (this.image = image))
+      .then((image) => (this.image = image))
       .then(() => {
         this.drawScene();
       });
@@ -47,7 +47,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui
@@ -63,7 +63,7 @@ export class Demo extends BaseDemo {
         negative: 1,
         black_white: 2,
         embossment: 3,
-        sunglasses: 4
+        sunglasses: 4,
       })
       .onFinishChange((v: string) => this.applyFilter(Number(v)));
 

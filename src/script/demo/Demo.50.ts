@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
 import { Circle, Point } from '../interfaces';
@@ -20,7 +20,7 @@ export class Demo extends BaseDemo {
     quantity: 50,
   };
 
-  public constructor(   public canvas: HTMLCanvasElement   ) {
+  public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
     const pos: Point = {
@@ -28,7 +28,7 @@ export class Demo extends BaseDemo {
       y: this.centerY,
     };
 
-    this.createControl().drawGrid().createCircle(50).listenEvents()
+    this.createControl().drawGrid().createCircle(50).listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -45,7 +45,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui

@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { Point } from '../geometry/Point';
 import { Rubberband } from '../base/Rubberband';
 
@@ -19,7 +19,7 @@ export class Demo extends Rubberband {
     ERASER_SHADOW_STYLE: 'blue',
     ERASER_STROKE_STYLE: 'rgb(0,0,255)',
     ERASER_SHADOW_OFFSET: -5,
-    ERASER_SHADOW_BLUR: 20
+    ERASER_SHADOW_BLUR: 20,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -42,16 +42,12 @@ export class Demo extends Rubberband {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'eraser');
     gui.add(config, 'eraserShape', ['circle', 'rect']);
-    gui
-      .add(config, 'eraserSize')
-      .min(20)
-      .max(150)
-      .step(10);
+    gui.add(config, 'eraserSize').min(20).max(150).step(10);
     gui.addColor(config, 'fillStyle');
 
     return this;
@@ -100,9 +96,7 @@ export class Demo extends Rubberband {
     const { context } = this;
     context.save();
 
-    this.setErasePathForEraser()
-      .clearScreen()
-      .drawGrid();
+    this.setErasePathForEraser().clearScreen().drawGrid();
 
     context.restore();
 

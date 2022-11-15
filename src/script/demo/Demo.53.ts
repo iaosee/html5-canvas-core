@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { AnimationTimer } from '../sprite/AnimationTimer';
 import { Sprite, IBehavior } from '../sprite/Sprite';
@@ -23,15 +23,13 @@ export class Demo extends BaseDemo {
     LEDGE_WIDTH: 200,
     GRAVITY_FORCE: 9.81,
     moveToLeft: () => this.pushBallLeft(),
-    moveToRight: () => this.pushBallRight()
+    moveToRight: () => this.pushBallRight(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl()
-      .initSprite()
-      .listenEvents();
+    this.createControl().initSprite().listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -40,7 +38,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui
@@ -62,9 +60,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw(timestamp: number) {
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+    return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
   public initSprite() {
@@ -85,7 +81,7 @@ export class Demo extends BaseDemo {
         context.fill();
         context.stroke();
         context.restore();
-      }
+      },
     });
     this.ball = new Sprite(
       'ball',
@@ -130,7 +126,7 @@ export class Demo extends BaseDemo {
           context.stroke();
 
           context.restore();
-        }
+        },
       },
       []
     );
@@ -193,7 +189,7 @@ export class Demo extends BaseDemo {
   public listenEvents() {
     const { canvas } = this;
 
-    addEventListener('keydown', e => {
+    addEventListener('keydown', (e) => {
       if (e.keyCode === 37) {
         this.pushBallLeft();
       } else if (e.keyCode === 39) {

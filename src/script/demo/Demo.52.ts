@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { AnimationTimer } from '../sprite/AnimationTimer';
 import { ImagePainter, SheetCell, Sprite, SpriteSheetPainter, IPainter, SpriteAnimator } from '../sprite';
@@ -38,15 +38,13 @@ export class Demo extends BaseDemo {
     stop4: () => {
       this.pushTimer.stop();
     },
-    explode: () => this.bombExplode()
+    explode: () => this.bombExplode(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl()
-      .initSprite()
-      .initBombSprite();
+    this.createControl().initSprite().initBombSprite();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -55,14 +53,10 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
-    gui
-      .add(config, 'RUN_INTERVAL')
-      .min(10)
-      .max(1000)
-      .step(1);
+    gui.add(config, 'RUN_INTERVAL').min(10).max(1000).step(1);
     gui.add(config, 'move4');
     gui.add(config, 'stop4');
     gui.add(config, 'explode');
@@ -71,9 +65,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw(timestamp: number) {
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene(timestamp);
+    return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
   public initSprite() {
@@ -86,27 +78,22 @@ export class Demo extends BaseDemo {
       { x: 265, y: 0, width: 46, height: 64 },
       { x: 320, y: 0, width: 42, height: 64 },
       { x: 380, y: 0, width: 35, height: 64 },
-      { x: 425, y: 0, width: 35, height: 64 }
+      { x: 425, y: 0, width: 35, height: 64 },
     ];
-    this.sprite = new Sprite(
-      'Sprite 1',
-      new SpriteSheetPainter(running_sprite_sheet, runnerCells)
-    );
-    this.sprite2 = new Sprite(
-      'Sprite 2',
-      new SpriteSheetPainter(running_sprite_sheet, runnerCells),
-      [new RunInPlaceBehavior(), new MoveLeftToRightBehavior()]
-    );
-    this.sprite3 = new Sprite(
-      'Sprite 3',
-      new SpriteSheetPainter(running_sprite_sheet, runnerCells),
-      [new RunInPlaceBehavior(), new MoveLeftToRightBehavior(), new JumpBehavior()]
-    );
-    this.sprite4 = new Sprite(
-      'Sprite 4',
-      new SpriteSheetPainter(running_sprite_sheet, runnerCells),
-      [new RunInPlaceBehavior(), new MoveBehavior(this.pushTimer)]
-    );
+    this.sprite = new Sprite('Sprite 1', new SpriteSheetPainter(running_sprite_sheet, runnerCells));
+    this.sprite2 = new Sprite('Sprite 2', new SpriteSheetPainter(running_sprite_sheet, runnerCells), [
+      new RunInPlaceBehavior(),
+      new MoveLeftToRightBehavior(),
+    ]);
+    this.sprite3 = new Sprite('Sprite 3', new SpriteSheetPainter(running_sprite_sheet, runnerCells), [
+      new RunInPlaceBehavior(),
+      new MoveLeftToRightBehavior(),
+      new JumpBehavior(),
+    ]);
+    this.sprite4 = new Sprite('Sprite 4', new SpriteSheetPainter(running_sprite_sheet, runnerCells), [
+      new RunInPlaceBehavior(),
+      new MoveBehavior(this.pushTimer),
+    ]);
 
     this.sprite.setX(200);
     this.sprite.setY(200);

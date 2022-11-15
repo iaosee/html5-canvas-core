@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { Point } from '../geometry/Point';
 import { Rubberband } from '../base/Rubberband';
 
@@ -10,7 +10,7 @@ export class Demo extends Rubberband {
   public config = {
     fillStyle: [71, 163, 56, 0.2],
     strokeStyle: [0, 128, 255, 0.8],
-    curveType: 'QuadraticCurve'
+    curveType: 'QuadraticCurve',
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -33,7 +33,7 @@ export class Demo extends Rubberband {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'curveType', ['QuadraticCurve', 'CubeBezier']);

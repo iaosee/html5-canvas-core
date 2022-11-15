@@ -1,4 +1,4 @@
-import * as dat from 'dat.gui';
+import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Colorable, Point, Velocity } from '../interfaces';
 
@@ -15,7 +15,7 @@ export class Demo extends BaseDemo {
   public config = {
     animation: true,
     drawBoundary: false,
-    count: 10
+    count: 10,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -24,9 +24,7 @@ export class Demo extends BaseDemo {
     this.context.lineCap = 'round';
     this.context.lineJoin = 'round';
 
-    this.createControl()
-      .initDotLine()
-      .initTriangleLine();
+    this.createControl().initDotLine().initTriangleLine();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -35,7 +33,7 @@ export class Demo extends BaseDemo {
 
   private createControl() {
     const { config } = this;
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'animation');
@@ -57,10 +55,7 @@ export class Demo extends BaseDemo {
     // const now = +new Date();
     // console.log(timestamp);
 
-    return this.clearScreen()
-      .drawGrid()
-      .updatePosition()
-      .drawScene(timestamp);
+    return this.clearScreen().drawGrid().updatePosition().drawScene(timestamp);
   }
 
   public initDotLine() {
@@ -78,21 +73,21 @@ export class Demo extends BaseDemo {
           left: x + (odd ? gap / 2 : 0) - gap / 2,
           top: y - gap / 2,
           right: x + (odd ? gap / 2 : 0) + gap / 2,
-          bottom: y + gap / 2
+          bottom: y + gap / 2,
         };
         const point1: MeshPoint = {
           x: x + (odd ? gap / 2 : 0),
           y: y,
           boundary,
           velocityX: Math.random() * 0.8 - 0.4,
-          velocityY: Math.random() * 0.8 - 0.4
+          velocityY: Math.random() * 0.8 - 0.4,
         };
         const point2: MeshPoint = {
           boundary,
           x: x + (odd ? gap / 2 : 0) + (Math.random() * 0.8 - 0.4) * gap,
           y: y + (Math.random() * 0.8 - 0.4) * gap,
           velocityX: Math.random() * 0.8 - 0.4,
-          velocityY: Math.random() * 0.8 - 0.4
+          velocityY: Math.random() * 0.8 - 0.4,
         };
         const point = point2;
         line.push(point);
@@ -124,7 +119,7 @@ export class Demo extends BaseDemo {
   }
 
   public drawScene(timestamp?: number) {
-    this.triangleOfLine.map(dotLine => {
+    this.triangleOfLine.map((dotLine) => {
       for (let i = 0; i < dotLine.length - 2; i++) {
         this.drawTriangle(dotLine[i], dotLine[i + 1], dotLine[i + 2]);
       }
