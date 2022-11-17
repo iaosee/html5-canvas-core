@@ -30,6 +30,7 @@ export class Demo extends BaseDemo {
   public ballInFlight: boolean = false;
   public threePointer: boolean = false;
   public tipsInfo: HTMLElement = document.createElement('div');
+  public lastBallPosition = { x: 0, y: 0 };
 
   public config = {
     ledge: {
@@ -44,6 +45,7 @@ export class Demo extends BaseDemo {
       X: this.width - 200,
       Y: this.height - 150,
     },
+    drawRay: false,
     GRAVITY_FORCE: 9.81,
     launchTime: undefined as any,
   };
@@ -105,6 +107,9 @@ export class Demo extends BaseDemo {
       .max(this.height - 100)
       .step(5)
       .onFinishChange(() => this.resetSpriteStatus());
+    gui.add(config, 'drawRay').onFinishChange((v: any) => {
+      config.drawRay = Boolean(v);
+    });
 
     return this;
   }
@@ -241,6 +246,27 @@ export class Demo extends BaseDemo {
     ball.paint(context);
     bucket.paint(context);
 
+    this.drawRayGuideline();
+
+    return this;
+  }
+
+  public drawRayGuideline() {
+    const { context, config, bucket } = this;
+
+    if (!config.drawRay) {
+      return this;
+    }
+
+    context.save();
+    context.beginPath();
+    context.lineWidth = 0.5;
+    context.strokeStyle = 'red';
+    context.moveTo(0, bucket.y + 0.5);
+    context.lineTo(this.canvas.width, bucket.y);
+    context.stroke();
+    context.restore();
+
     return this;
   }
 
@@ -374,6 +400,9 @@ export class LobBallBehavior implements IBehavior {
   public updateBallPosition(updateDelta: number) {
     const { demo } = this;
     const { ball } = this.demo;
+    demo.lastBallPosition.x = ball.x;
+    demo.lastBallPosition.y = ball.y;
+
     ball.x += ball.velocityX * updateDelta * demo.pixelsPerMeter;
     ball.y += ball.velocityY * updateDelta * demo.pixelsPerMeter;
   }
@@ -420,9 +449,11 @@ export class LobBallBehavior implements IBehavior {
 }
 
 export class CatchBallBehavior implements IBehavior {
+  public intersectionPoint = { x: 0, y: 0 };
   public constructor(private demo: Demo) {}
 
-  public ballInBucket() {
+  /** @description 三种不同的检测方式 */
+  public ballInBucket1() {
     const { ball, bucket } = this.demo;
     return (
       ball.x > bucket.x + bucket.width / 2 &&
@@ -430,6 +461,60 @@ export class CatchBallBehavior implements IBehavior {
       ball.y > bucket.y &&
       ball.y < bucket.y + bucket.height
     );
+  }
+
+  // example-8.2
+  public ballInBucket2() {
+    const { ball, bucket, config } = this.demo;
+    const ballCenter = { x: ball.x + config.ball.RADIUS, y: ball.y + config.ball.RADIUS };
+    const bucketCenter = { x: bucket.x + bucket.width / 2, y: bucket.y + bucket.height / 2 };
+    const distance = Math.sqrt(Math.pow(bucketCenter.x - ballCenter.x, 2) + Math.pow(bucketCenter.y - ballCenter.y, 2));
+
+    return distance < config.ball.RADIUS + bucket.width / 8;
+  }
+
+  // example-8.3 - Ray Casting
+  public ballInBucket() {
+    const { ball, bucket, lastBallPosition } = this.demo;
+
+    if (lastBallPosition.x === ball.x || lastBallPosition.y === ball.y) {
+      return false;
+    }
+
+    const x1 = lastBallPosition.x,
+      y1 = lastBallPosition.y,
+      x2 = ball.x,
+      y2 = ball.y,
+      x3 = bucket.x + bucket.width / 4,
+      y3 = bucket.y,
+      x4 = bucket.x + bucket.width,
+      y4 = y3,
+      m1 = (ball.y - lastBallPosition.x) / (ball.x - lastBallPosition.y),
+      m2 = (y4 - y3) / (x4 - x3), // zero, but calculate anyway for illustration
+      b1 = y1 - m1 * x1,
+      b2 = y3 - m2 * x3;
+
+    this.intersectionPoint.x = (b2 - b1) / (m1 - m2);
+    this.intersectionPoint.y = m1 * this.intersectionPoint.x + b1;
+
+    return (
+      this.intersectionPoint.x > x3 &&
+      this.intersectionPoint.x < x4 &&
+      ball.y + ball.height > y3 &&
+      ball.x + ball.width < x4
+    );
+  }
+
+  public drawRay() {
+    const { context, ball } = this.demo;
+    context.beginPath();
+    context.save();
+    context.lineWidth = 1;
+    context.strokeStyle = 'blue';
+    context.moveTo(ball.x, ball.y);
+    context.lineTo(this.intersectionPoint.x, this.intersectionPoint.y);
+    context.stroke();
+    context.restore();
   }
 
   public adjustScore() {
@@ -447,6 +532,8 @@ export class CatchBallBehavior implements IBehavior {
 
   public execute(bucket: Sprite, context: CanvasRenderingContext2D, time: number) {
     const { demo } = this;
+    demo.config.drawRay && this.drawRay();
+
     if (demo.ballInFlight && this.ballInBucket()) {
       demo.resetSpriteStatus();
       this.adjustScore();
