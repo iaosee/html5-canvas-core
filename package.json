@@ -10,7 +10,8 @@
     "build": "cross-env MODE_ENV=true ./node_modules/.bin/vite build",
     "server": "./node_modules/.bin/vite --host",
     "prepare": "husky install",
-    "lint": "lint-staged"
+    "lint": "lint-staged",
+    "download-source": "rm -rf ./corehtml5canvas; git clone https://github.com/corehtml5canvas/code.git ./corehtml5canvas"
   },
   "repository": {
     "type": "git"

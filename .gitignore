@@ -5,6 +5,7 @@
 log.txt
 .vscode/
 npm-debug.log*
+.DS_Store
 
 
 .vs/
@@ -19,3 +20,4 @@ node_modules/
 tmp/
 temp/
 www/
+corehtml5canvas/
