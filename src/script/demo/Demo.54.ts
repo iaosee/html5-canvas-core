@@ -474,8 +474,8 @@ export class CatchBallBehavior implements IBehavior {
   }
 
   // example-8.3 - Ray Casting
-  public ballInBucket() {
-    const { ball, bucket, lastBallPosition } = this.demo;
+  public ballInBucket3() {
+    const { config, ball, bucket, lastBallPosition } = this.demo;
 
     if (lastBallPosition.x === ball.x || lastBallPosition.y === ball.y) {
       return false;
@@ -489,7 +489,7 @@ export class CatchBallBehavior implements IBehavior {
       y3 = bucket.y,
       x4 = bucket.x + bucket.width,
       y4 = y3,
-      m1 = (ball.y - lastBallPosition.x) / (ball.x - lastBallPosition.y),
+      m1 = (ball.y - lastBallPosition.y) / (ball.x - lastBallPosition.x),
       m2 = (y4 - y3) / (x4 - x3), // zero, but calculate anyway for illustration
       b1 = y1 - m1 * x1,
       b2 = y3 - m2 * x3;
@@ -500,8 +500,27 @@ export class CatchBallBehavior implements IBehavior {
     return (
       this.intersectionPoint.x > x3 &&
       this.intersectionPoint.x < x4 &&
-      ball.y + ball.height > y3 &&
-      ball.x + ball.width < x4
+      ball.y + config.ball.RADIUS > y3 &&
+      ball.x + config.ball.RADIUS < x4
+    );
+  }
+
+  public ballInBucket() {
+    const { config, ball, bucket, lastBallPosition } = this.demo;
+    const k1 = ball.velocityY / ball.velocityX;
+    const b1 = ball.y - k1 * ball.x;
+    const intersectionY = bucket.y;
+    const intersectionX = (intersectionY - b1) / k1;
+
+    this.intersectionPoint = { x: intersectionX, y: intersectionY };
+
+    return (
+      intersectionX > bucket.x &&
+      intersectionX < bucket.x + bucket.width &&
+      ball.x > bucket.x &&
+      ball.x < bucket.x + bucket.width &&
+      ball.y > bucket.y &&
+      ball.y < bucket.y + bucket.height
     );
   }
 
