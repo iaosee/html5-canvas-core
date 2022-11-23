@@ -1,7 +1,7 @@
 import { Point } from './Point';
 import { Shape } from './Shape';
 
-export class Polygon extends Shape {
+export class RegularPolygon extends Shape {
   private dpr = window.devicePixelRatio || 1;
   public constructor(
     public context: CanvasRenderingContext2D,
@@ -68,7 +68,7 @@ export class Polygon extends Shape {
 
   public on<K extends keyof CanvasEventMap>(
     eventType: K,
-    listener: (this: Polygon, ev: CanvasEventMap[K]) => any
+    listener: (this: RegularPolygon, ev: CanvasEventMap[K]) => any
   ): void {
     const { context, dpr } = this;
     context.canvas.addEventListener(eventType, (event: MouseEvent) => {
