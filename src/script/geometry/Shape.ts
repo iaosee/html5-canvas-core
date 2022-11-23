@@ -1,7 +1,17 @@
 import { Point } from './Point';
 
+export interface ShapeConfig {
+  x: number;
+  y: number;
+  fillStyle: string;
+  strokeStyle: string;
+}
+
 export class Shape {
-  public constructor(public position: Point) {}
+  public fillStyle = 'rgba(147, 197, 114, 0.8)';
+  public strokeStyle = 'rgba(255, 253, 208, 0.9)';
+
+  public constructor(protected position: Point) {}
 
   public set x(v: number) {
     this.position.x = v;
@@ -19,15 +29,15 @@ export class Shape {
     return this.position.y;
   }
 
-  public getPposition() {
+  public getPosition() {
     return this.position;
   }
 
-  public setPposition(p: Point) {
+  public setPosition(p: Point) {
     return (this.position = p);
   }
 
   public move(p: Point) {
-    this.setPposition(p);
+    this.setPosition(p);
   }
 }

@@ -1,7 +1,6 @@
 import { GUI } from 'lil-gui';
 import { Rubberband } from '../base/Rubberband';
 import { Point } from '../geometry/Point';
-import { BezierCurve } from '../geometry/BezierCurve';
 
 /**
  * @description 编辑贝塞尔曲线
