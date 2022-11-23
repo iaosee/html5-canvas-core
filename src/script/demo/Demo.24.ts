@@ -2,14 +2,14 @@ import { GUI } from 'lil-gui';
 import { Rubberband } from '../base/Rubberband';
 
 import { Point } from '../geometry/Point';
-import { Polygon } from '../geometry/Polygon';
+import { RegularPolygon } from '../geometry/RegularPolygon';
 
 /**
  * @description 使用多边形对象保存绘制
  */
 export class Demo extends Rubberband {
   public name: string = '多边形对象-保存绘制';
-  public polygons: Polygon[] = [];
+  public polygons: RegularPolygon[] = [];
 
   public config = {
     sides: 5,
@@ -67,7 +67,7 @@ export class Demo extends Rubberband {
         : rubberbandRect.height / Math.sin(Math.atan(rubberbandRect.height / rubberbandRect.width));
     const radius2 = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
 
-    const polygon = new Polygon(
+    const polygon = new RegularPolygon(
       context,
       new Point(mousedownPos.x, mousedownPos.y),
       radius,

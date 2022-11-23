@@ -2,15 +2,15 @@ import { GUI } from 'lil-gui';
 import { Rubberband } from '../base/Rubberband';
 
 import { Point } from '../geometry/Point';
-import { Polygon } from '../geometry/Polygon';
+import { RegularPolygon } from '../geometry/RegularPolygon';
 
 /**
  * @description 拖拽绘制的物体
  */
 export class Demo extends Rubberband {
   public name: string = '拖拽绘制的物体';
-  public polygons: Polygon[] = [];
-  public draggingPolygon: Polygon;
+  public polygons: RegularPolygon[] = [];
+  public draggingPolygon: RegularPolygon;
   public draggingOffsetPos: Point = new Point();
 
   public config = {
@@ -67,7 +67,7 @@ export class Demo extends Rubberband {
     const { context, config, mousedownPos, mousemovePos, rubberbandRect } = this;
     const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
 
-    const polygon = new Polygon(
+    const polygon = new RegularPolygon(
       context,
       new Point(mousedownPos.x, mousedownPos.y),
       radius,
@@ -86,7 +86,7 @@ export class Demo extends Rubberband {
     return this;
   }
 
-  public drawPolygon(polygon: Polygon) {
+  public drawPolygon(polygon: RegularPolygon) {
     polygon.createPath();
     polygon.stroke();
     polygon.filled && polygon.fill();
