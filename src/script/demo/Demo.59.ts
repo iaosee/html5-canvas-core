@@ -2,29 +2,35 @@ import { Point } from '../geometry/Point';
 import { Shape } from '../geometry/Shape';
 import { Polygon } from '../geometry/Polygon';
 import { BaseDemo } from '../base/BaseDemo';
+import { Random } from '../tools/Random';
+import { RandomConvexPolygon } from '../geometry/RandomConvexPolygon';
 
 /**
- * @description Hello World
+ * @description 碰撞检测 — 分离轴定理
  */
 export class Demo extends BaseDemo {
-  public name: string = '碰撞检测 —— 分离轴定理';
+  public name: string = '碰撞检测 — 分离轴定理';
 
   public shapes: Shape[] = [];
   public shapeBeingDragged: Shape;
 
-  protected mousedownPos: Point = new Point(0, 0);
-  protected mousemovePos: Point = new Point(0, 0);
+  private mousedownPos = new Point(0, 0);
+  private mousemovePos = new Point(0, 0);
+  private randomPolygon = new RandomConvexPolygon({
+    maxWidth: 200,
+    maxHeight: 200,
+  });
 
   public polygonPoints = [
-    [new Point(250, 150), new Point(250, 250), new Point(350, 250)],
-
-    [new Point(100, 100), new Point(100, 200), new Point(200, 200), new Point(200, 100)],
-
-    [new Point(400, 100), new Point(380, 150), new Point(500, 150), new Point(520, 100)],
+    [new Point(100, 100), new Point(100, 200), new Point(200, 200)],
+    [new Point(300, 100), new Point(300, 200), new Point(400, 200), new Point(400, 100)],
+    [new Point(500, 100), new Point(475, 200), new Point(600, 200), new Point(625, 100)],
+    // this.randomPolygon.getConvex(5),
   ];
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
+
     this.createControl().initShapes().listenEvents();
   }
 
@@ -50,15 +56,26 @@ export class Demo extends BaseDemo {
 
     for (let i = 0; i < len; ++i) {
       const polygon = new Polygon();
-
       const points = polygonPoints[i];
+      polygon.setPoints(points);
 
       polygon.name = `Polygon ${i}`;
-      polygon.setPoints(points);
       polygon.strokeStyle = this.randomRgba();
       polygon.fillStyle = this.randomRgba();
-
       this.shapes.push(polygon);
+    }
+
+    for (let i = 0; i < 2; i++) {
+      for (let j = 0; j < 5; j++) {
+        const points = this.randomPolygon.getConvex(Random.init(4, 10).random());
+        const polygon = new Polygon();
+        polygon.setPoints(points);
+        polygon.move(j * 200, (i + 1) * 200);
+        polygon.name = `Polygon ${i}-${j}`;
+        polygon.strokeStyle = this.randomRgba();
+        polygon.fillStyle = this.randomRgba();
+        this.shapes.push(polygon);
+      }
     }
 
     return this;
@@ -66,7 +83,8 @@ export class Demo extends BaseDemo {
 
   public drawShapes() {
     const { context } = this;
-    this.shapes.forEach(function (shape) {
+
+    this.shapes.forEach((shape) => {
       shape.stroke(context);
       shape.fill(context);
     });
