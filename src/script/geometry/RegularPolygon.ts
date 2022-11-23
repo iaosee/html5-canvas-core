@@ -13,7 +13,12 @@ export class RegularPolygon extends Shape {
     public strokeStyle: string,
     public filled: boolean
   ) {
-    super(position);
+    super({
+      x: position.x,
+      y: position.y,
+      fillStyle,
+      strokeStyle,
+    });
   }
 
   public getPoints(): Point[] {
@@ -21,9 +26,7 @@ export class RegularPolygon extends Shape {
     let angle = this.startAngle || 0;
 
     for (let i = 0; i < this.sides; ++i) {
-      points.push(
-        new Point(this.position.x + this.radius * Math.sin(angle), this.position.y - this.radius * Math.cos(angle))
-      );
+      points.push(new Point(this.x + this.radius * Math.sin(angle), this.y - this.radius * Math.cos(angle)));
       angle += (2 * Math.PI) / this.sides;
     }
 
@@ -80,9 +83,9 @@ export class RegularPolygon extends Shape {
   }
 
   public pointInPath(p: Point) {
-    const { context, dpr } = this;
+    const { context } = this;
     this.createPath();
-    return context.isPointInPath(p.x * dpr, p.y * dpr);
+    return context.isPointInPath(p.x, p.y);
   }
 }
 

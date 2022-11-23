@@ -106,7 +106,7 @@ export class Demo extends Rubberband {
   }
 
   protected onMousedownHandler(event: MouseEvent) {
-    const { context, config } = this;
+    const { context, config, dpr } = this;
 
     event.preventDefault();
     this.dragging = true;
@@ -116,7 +116,7 @@ export class Demo extends Rubberband {
     if (config.editing) {
       // this.drawPolygons();
       this.polygons.forEach((polygon) => {
-        if (!polygon.pointInPath(new Point(event.clientX, event.clientY))) {
+        if (!polygon.pointInPath(new Point(event.clientX * dpr, event.clientY * dpr))) {
           return;
         }
 
@@ -137,8 +137,9 @@ export class Demo extends Rubberband {
 
     if (config.editing && this.dragging) {
       this.draggingPolygon &&
-        this.draggingPolygon.setPposition(
-          new Point(this.mousemovePos.x - this.draggingOffsetPos.x, this.mousemovePos.y - this.draggingOffsetPos.y)
+        this.draggingPolygon.setPosition(
+          this.mousemovePos.x - this.draggingOffsetPos.x,
+          this.mousemovePos.y - this.draggingOffsetPos.y
         );
 
       this.clearScreen().drawGrid().drawPolygons();
