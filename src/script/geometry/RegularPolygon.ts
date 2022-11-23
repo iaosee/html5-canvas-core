@@ -13,7 +13,12 @@ export class RegularPolygon extends Shape {
     public strokeStyle: string,
     public filled: boolean
   ) {
-    super(position);
+    super({
+      x: position.x,
+      y: position.y,
+      fillStyle,
+      strokeStyle,
+    });
   }
 
   public getPoints(): Point[] {

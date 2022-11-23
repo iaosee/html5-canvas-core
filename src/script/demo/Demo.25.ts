@@ -138,7 +138,8 @@ export class Demo extends Rubberband {
     if (config.editing && this.dragging) {
       this.draggingPolygon &&
         this.draggingPolygon.setPosition(
-          new Point(this.mousemovePos.x - this.draggingOffsetPos.x, this.mousemovePos.y - this.draggingOffsetPos.y)
+          this.mousemovePos.x - this.draggingOffsetPos.x,
+          this.mousemovePos.y - this.draggingOffsetPos.y
         );
 
       this.clearScreen().drawGrid().drawPolygons();
