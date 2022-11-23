@@ -7,6 +7,10 @@ export class Vector {
     this.y = y;
   }
 
+  public equals(v: Vector) {
+    return this.x === v.x && this.y === v.y;
+  }
+
   public getMagnitude() {
     return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
   }

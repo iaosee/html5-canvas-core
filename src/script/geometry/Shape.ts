@@ -2,23 +2,25 @@ import { Projection } from './Projection';
 import { Vector } from './Vector';
 
 export interface ShapeConfig {
-  x: number;
-  y: number;
-  fillStyle: string;
-  strokeStyle: string;
+  name?: string;
+  x?: number;
+  y?: number;
+  fillStyle?: string;
+  strokeStyle?: string;
 }
 
 export class Shape {
+  public name: string;
   public x: number;
   public y: number;
   public fillStyle = 'rgba(147, 197, 114, 0.8)';
   public strokeStyle = 'rgba(255, 253, 208, 0.9)';
 
-  public constructor(config: ShapeConfig) {
-    this.x = config.x;
-    this.y = config.y;
-    this.fillStyle = config.fillStyle;
-    this.strokeStyle = config.strokeStyle;
+  public constructor(config?: ShapeConfig) {
+    this.x = config?.x;
+    this.y = config?.y;
+    this.fillStyle = config?.fillStyle || this.fillStyle;
+    this.strokeStyle = config?.strokeStyle || this.strokeStyle;
   }
 
   public getPosition() {

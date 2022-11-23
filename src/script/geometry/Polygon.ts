@@ -10,9 +10,9 @@ interface PolygonConfig extends ShapeConfig {
 export class Polygon extends Shape {
   public points: Point[] = [];
 
-  public constructor(config: PolygonConfig) {
+  public constructor(config?: PolygonConfig) {
     super(config);
-    this.points = config.points || [];
+    this.points = config?.points || [];
   }
 
   public addPoint(x: number, y: number) {
