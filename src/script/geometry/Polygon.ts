@@ -99,4 +99,26 @@ export class Polygon extends Shape {
 
     return new Projection(Math.min.apply(Math, scalars), Math.max.apply(Math, scalars));
   }
+
+  /** @implements */
+  public getClientRect() {
+    let minX: number, minY: number, maxX: number, maxY: number;
+    this.points.forEach((point) => {
+      if (minX === undefined) {
+        minX = maxX = point.x;
+        minY = maxY = point.y;
+      }
+      minX = Math.min(minX, point.x);
+      minY = Math.min(minY, point.y);
+      maxX = Math.max(maxX, point.x);
+      maxY = Math.max(maxY, point.y);
+    });
+
+    return {
+      x: minX,
+      y: minY,
+      width: maxX - minX,
+      height: maxY - minY,
+    };
+  }
 }

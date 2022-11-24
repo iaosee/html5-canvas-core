@@ -1,3 +1,4 @@
+import { GUI } from 'lil-gui';
 import { Point } from '../geometry/Point';
 import { Shape } from '../geometry/Shape';
 import { Polygon } from '../geometry/Polygon';
@@ -16,7 +17,7 @@ import tennisBall from '../../../asset/images/tennis-ball.png';
  * @description 碰撞检测 — 分离轴定理
  */
 export class Demo extends BaseDemo {
-  public name: string = '碰撞检测 — 分离轴定理';
+  public name: string = '碰撞检测 — 随机多边形';
 
   public shapes: Shape[] = [];
   public shapeBeingDragged: Shape;
@@ -35,6 +36,11 @@ export class Demo extends BaseDemo {
     // this.randomPolygon.getConvex(5),
   ];
 
+  public config = {
+    boundingBox: false,
+    count: 10,
+  };
+
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
@@ -46,6 +52,11 @@ export class Demo extends BaseDemo {
   }
 
   public createControl() {
+    const { config } = this;
+    this.gui = new GUI();
+    const { gui } = this;
+
+    gui.add(config, 'boundingBox').onFinishChange((value: string) => this.draw());
     return this;
   }
 
@@ -103,13 +114,15 @@ export class Demo extends BaseDemo {
   }
 
   public drawShapes() {
-    const { context } = this;
+    const { context, config } = this;
 
     this.shapes.forEach((shape) => {
       shape.stroke(context);
       shape.fill(context);
-      const rect = shape.getClientRect();
-      context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+      if (config.boundingBox) {
+        const rect = shape.getClientRect();
+        context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+      }
     });
   }
 

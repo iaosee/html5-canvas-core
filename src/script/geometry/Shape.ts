@@ -1,6 +1,7 @@
 import { Point } from './Point';
 import { Vector } from './Vector';
 import { Projection } from './Projection';
+import { Rectangle } from '../interfaces';
 
 export interface ShapeConfig {
   name?: string;
@@ -10,7 +11,7 @@ export interface ShapeConfig {
   strokeStyle?: string;
 }
 
-export class Shape {
+export abstract class Shape {
   public name: string;
   public x: number;
   public y: number;
@@ -76,26 +77,6 @@ export class Shape {
     return false;
   }
 
-  public getClientRect() {
-    let minX: number, minY: number, maxX: number, maxY: number;
-    this.points.forEach((point) => {
-      if (minX === undefined) {
-        minX = maxX = point.x;
-        minY = maxY = point.y;
-      }
-      minX = Math.min(minX, point.x);
-      minY = Math.min(minY, point.y);
-      maxX = Math.max(maxX, point.x);
-      maxY = Math.max(maxY, point.y);
-    });
-
-    return {
-      x: minX,
-      y: minY,
-      width: maxX - minX,
-      height: maxY - minY,
-    };
-  }
   public move(dx: number, dy: number) {
     throw 'move(dx, dy) not implemented';
   }
@@ -111,4 +92,6 @@ export class Shape {
   public project(axis: Vector): Projection {
     throw 'project(axis) not implemented';
   }
+
+  public abstract getClientRect(): Rectangle;
 }
