@@ -60,6 +60,11 @@ export class Circle extends Shape {
   }
 
   /** @implements */
+  public centroid() {
+    return new Point(this.x, this.y);
+  }
+
+  /** @implements */
   public getBoundingBox() {
     return {
       x: this.x - this.radius,

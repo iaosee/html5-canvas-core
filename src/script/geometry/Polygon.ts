@@ -101,6 +101,19 @@ export class Polygon extends Shape {
   }
 
   /** @implements */
+  public centroid() {
+    const pointSum = new Point(0, 0);
+
+    for (let i = 0; i < this.points.length; ++i) {
+      const point = this.points[i];
+      pointSum.x += point.x;
+      pointSum.y += point.y;
+    }
+
+    return new Point(pointSum.x / this.points.length, pointSum.y / this.points.length);
+  }
+
+  /** @implements */
   public getBoundingBox() {
     let minX: number, minY: number, maxX: number, maxY: number;
     this.points.forEach((point) => {

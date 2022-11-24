@@ -44,4 +44,12 @@ export class Vector {
     const p = this.perpendicular();
     return p.normalize();
   }
+
+  public reflect(axis: Vector) {
+    const vdotl = this.dotProduct(axis);
+    const ldotl = axis.dotProduct(axis);
+    const dotProductRatio = vdotl / ldotl;
+
+    return new Vector(2 * dotProductRatio * axis.x - this.x, 2 * dotProductRatio * axis.y - this.y);
+  }
 }

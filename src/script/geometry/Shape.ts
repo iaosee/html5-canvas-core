@@ -92,5 +92,6 @@ export abstract class Shape {
     throw 'project(axis) not implemented';
   }
 
+  public abstract centroid(): Point;
   public abstract getBoundingBox(): Rectangle;
 }
