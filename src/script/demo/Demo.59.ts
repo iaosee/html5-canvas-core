@@ -2,8 +2,6 @@ import { Point } from '../geometry/Point';
 import { Shape } from '../geometry/Shape';
 import { Polygon } from '../geometry/Polygon';
 import { BaseDemo } from '../base/BaseDemo';
-import { Random } from '../tools/Random';
-import { RandomConvexPolygon } from '../geometry/RandomConvexPolygon';
 
 /**
  * @description 碰撞检测 — 分离轴定理
@@ -16,30 +14,20 @@ export class Demo extends BaseDemo {
 
   private mousedownPos = new Point(0, 0);
   private mousemovePos = new Point(0, 0);
-  private randomPolygon = new RandomConvexPolygon({
-    maxWidth: 200,
-    maxHeight: 200,
-  });
-
   public polygonPoints = [
     [new Point(100, 100), new Point(100, 200), new Point(200, 200)],
     [new Point(300, 100), new Point(300, 200), new Point(400, 200), new Point(400, 100)],
     [new Point(500, 100), new Point(475, 200), new Point(600, 200), new Point(625, 100)],
-    // this.randomPolygon.getConvex(5),
   ];
 
   public constructor(public canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl().initShapes().listenEvents();
+    this.initShapes().listenEvents();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
     return new Demo(canvas);
-  }
-
-  public createControl() {
-    return this;
   }
 
   public start() {
@@ -63,19 +51,6 @@ export class Demo extends BaseDemo {
       polygon.strokeStyle = this.randomRgba();
       polygon.fillStyle = this.randomRgba();
       this.shapes.push(polygon);
-    }
-
-    for (let i = 0; i < 2; i++) {
-      for (let j = 0; j < 5; j++) {
-        const points = this.randomPolygon.getConvex(Random.init(4, 10).random());
-        const polygon = new Polygon();
-        polygon.setPoints(points);
-        polygon.move(j * 200, (i + 1) * 200);
-        polygon.name = `Polygon ${i}-${j}`;
-        polygon.strokeStyle = this.randomRgba();
-        polygon.fillStyle = this.randomRgba();
-        this.shapes.push(polygon);
-      }
     }
 
     return this;
@@ -106,17 +81,22 @@ export class Demo extends BaseDemo {
       return;
     }
 
+    context.save();
     context.font = '20px Palatino';
-    shapes.forEach(function (shape) {
+    shapes.forEach((shape) => {
       if (shape === shapeBeingDragged) {
         return;
       }
       if (shapeBeingDragged.collidesWith(shape)) {
+        context.lineWidth = 10;
         context.fillStyle = 'red';
+        context.strokeStyle = 'red';
         context.fillText(`${shapeBeingDragged.name} Collision with ${shape.name}`, 20, textY);
+        context.strokeRect(0, 0, this.width, this.height);
         textY += 40;
       }
     });
+    context.restore();
 
     return this;
   }
