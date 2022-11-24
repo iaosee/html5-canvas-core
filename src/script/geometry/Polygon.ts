@@ -1,9 +1,11 @@
 import { Point } from './Point';
 import { Vector } from './Vector';
+import { Circle } from './Circle';
 import { Shape, ShapeConfig } from './Shape';
 import { Projection } from './Projection';
+import { polygonCollidesWithCircle } from './Util';
 
-interface PolygonConfig extends ShapeConfig {
+export interface PolygonConfig extends ShapeConfig {
   points?: Point[];
 }
 
@@ -54,6 +56,16 @@ export class Polygon extends Shape {
 
     context.closePath();
     return this;
+  }
+
+  /** @override */
+  public collidesWith(shape: Shape) {
+    const axes = shape.getAxes();
+    if (axes === undefined && shape instanceof Circle) {
+      return polygonCollidesWithCircle(this, shape);
+    }
+
+    return super.collidesWith(shape);
   }
 
   /** @override */
