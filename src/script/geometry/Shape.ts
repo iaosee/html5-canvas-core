@@ -1,5 +1,7 @@
-import { Projection } from './Projection';
+import { Point } from './Point';
 import { Vector } from './Vector';
+import { Projection } from './Projection';
+import { Rectangle } from '../interfaces';
 
 export interface ShapeConfig {
   name?: string;
@@ -9,16 +11,18 @@ export interface ShapeConfig {
   strokeStyle?: string;
 }
 
-export class Shape {
+export abstract class Shape {
   public name: string;
   public x: number;
   public y: number;
   public fillStyle = 'rgba(147, 197, 114, 0.8)';
   public strokeStyle = 'rgba(255, 253, 208, 0.9)';
+  public points: Point[] = [];
 
   public constructor(config?: ShapeConfig) {
     this.x = config?.x;
     this.y = config?.y;
+    this.name = config?.name;
     this.fillStyle = config?.fillStyle || this.fillStyle;
     this.strokeStyle = config?.strokeStyle || this.strokeStyle;
   }
@@ -39,6 +43,7 @@ export class Shape {
     this.createPath(context);
     context.fill();
     context.restore();
+    return this;
   }
 
   public stroke(context: CanvasRenderingContext2D) {
@@ -47,6 +52,7 @@ export class Shape {
     this.createPath(context);
     context.stroke();
     context.restore();
+    return this;
   }
 
   public isPointInPath(context: CanvasRenderingContext2D, x: number, y: number) {
@@ -86,4 +92,6 @@ export class Shape {
   public project(axis: Vector): Projection {
     throw 'project(axis) not implemented';
   }
+
+  public abstract getClientRect(): Rectangle;
 }

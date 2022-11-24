@@ -1,9 +1,11 @@
 import { Point } from './Point';
 import { Vector } from './Vector';
+import { Circle } from './Circle';
 import { Shape, ShapeConfig } from './Shape';
 import { Projection } from './Projection';
+import { polygonCollidesWithCircle } from './Util';
 
-interface PolygonConfig extends ShapeConfig {
+export interface PolygonConfig extends ShapeConfig {
   points?: Point[];
 }
 
@@ -57,6 +59,16 @@ export class Polygon extends Shape {
   }
 
   /** @override */
+  public collidesWith(shape: Shape) {
+    const axes = shape.getAxes();
+    if (axes === undefined && shape instanceof Circle) {
+      return polygonCollidesWithCircle(this, shape);
+    }
+
+    return super.collidesWith(shape);
+  }
+
+  /** @override */
   public getAxes(): Vector[] {
     const axes = [];
     const len = this.points.length;
@@ -86,5 +98,27 @@ export class Polygon extends Shape {
     });
 
     return new Projection(Math.min.apply(Math, scalars), Math.max.apply(Math, scalars));
+  }
+
+  /** @implements */
+  public getClientRect() {
+    let minX: number, minY: number, maxX: number, maxY: number;
+    this.points.forEach((point) => {
+      if (minX === undefined) {
+        minX = maxX = point.x;
+        minY = maxY = point.y;
+      }
+      minX = Math.min(minX, point.x);
+      minY = Math.min(minY, point.y);
+      maxX = Math.max(maxX, point.x);
+      maxY = Math.max(maxY, point.y);
+    });
+
+    return {
+      x: minX,
+      y: minY,
+      width: maxX - minX,
+      height: maxY - minY,
+    };
   }
 }
