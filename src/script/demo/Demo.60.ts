@@ -116,7 +116,7 @@ export class Demo extends BaseDemo {
       shape.stroke(context);
       shape.fill(context);
       if (config.boundingBox) {
-        const rect = shape.getClientRect();
+        const rect = shape.getBoundingBox();
         context.strokeRect(rect.x, rect.y, rect.width, rect.height);
       }
     });

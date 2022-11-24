@@ -60,7 +60,7 @@ export class Circle extends Shape {
   }
 
   /** @implements */
-  public getClientRect() {
+  public getBoundingBox() {
     return {
       x: this.x - this.radius,
       y: this.y - this.radius,

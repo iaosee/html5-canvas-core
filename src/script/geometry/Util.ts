@@ -30,3 +30,5 @@ export function polygonCollidesWithCircle(polygon: Polygon, circle: Circle): boo
 
   return !polygon.separationOnAxes(axes, circle);
 }
+
+export function polygonCollidesWithPolygon() {}

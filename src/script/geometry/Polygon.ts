@@ -101,7 +101,7 @@ export class Polygon extends Shape {
   }
 
   /** @implements */
-  public getClientRect() {
+  public getBoundingBox() {
     let minX: number, minY: number, maxX: number, maxY: number;
     this.points.forEach((point) => {
       if (minX === undefined) {

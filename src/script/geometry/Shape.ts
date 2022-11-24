@@ -92,5 +92,5 @@ export abstract class Shape {
     throw 'project(axis) not implemented';
   }
 
-  public abstract getClientRect(): Rectangle;
+  public abstract getBoundingBox(): Rectangle;
 }
