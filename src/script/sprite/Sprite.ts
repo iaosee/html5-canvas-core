@@ -23,6 +23,8 @@ export class Sprite<P extends IPainter = IPainter> {
   public name: string;
   public x = 0;
   public y = 0;
+  public left = 0;
+  public top = 0;
   public width = 10;
   public height = 10;
   public velocityX = 0;
