@@ -5,13 +5,10 @@ import { Polygon } from '../geometry/Polygon';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
 import { Circle } from '../geometry/Circle';
-import { Sprite, ImagePainter } from '../sprite';
-import { ImageShape } from '../geometry/ImageShape';
-import { SpriteShape } from '../geometry/SpriteShape';
+import { CircleImage } from '../geometry/CircleImage';
 import { RandomConvexPolygon } from '../geometry/RandomConvexPolygon';
 
 import golfball from '../../../asset/images/golfball.png';
-import tennisBall from '../../../asset/images/tennis-ball.png';
 
 /**
  * @description 碰撞检测 — 分离轴定理
@@ -96,20 +93,19 @@ export class Demo extends BaseDemo {
       }
     }
 
-    const ballSprite = new Sprite('ball', new ImagePainter(tennisBall));
-    ballSprite.left = 200;
-    ballSprite.top = 200;
-    ballSprite.width = 79;
-    ballSprite.height = 79;
+    this.shapes.push(new Circle({ name: 'circle 1', x: 100, y: 50, radius: 30 })),
+      this.shapes.push(new Circle({ name: 'circle 2', x: 250, y: 50, radius: 50 }));
 
-    this.shapes.push(new ImageShape({ name: 'golfball', imageSource: golfball, x: 50, y: 300 }));
     this.shapes.push(
-      new SpriteShape({ name: 'spriteBall', sprite: ballSprite, x: ballSprite.left, y: ballSprite.top })
+      new CircleImage({
+        name: 'circleImage',
+        x: 800,
+        y: 100,
+        radius: 72,
+        strokeStyle: 'red',
+        imageSource: golfball,
+      })
     );
-
-    this.shapes.push(new Circle({ name: 'circle 1', x: 150, y: 50, radius: 30 })),
-      this.shapes.push(new Circle({ name: 'circle 2', x: 300, y: 50, radius: 50 }));
-
     return this;
   }
 

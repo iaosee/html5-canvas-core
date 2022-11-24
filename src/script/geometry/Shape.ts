@@ -17,7 +17,6 @@ export abstract class Shape {
   public y: number;
   public fillStyle = 'rgba(147, 197, 114, 0.8)';
   public strokeStyle = 'rgba(255, 253, 208, 0.9)';
-  public points: Point[] = [];
 
   public constructor(config?: ShapeConfig) {
     this.x = config?.x;
