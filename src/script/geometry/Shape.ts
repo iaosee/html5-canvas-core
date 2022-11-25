@@ -78,7 +78,7 @@ export abstract class Shape {
     return false;
   }
 
-  public minimumTranslationVector(axes: Vector[], shape: Shape, displacement?: number) {
+  public minimumTranslationVector(axes: Vector[], shape: Shape, displacement?: number): MinimumTranslationVector {
     // return getMTV(this, shape, axes, displacement);
     let minimumOverlap = BIG_NUMBER || 1000000;
     let axisWithSmallestOverlap;

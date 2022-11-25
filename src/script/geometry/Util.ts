@@ -13,13 +13,12 @@ export function getCircleAxis(circle: Circle, closestPoint: Point, polygon?: Pol
 }
 
 export function getPolygonPointClosestToCircle(polygon: Polygon, circle: Circle) {
-  let min = 10000;
+  let min = 1000000;
   let closestPoint: Point;
 
   for (var i = 0; i < polygon.points.length; ++i) {
     const testPoint = polygon.points[i];
-    const length = Math.sqrt(Math.pow(testPoint.x - circle.x, 2) + Math.pow(testPoint.y - circle.y, 2));
-
+    const length = testPoint.distance(new Point(circle.x, circle.y));
     if (length < min) {
       min = length;
       closestPoint = testPoint;
@@ -41,7 +40,18 @@ export function polygonCollidesWithCircle(polygon: Polygon, circle: Circle): boo
   return !polygon.separationOnAxes(axes, circle);
 }
 
-export function polygonCollidesWithPolygon(shape1: Shape, shape2: Shape, displacement?: number) {
+export function circleCollidesWithCircle(c1: Circle, c2: Circle): MinimumTranslationVector {
+  const distance = Math.sqrt(Math.pow(c2.x - c1.x, 2) + Math.pow(c2.y - c1.y, 2));
+  const overlap = Math.abs(c1.radius + c2.radius) - distance;
+
+  return overlap < 0 ? new MinimumTranslationVector(undefined, 0) : new MinimumTranslationVector(undefined, overlap);
+}
+
+export function polygonCollidesWithPolygon(
+  shape1: Shape,
+  shape2: Shape,
+  displacement?: number
+): MinimumTranslationVector {
   const mtv1 = shape1.minimumTranslationVector(shape1.getAxes(), shape2, displacement);
   const mtv2 = shape1.minimumTranslationVector(shape2.getAxes(), shape2, displacement);
 
@@ -50,13 +60,6 @@ export function polygonCollidesWithPolygon(shape1: Shape, shape2: Shape, displac
   }
 
   return mtv1.overlap < mtv2.overlap ? mtv1 : mtv2;
-}
-
-export function circleCollidesWithCircle(c1: Circle, c2: Circle) {
-  const distance = Math.sqrt(Math.pow(c2.x - c1.x, 2) + Math.pow(c2.y - c1.y, 2));
-  const overlap = Math.abs(c1.radius + c2.radius) - distance;
-
-  return overlap < 0 ? new MinimumTranslationVector(undefined, 0) : new MinimumTranslationVector(undefined, overlap);
 }
 
 export const BIG_NUMBER = 1000000;
