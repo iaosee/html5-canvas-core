@@ -35,7 +35,7 @@ export class Demo extends BaseDemo {
 
   public config = {
     boundingBox: false,
-    count: 10,
+    centroid: false,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -53,7 +53,9 @@ export class Demo extends BaseDemo {
     this.gui = new GUI();
     const { gui } = this;
 
-    gui.add(config, 'boundingBox').onFinishChange((value: string) => this.draw());
+    gui.add(config, 'boundingBox').onFinishChange((value: boolean) => this.drawScene());
+    gui.add(config, 'centroid').onFinishChange((value: boolean) => this.drawScene());
+
     return this;
   }
 
@@ -116,9 +118,18 @@ export class Demo extends BaseDemo {
     this.shapes.forEach((shape) => {
       shape.stroke(context);
       shape.fill(context);
+
       if (config.boundingBox) {
         const rect = shape.getBoundingBox();
         context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+      }
+
+      if (config.centroid) {
+        const center = shape.centroid();
+        context.beginPath();
+        context.arc(center.x, center.y, 5, 0, Math.PI * 2, false);
+        context.closePath();
+        context.fill();
       }
     });
 
@@ -128,7 +139,7 @@ export class Demo extends BaseDemo {
   public drawScene() {
     const { context } = this;
 
-    this.clearScreen().drawGrid().drawScene();
+    this.clearScreen().drawGrid().drawShapes();
 
     return this;
   }
