@@ -1,3 +1,5 @@
+import { Point } from './Point';
+
 export class Vector {
   public x: number;
   public y: number;
@@ -5,6 +7,10 @@ export class Vector {
   public constructor(x?: number, y?: number) {
     this.x = x || 0;
     this.y = y || 0;
+  }
+
+  public static fromPoint(p: Point) {
+    return new Vector(p.x, p.y);
   }
 
   public equals(v: Vector) {
