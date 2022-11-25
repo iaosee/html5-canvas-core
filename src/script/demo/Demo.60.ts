@@ -62,7 +62,7 @@ export class Demo extends BaseDemo {
   }
 
   public draw() {
-    return this.clearScreen().drawGrid().drawScene();
+    return this.drawScene();
   }
 
   public initShapes() {
@@ -93,8 +93,8 @@ export class Demo extends BaseDemo {
       }
     }
 
-    this.shapes.push(new Circle({ name: 'circle 1', x: 100, y: 50, radius: 30 })),
-      this.shapes.push(new Circle({ name: 'circle 2', x: 250, y: 50, radius: 50 }));
+    this.shapes.push(new Circle({ name: 'circle 1', x: 100, y: 50, radius: 30 }));
+    this.shapes.push(new Circle({ name: 'circle 2', x: 250, y: 50, radius: 50 }));
 
     this.shapes.push(
       new CircleImage({
@@ -106,6 +106,7 @@ export class Demo extends BaseDemo {
         imageSource: golfball,
       })
     );
+
     return this;
   }
 
@@ -120,12 +121,14 @@ export class Demo extends BaseDemo {
         context.strokeRect(rect.x, rect.y, rect.width, rect.height);
       }
     });
+
+    return this;
   }
 
   public drawScene() {
     const { context } = this;
 
-    this.drawShapes();
+    this.clearScreen().drawGrid().drawScene();
 
     return this;
   }
@@ -190,8 +193,7 @@ export class Demo extends BaseDemo {
       mousemovePos.x = location.x;
       mousemovePos.y = location.y;
 
-      this.draw();
-      this.detectCollisions();
+      this.draw().detectCollisions();
     });
     canvas.addEventListener('mouseup', (e: MouseEvent) => {
       this.shapeBeingDragged = null;
