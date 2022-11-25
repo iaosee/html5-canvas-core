@@ -1,8 +1,13 @@
+import { BaseDemo } from '../base/BaseDemo';
 import { Point } from '../geometry/Point';
 import { Shape } from '../geometry/Shape';
 import { Polygon } from '../geometry/Polygon';
-import { BaseDemo } from '../base/BaseDemo';
+import { Sprite, ImagePainter } from '../sprite';
+import { ImageShape } from '../geometry/ImageShape';
+import { SpriteShape } from '../geometry/SpriteShape';
 
+import golfball from '../../../asset/images/golfball.png';
+import tennisBall from '../../../asset/images/tennis-ball.png';
 /**
  * @description 碰撞检测 — 分离轴定理
  */
@@ -53,6 +58,16 @@ export class Demo extends BaseDemo {
       this.shapes.push(polygon);
     }
 
+    const ballSprite = new Sprite('ball', new ImagePainter(tennisBall));
+    ballSprite.left = 200;
+    ballSprite.top = 200;
+    ballSprite.width = 79;
+    ballSprite.height = 79;
+
+    this.shapes.push(new ImageShape({ name: 'golfball', imageSource: golfball, x: 50, y: 300 }));
+    this.shapes.push(
+      new SpriteShape({ name: 'spriteBall', sprite: ballSprite, x: ballSprite.left, y: ballSprite.top })
+    );
     return this;
   }
 

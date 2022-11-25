@@ -1,12 +1,14 @@
 import { GUI } from 'lil-gui';
-import { Point } from '../geometry/Point';
-import { Shape } from '../geometry/Shape';
-import { Polygon } from '../geometry/Polygon';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
+import { Point } from '../geometry/Point';
+import { Vector } from '../geometry/Vector';
+import { Shape } from '../geometry/Shape';
 import { Circle } from '../geometry/Circle';
+import { Polygon } from '../geometry/Polygon';
 import { CircleImage } from '../geometry/CircleImage';
 import { RandomConvexPolygon } from '../geometry/RandomConvexPolygon';
+import { MinimumTranslationVector } from '../geometry/MinimumTranslationVector';
 
 import golfball from '../../../asset/images/golfball.png';
 
@@ -14,14 +16,19 @@ import golfball from '../../../asset/images/golfball.png';
  * @description 碰撞检测 — 分离轴定理
  */
 export class Demo extends BaseDemo {
-  public name: string = '碰撞检测 — 随机多边形';
+  public name: string = '碰撞检测 — 最小平移向量';
 
   public shapes: Shape[] = [];
-  public shapeBeingDragged: Shape;
 
-  private mousedownPos = new Point(0, 0);
-  private mousemovePos = new Point(0, 0);
-  private randomPolygon = new RandomConvexPolygon({
+  public lastTime = 0;
+  public isStuck: boolean = false;
+  public shapeMoving: Shape;
+  public velocity = { x: 300, y: 200 };
+  public lastVelocity = { x: 300, y: 200 };
+
+  public mousedownPos = new Point(0, 0);
+  public mousemovePos = new Point(0, 0);
+  public randomPolygon = new RandomConvexPolygon({
     maxWidth: 200,
     maxHeight: 200,
   });
@@ -35,7 +42,7 @@ export class Demo extends BaseDemo {
 
   public config = {
     boundingBox: false,
-    centroid: false,
+    count: 10,
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -53,18 +60,28 @@ export class Demo extends BaseDemo {
     this.gui = new GUI();
     const { gui } = this;
 
-    gui.add(config, 'boundingBox').onFinishChange((value: boolean) => this.drawScene());
-    gui.add(config, 'centroid').onFinishChange((value: boolean) => this.drawScene());
-
+    gui.add(config, 'boundingBox').onFinishChange((value: string) => this.drawScene());
     return this;
   }
 
-  public start() {
-    return this.draw();
-  }
+  public draw(timestamp: number = 0) {
+    const { shapeMoving, velocity } = this;
 
-  public draw() {
-    return this.drawScene();
+    if (!this.lastTime) {
+      this.lastTime = timestamp;
+    }
+
+    if (shapeMoving) {
+      const elapsedTime = timestamp - this.lastTime;
+      const dx = velocity.x * (elapsedTime / 1000);
+      const dy = velocity.y * (elapsedTime / 1000);
+      shapeMoving.move(dx, dy);
+    }
+
+    this.drawScene();
+
+    this.lastTime = timestamp;
+    return this;
   }
 
   public initShapes() {
@@ -83,11 +100,11 @@ export class Demo extends BaseDemo {
     }
 
     for (let i = 0; i < 2; i++) {
-      for (let j = 0; j < 5; j++) {
+      for (let j = 0; j < 3; j++) {
         const points = this.randomPolygon.getConvex(Random.init(4, 10).random());
         const polygon = new Polygon();
         polygon.setPoints(points);
-        polygon.move(j * 200, (i + 1) * 200);
+        polygon.move(j * 300, (i + 1) * 300);
         polygon.name = `Polygon ${i}-${j}`;
         polygon.strokeStyle = this.randomRgba();
         polygon.fillStyle = this.randomRgba();
@@ -108,7 +125,6 @@ export class Demo extends BaseDemo {
         imageSource: golfball,
       })
     );
-
     return this;
   }
 
@@ -118,18 +134,9 @@ export class Demo extends BaseDemo {
     this.shapes.forEach((shape) => {
       shape.stroke(context);
       shape.fill(context);
-
       if (config.boundingBox) {
         const rect = shape.getBoundingBox();
         context.strokeRect(rect.x, rect.y, rect.width, rect.height);
-      }
-
-      if (config.centroid) {
-        const center = shape.centroid();
-        context.beginPath();
-        context.arc(center.x, center.y, 5, 0, Math.PI * 2, false);
-        context.closePath();
-        context.fill();
       }
     });
 
@@ -139,75 +146,102 @@ export class Demo extends BaseDemo {
   public drawScene() {
     const { context } = this;
 
-    this.clearScreen().drawGrid().drawShapes();
+    this.clearScreen().drawGrid().drawShapes().detectCollisions();
 
     return this;
   }
 
   public detectCollisions() {
-    const { context, shapes, shapeBeingDragged } = this;
+    const { context, shapes, shapeMoving, velocity } = this;
     let textY = 30;
 
-    if (!shapeBeingDragged) {
-      return;
+    if (!shapeMoving) {
+      return this;
     }
 
     context.save();
     context.font = '20px Palatino';
     shapes.forEach((shape) => {
-      if (shape === shapeBeingDragged) {
+      if (shape === shapeMoving) {
         return;
       }
-      if (shapeBeingDragged.collidesWith(shape)) {
+      const mtv = shapeMoving.collidesMTVWith(shape);
+      if (mtv.axis || mtv.overlap) {
+        // collided
         context.lineWidth = 10;
         context.fillStyle = 'red';
         context.strokeStyle = 'red';
-        context.fillText(`${shapeBeingDragged.name} Collision with ${shape.name}`, 20, textY);
+        context.fillText(`${shapeMoving.name} Collision with ${shape.name}`, 20, textY);
         context.strokeRect(0, 0, this.width, this.height);
         textY += 40;
+        !this.isStuck && this.stick(mtv);
       }
     });
     context.restore();
 
+    const bBox = shapeMoving?.getBoundingBox();
+    if (bBox.x + bBox.width > this.width || bBox.x < 0) {
+      velocity.x = -velocity.x;
+    }
+    if (bBox.y + bBox.height > this.height || bBox.y < 0) {
+      velocity.y = -velocity.y;
+    }
+
     return this;
   }
 
+  public stick(mtv: MinimumTranslationVector) {
+    const { shapeMoving, velocity, lastVelocity } = this;
+
+    if (!mtv.axis) {
+      // The object that's moving is a circle.
+      const point = new Point();
+      const velocityMagnitude = Math.sqrt(Math.pow(velocity.x, 2) + Math.pow(velocity.y, 2));
+      // Point the mtv axis in the direction of the circle's velocity.
+      point.x = velocity.x / velocityMagnitude;
+      point.y = velocity.y / velocityMagnitude;
+      mtv.axis = new Vector(point.x, point.y);
+    }
+
+    let dx = mtv.axis.x * (mtv.overlap + 2);
+    let dy = mtv.axis.y * (mtv.overlap + 2);
+
+    if ((dx < 0 && velocity.x < 0) || (dx > 0 && velocity.x > 0)) {
+      dx = -dx;
+    }
+
+    if ((dy < 0 && velocity.y < 0) || (dy > 0 && velocity.y > 0)) {
+      dy = -dy;
+    }
+
+    setTimeout(() => {
+      shapeMoving.move(dx, dy);
+    }, 500);
+
+    lastVelocity.x = velocity.x;
+    lastVelocity.y = velocity.y;
+    velocity.x = velocity.y = 0;
+
+    this.isStuck = true;
+  }
+
   public listenEvents() {
-    const { canvas, context, dpr, mousedownPos, mousemovePos, shapes } = this;
+    const { canvas, context, dpr, shapes, velocity, lastVelocity } = this;
 
     canvas.addEventListener('mousedown', (e: MouseEvent) => {
       const location = this.coordinateTransformation(e.clientX, e.clientY);
 
+      velocity.x = lastVelocity.x;
+      velocity.y = lastVelocity.y;
+
+      this.isStuck = false;
+      this.shapeMoving = undefined;
+
       shapes.forEach((shape) => {
         if (shape.isPointInPath(context, location.x * dpr, location.y * dpr)) {
-          this.shapeBeingDragged = shape;
-          mousedownPos.x = location.x;
-          mousedownPos.y = location.y;
-          mousemovePos.x = location.x;
-          mousemovePos.y = location.y;
+          this.shapeMoving = shape;
         }
       });
-    });
-    canvas.addEventListener('mousemove', (e: MouseEvent) => {
-      const location = this.coordinateTransformation(e.clientX, e.clientY);
-      if (!this.shapeBeingDragged) {
-        return;
-      }
-
-      const dragVector = {
-        x: location.x - mousemovePos.x,
-        y: location.y - mousemovePos.y,
-      };
-
-      this.shapeBeingDragged?.move(dragVector.x, dragVector.y);
-
-      mousemovePos.x = location.x;
-      mousemovePos.y = location.y;
-
-      this.draw().detectCollisions();
-    });
-    canvas.addEventListener('mouseup', (e: MouseEvent) => {
-      this.shapeBeingDragged = null;
     });
 
     return this;

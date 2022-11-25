@@ -1,7 +1,6 @@
 import { Point } from './Point';
-import { Shape } from './Shape';
 
-export class BezierCurve extends Shape {
+export class BezierCurve {
   public CONTROL_POINT_RADIUS: number = 5;
 
   public constructor(
@@ -10,15 +9,13 @@ export class BezierCurve extends Shape {
     public controlPoints: Point[] = [],
     public lineWidth: number = 1,
     public controlVisible: boolean = true
-  ) {
-    super(anchorPoints[0]);
-  }
+  ) {}
 
   public drawPoint(points: Point[]) {
     const { context, CONTROL_POINT_RADIUS } = this;
 
     context.save();
-    points.forEach(point => {
+    points.forEach((point) => {
       context.beginPath();
       context.arc(point.x, point.y, CONTROL_POINT_RADIUS, 0, Math.PI * 2, false);
       context.stroke();

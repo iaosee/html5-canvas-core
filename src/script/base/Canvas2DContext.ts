@@ -8,7 +8,7 @@ export class Canvas2DContext {
     this.context = this.context = canvas.getContext('2d');
 
     if (!(Canvas2DContext.prototype as any).arc) {
-      Canvas2DContext.setup.call<Canvas2DContext, any, any>(this, this.context);
+      Canvas2DContext.setup.call(this, this.context);
     }
   }
 
@@ -38,7 +38,7 @@ export class Canvas2DContext {
       'strokeRect',
       'strokeText',
       'transform',
-      'translate'
+      'translate',
     ];
 
     const getterMethods = [
@@ -51,7 +51,7 @@ export class Canvas2DContext {
       'createLinearGradient',
       'createRadialGradient',
       'getImageData',
-      'putImageData'
+      'putImageData',
     ];
 
     const props = [
@@ -70,24 +70,24 @@ export class Canvas2DContext {
       'shadowColor',
       'strokeStyle',
       'textAlign',
-      'textBaseline'
+      'textBaseline',
     ];
 
     for (const method of methods) {
-      (Canvas2DContext.prototype as any)[method] = function() {
+      (Canvas2DContext.prototype as any)[method] = function () {
         this.context[method].apply(this.context, arguments);
         return this;
       };
     }
 
     for (const method of getterMethods) {
-      (Canvas2DContext.prototype as any)[method] = function() {
+      (Canvas2DContext.prototype as any)[method] = function () {
         return this.context[method].apply(this.context, arguments);
       };
     }
 
     for (const prop of props) {
-      (Canvas2DContext.prototype as any)[prop] = function(value: any) {
+      (Canvas2DContext.prototype as any)[prop] = function (value: any) {
         if (value === undefined) {
           return this.context[prop];
         }

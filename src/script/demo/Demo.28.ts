@@ -113,7 +113,7 @@ export class Demo extends BaseDemo {
     context.save();
 
     context.globalAlpha = config.globalAlpha;
-    context.globalCompositeOperation = config.compositeMode;
+    context.globalCompositeOperation = config.compositeMode as GlobalCompositeOperation;
     context.beginPath();
     context.arc(loc.x, loc.y, 100, 0, Math.PI * 2, false);
     context.fillStyle = this.rgbaFromArr(config.coverColor);

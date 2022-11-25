@@ -67,33 +67,24 @@ export class Demo extends Rubberband {
         : rubberbandRect.height / Math.sin(Math.atan(rubberbandRect.height / rubberbandRect.width));
     const radius2 = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
 
-    const polygon = new RegularPolygon(
-      context,
-      new Point(mousedownPos.x, mousedownPos.y),
+    const polygon = new RegularPolygon({
+      x: mousedownPos.x,
+      y: mousedownPos.y,
       radius,
-      config.sides,
-      this.degreesToRadian(config.startAngle),
-      this.rgbaFromArr(config.fillStyle),
-      this.rgbaFromArr(config.strokeStyle),
-      config.filled
-    );
+      sides: config.sides,
+      startAngle: this.degreesToRadian(config.startAngle),
+      fillStyle: this.rgbaFromArr(config.fillStyle),
+      strokeStyle: this.rgbaFromArr(config.strokeStyle),
+      filled: config.filled,
+    });
 
-    polygon.createPath();
-    polygon.stroke();
-    polygon.fill();
+    polygon.createPath(context);
+    polygon.stroke(context);
+    polygon.filled && polygon.fill(context);
 
-    const _this = this;
     if (!this.dragging && !mousedownPos.equals(loc)) {
       console.log(radius);
       console.log(radius2);
-
-      polygon.on('click', function (e: MouseEvent) {
-        console.log(this);
-        console.log(e);
-        this.fillStyle = _this.randomRgba();
-        _this.clearScreen().drawGrid().drawPolygons();
-      });
-
       this.polygons.push(polygon);
     }
     return this;
@@ -102,9 +93,9 @@ export class Demo extends Rubberband {
   public drawPolygons() {
     const { context } = this;
     this.polygons.forEach((polygon) => {
-      polygon.stroke();
+      polygon.stroke(context);
       if (polygon.filled) {
-        polygon.fill();
+        polygon.fill(context);
       }
     });
 

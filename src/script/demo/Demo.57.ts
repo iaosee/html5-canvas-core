@@ -47,7 +47,7 @@ export class Demo extends BaseDemo {
     this.gui = new GUI();
     const { gui } = this;
 
-    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange((value) => {
+    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange((value: string) => {
       this.animationTimer.setTimeWarp(this.animationFnMap[value]);
     });
     gui.add(config, 'startRun');

@@ -3,7 +3,12 @@ import { Vector } from './Vector';
 import { Circle } from './Circle';
 import { Shape, ShapeConfig } from './Shape';
 import { Projection } from './Projection';
-import { polygonCollidesWithCircle } from './Util';
+import {
+  getCircleAxis,
+  getPolygonPointClosestToCircle,
+  polygonCollidesWithCircle,
+  polygonCollidesWithPolygon,
+} from './Util';
 
 export interface PolygonConfig extends ShapeConfig {
   points?: Point[];
@@ -50,7 +55,7 @@ export class Polygon extends Shape {
     context.beginPath();
     context.moveTo(this.points[0].x, this.points[0].y);
 
-    for (var i = 0; i < this.points.length; ++i) {
+    for (var i = 1; i < this.points.length; ++i) {
       context.lineTo(this.points[i].x, this.points[i].y);
     }
 
@@ -66,6 +71,19 @@ export class Polygon extends Shape {
     }
 
     return super.collidesWith(shape);
+  }
+
+  /** @implements */
+  public collidesMTVWith(shape: Shape, displacement?: number) {
+    if (shape instanceof Circle) {
+      // return polygonCollidesWithCircle(this, shape, displacement);
+      const axes = this.getAxes();
+      const closestPoint = getPolygonPointClosestToCircle(this, shape);
+      axes.push(getCircleAxis(shape, closestPoint, this));
+      return this.minimumTranslationVector(axes, shape, displacement);
+    }
+
+    return polygonCollidesWithPolygon(this, shape, displacement);
   }
 
   /** @override */
@@ -101,7 +119,20 @@ export class Polygon extends Shape {
   }
 
   /** @implements */
-  public getClientRect() {
+  public centroid() {
+    const pointSum = new Point(0, 0);
+
+    for (let i = 0; i < this.points.length; ++i) {
+      const point = this.points[i];
+      pointSum.x += point.x;
+      pointSum.y += point.y;
+    }
+
+    return new Point(pointSum.x / this.points.length, pointSum.y / this.points.length);
+  }
+
+  /** @implements */
+  public getBoundingBox() {
     let minX: number, minY: number, maxX: number, maxY: number;
     this.points.forEach((point) => {
       if (minX === undefined) {

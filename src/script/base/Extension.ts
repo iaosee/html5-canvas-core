@@ -2,9 +2,9 @@
  * @description 给 Context2D 对象上添加绘制虚线的方法，早期 Canvas 规范中没有绘制虚线的方法
  */
 
-const moveToFucntion = CanvasRenderingContext2D.prototype.moveTo;
+export const moveToFucntion = CanvasRenderingContext2D.prototype.moveTo;
 
-CanvasRenderingContext2D.prototype.moveTo = function(x, y) {
+CanvasRenderingContext2D.prototype.moveTo = function (x, y) {
   moveToFucntion.apply(this, [x, y]);
   this.lastMoveToLocation.x = x;
   this.lastMoveToLocation.y = y;
@@ -14,13 +14,13 @@ Object.defineProperty(CanvasRenderingContext2D.prototype, 'lastMoveToLocation', 
   configurable: true,
   enumerable: true,
   value: {},
-  writable: true
+  writable: true,
 });
 
 Object.defineProperty(CanvasRenderingContext2D.prototype, 'dashedLineTo', {
   configurable: true,
   enumerable: true,
-  value: function(x: number, y: number, dashLength: number = 5) {
+  value: function (x: number, y: number, dashLength: number = 5) {
     const startX = this.lastMoveToLocation.x;
     const startY = this.lastMoveToLocation.y;
     const deltaX = x - startX;
@@ -35,5 +35,5 @@ Object.defineProperty(CanvasRenderingContext2D.prototype, 'dashedLineTo', {
 
     this.moveTo(x, y);
   },
-  writable: false
+  writable: false,
 });

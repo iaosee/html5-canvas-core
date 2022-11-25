@@ -67,16 +67,16 @@ export class Demo extends Rubberband {
     const { context, config, mousedownPos, mousemovePos, rubberbandRect } = this;
     const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
 
-    const polygon = new RegularPolygon(
-      context,
-      new Point(mousedownPos.x, mousedownPos.y),
+    const polygon = new RegularPolygon({
+      x: mousedownPos.x,
+      y: mousedownPos.y,
       radius,
-      config.sides,
-      this.degreesToRadian(config.startAngle),
-      this.rgbaFromArr(config.fillStyle),
-      this.rgbaFromArr(config.strokeStyle),
-      config.filled
-    );
+      sides: config.sides,
+      startAngle: this.degreesToRadian(config.startAngle),
+      fillStyle: this.rgbaFromArr(config.fillStyle),
+      strokeStyle: this.rgbaFromArr(config.strokeStyle),
+      filled: config.filled,
+    });
 
     this.drawPolygon(polygon);
 
@@ -87,9 +87,11 @@ export class Demo extends Rubberband {
   }
 
   public drawPolygon(polygon: RegularPolygon) {
-    polygon.createPath();
-    polygon.stroke();
-    polygon.filled && polygon.fill();
+    const { context, config, dpr } = this;
+
+    polygon.createPath(context);
+    polygon.stroke(context);
+    polygon.filled && polygon.fill(context);
     return this;
   }
 
@@ -116,7 +118,7 @@ export class Demo extends Rubberband {
     if (config.editing) {
       // this.drawPolygons();
       this.polygons.forEach((polygon) => {
-        if (!polygon.pointInPath(new Point(event.clientX * dpr, event.clientY * dpr))) {
+        if (!polygon.isPointInPath(context, event.clientX * dpr, event.clientY * dpr)) {
           return;
         }
 
@@ -137,7 +139,7 @@ export class Demo extends Rubberband {
 
     if (config.editing && this.dragging) {
       this.draggingPolygon &&
-        this.draggingPolygon.setPosition(
+        this.draggingPolygon.move(
           this.mousemovePos.x - this.draggingOffsetPos.x,
           this.mousemovePos.y - this.draggingOffsetPos.y
         );

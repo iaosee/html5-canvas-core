@@ -1,3 +1,5 @@
+import { Point } from './Point';
+
 export class Vector {
   public x: number;
   public y: number;
@@ -5,6 +7,10 @@ export class Vector {
   public constructor(x?: number, y?: number) {
     this.x = x || 0;
     this.y = y || 0;
+  }
+
+  public static fromPoint(p: Point) {
+    return new Vector(p.x, p.y);
   }
 
   public equals(v: Vector) {
@@ -43,5 +49,13 @@ export class Vector {
   public normal() {
     const p = this.perpendicular();
     return p.normalize();
+  }
+
+  public reflect(axis: Vector) {
+    const vdotl = this.dotProduct(axis);
+    const ldotl = axis.dotProduct(axis);
+    const dotProductRatio = vdotl / ldotl;
+
+    return new Vector(2 * dotProductRatio * axis.x - this.x, 2 * dotProductRatio * axis.y - this.y);
   }
 }

@@ -20,4 +20,17 @@ export class Point {
   public distance(p: Point) {
     return Math.abs(Math.sqrt(Math.pow(this.x - p.x, 2) + Math.pow(this.y - p.y, 2)));
   }
+
+  public rotate(rotationPoint: Point, angle: number) {
+    const tx = this.x - rotationPoint.x; // tx = translated X
+    const ty = this.y - rotationPoint.y; // ty = translated Y
+
+    const rx =
+      tx * Math.cos(-angle) - // rx = rotated X
+      ty * Math.sin(-angle);
+    const ry =
+      tx * Math.sin(-angle) + // ry = rotated Y
+      ty * Math.cos(-angle);
+    return new Point(rx + rotationPoint.x, ry + rotationPoint.y);
+  }
 }

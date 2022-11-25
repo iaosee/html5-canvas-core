@@ -3,7 +3,12 @@ import { Vector } from './Vector';
 import { Polygon } from './Polygon';
 import { Projection } from './Projection';
 import { Shape, ShapeConfig } from './Shape';
-import { polygonCollidesWithCircle } from './Util';
+import {
+  getCircleAxis,
+  getPolygonPointClosestToCircle,
+  circleCollidesWithCircle,
+  polygonCollidesWithCircle,
+} from './Util';
 
 export interface CircleConfig extends ShapeConfig {
   radius: number;
@@ -27,6 +32,19 @@ export class Circle extends Shape {
     }
 
     return polygonCollidesWithCircle(shape as Polygon, this);
+  }
+
+  /** @implements */
+  public collidesMTVWith(shape: Shape, displacement?: number) {
+    if (shape instanceof Polygon) {
+      // return polygonCollidesWithCircle(shape, this, displacement);
+      const axes = shape.getAxes();
+      const closestPoint = getPolygonPointClosestToCircle(shape, this);
+      axes.push(getCircleAxis(this, closestPoint, shape));
+      return shape.minimumTranslationVector(axes, this, displacement);
+    }
+
+    return circleCollidesWithCircle(this, shape as Circle);
   }
 
   /** @override */
@@ -60,7 +78,12 @@ export class Circle extends Shape {
   }
 
   /** @implements */
-  public getClientRect() {
+  public centroid() {
+    return new Point(this.x, this.y);
+  }
+
+  /** @implements */
+  public getBoundingBox() {
     return {
       x: this.x - this.radius,
       y: this.y - this.radius,
