@@ -1,7 +1,9 @@
 import { Point } from './Point';
 import { Vector } from './Vector';
-import { Projection } from './Projection';
 import { Rectangle } from '../interfaces';
+import { Projection } from './Projection';
+import { BIG_NUMBER } from './Util';
+import { MinimumTranslationVector } from './MinimumTranslationVector';
 
 export interface ShapeConfig {
   name?: string;
@@ -76,6 +78,30 @@ export abstract class Shape {
     return false;
   }
 
+  public minimumTranslationVector(axes: Vector[], shape: Shape, displacement?: number) {
+    // return getMTV(this, shape, axes, displacement);
+    let minimumOverlap = BIG_NUMBER || 1000000;
+    let axisWithSmallestOverlap;
+
+    for (var i = 0; i < axes.length; ++i) {
+      const axis = axes[i];
+      const projection1 = this.project(axis);
+      const projection2 = shape.project(axis);
+      const overlap = projection1.getOverlap(projection2);
+
+      if (overlap === 0) {
+        return new MinimumTranslationVector(undefined, 0);
+      }
+
+      if (overlap < minimumOverlap) {
+        minimumOverlap = overlap;
+        axisWithSmallestOverlap = axis;
+      }
+    }
+
+    return new MinimumTranslationVector(axisWithSmallestOverlap, minimumOverlap);
+  }
+
   public move(dx: number, dy: number) {
     throw 'move(dx, dy) not implemented';
   }
@@ -94,4 +120,5 @@ export abstract class Shape {
 
   public abstract centroid(): Point;
   public abstract getBoundingBox(): Rectangle;
+  public abstract collidesMTVWith(shape: Shape, displacement?: number): MinimumTranslationVector;
 }
