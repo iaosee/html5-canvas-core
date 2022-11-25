@@ -1,3 +1,4 @@
+import { Point } from '../interfaces';
 
 interface CanvasRenderingContext2D {
   lastMoveToLocation: Point;
