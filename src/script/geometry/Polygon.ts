@@ -55,7 +55,7 @@ export class Polygon extends Shape {
     context.beginPath();
     context.moveTo(this.points[0].x, this.points[0].y);
 
-    for (var i = 0; i < this.points.length; ++i) {
+    for (var i = 1; i < this.points.length; ++i) {
       context.lineTo(this.points[i].x, this.points[i].y);
     }
 
