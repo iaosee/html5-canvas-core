@@ -1,4 +1,5 @@
 import { GUI } from 'lil-gui';
+import * as Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
 import { Colorable, Point, Velocity } from '../interfaces';
 
@@ -12,6 +13,7 @@ export class Demo extends BaseDemo {
   public pointOfLine: MeshPoint[][] = [];
   public triangleOfLine: MeshPoint[][] = [];
 
+  public lastTime = 0;
   public config = {
     animation: true,
     drawBoundary: false,
@@ -24,7 +26,7 @@ export class Demo extends BaseDemo {
     this.context.lineCap = 'round';
     this.context.lineJoin = 'round';
 
-    this.createControl().initDotLine().initTriangleLine();
+    this.createControl().initStats().initDotLine().initTriangleLine();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -51,10 +53,16 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number) {
-    // const now = +new Date();
-    // console.log(timestamp);
+  public initStats() {
+    this.stats = new Stats();
+    this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(this.stats.dom);
+    return this;
+  }
 
+  public draw(timestamp: number) {
+    this.stats.update();
+    this.lastTime = timestamp;
     return this.clearScreen().drawGrid().updatePosition().drawScene(timestamp);
   }
 

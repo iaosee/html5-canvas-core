@@ -45,7 +45,7 @@ export class Demo extends BaseDemo {
     const { gui } = this;
 
     gui.add(config, 'trace');
-    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange((value) => {
+    gui.add(config, 'animationFn', Object.keys(this.animationFnMap)).onFinishChange((value: string) => {
       this.pushAnimationTimer.setTimeWarp(this.animationFnMap[value]);
     });
     gui.add(config, 'restartAnimation');
