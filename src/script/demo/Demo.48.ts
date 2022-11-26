@@ -1,5 +1,5 @@
 import { GUI } from 'lil-gui';
-import * as Stats from 'stats.js';
+import Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
 import image_sky from '../../../asset/images/sky.png';
 import image_smalltree from '../../../asset/images/smalltree.png';
