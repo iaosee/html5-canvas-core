@@ -30,7 +30,6 @@
     "stats.js": "^0.17.0"
   },
   "devDependencies": {
-    "@types/stats.js": "^0.17.0",
     "cross-env": "^7.0.3",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",

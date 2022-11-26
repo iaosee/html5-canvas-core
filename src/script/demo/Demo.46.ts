@@ -1,5 +1,5 @@
 import { GUI } from 'lil-gui';
-import * as Stats from 'stats.js';
+import Stats from 'stats.js';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
 import { Point, Circle } from '../interfaces';

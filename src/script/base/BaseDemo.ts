@@ -1,6 +1,6 @@
 import { Point } from '../geometry/Point';
 import { GUI } from 'lil-gui';
-import * as Stats from 'stats.js';
+import Stats from 'stats.js';
 
 /**
  * @description BaseDemo

@@ -1,12 +1,14 @@
 
 /** @type {import('vite').UserConfig} */
 export default {
-    root: './src',
-    base: '/',
-    mode: 'development',
-    build: {
-        outDir: '../dist',
-        sourcemap: false,
-        emptyOutDir: true,
-    }
+  root: './src',
+  base: '/',
+  mode: 'development',
+  build: {
+    outDir: '../dist',
+    assetsDir: 'assets',
+    minify: true,
+    sourcemap: false,
+    emptyOutDir: true,
+  },
 }
