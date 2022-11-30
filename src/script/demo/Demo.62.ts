@@ -56,11 +56,22 @@ export class Demo extends BaseDemo {
   }
 
   public createControl() {
-    const { config } = this;
+    const { velocity, config } = this;
     this.gui = new GUI();
     const { gui } = this;
 
     gui.add(config, 'boundingBox').onFinishChange((value: string) => this.drawScene());
+    gui
+      .add(velocity, 'x')
+      .min(10)
+      .max(1500)
+      .onFinishChange((v: number) => (this.velocity.x = Number(v)));
+    gui
+      .add(velocity, 'y')
+      .min(10)
+      .max(1500)
+      .onFinishChange((v: number) => (this.velocity.y = Number(v)));
+
     return this;
   }
 
@@ -319,7 +330,7 @@ export class Demo extends BaseDemo {
   }
 
   public handleShapeCollisions() {
-    const { shapeMoving, velocity } = this;
+    const { shapeMoving } = this;
 
     this.shapes.forEach((shape) => {
       if (shape !== shapeMoving) {
@@ -339,8 +350,8 @@ export class Demo extends BaseDemo {
     canvas.addEventListener('mousedown', (e: MouseEvent) => {
       const location = this.coordinateTransformation(e.clientX, e.clientY);
 
-      velocity.x = lastVelocity.x;
-      velocity.y = lastVelocity.y;
+      // velocity.x = lastVelocity.x;
+      // velocity.y = lastVelocity.y;
 
       this.isStuck = false;
       this.shapeMoving = undefined;
