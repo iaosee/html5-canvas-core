@@ -4,12 +4,19 @@ import { Sprite } from '../sprite';
  * @description simple game engine
  *
  */
+interface Listener {
+  key: string;
+  listener: (e: Event) => void;
+}
+
 export class GameEngine {
   public gameName: string;
   public context: CanvasRenderingContext2D;
 
   public sprites: Sprite[] = [];
-  public keyListeners: any[] = [];
+  public keyListeners: Array<Listener> = [];
+
+  public HIGH_SCORES_SUFFIX = '_highscores';
 
   public images: Map<string, HTMLImageElement> = new Map();
   public imageUrls: string[] = [];
@@ -23,20 +30,18 @@ export class GameEngine {
   public gameTime = 0;
   public fps = 0;
   public STARTING_FPS = 60;
-  public paused = 60;
-  public startedPauseAt = 60;
-  public PAUSE_TIMEOUT = 60;
+  public paused = false;
+  public startedPauseAt = 0;
+  public PAUSE_TIMEOUT = 100;
 
   public soundOn = true;
   public soundChannels: HTMLAudioElement[] = [];
   public audio = new Audio();
   public NUM_SOUND_CHANNELS = 10;
 
-  public constructor(gameName: string, canvasId: string) {
-    const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-
+  public constructor(gameName: string, canvasElem: HTMLCanvasElement) {
     this.gameName = gameName;
-    this.context = canvas.getContext('2d');
+    this.context = canvasElem.getContext('2d');
 
     for (let i = 0; i < this.NUM_SOUND_CHANNELS; ++i) {
       const audio = new Audio();
@@ -87,6 +92,10 @@ export class GameEngine {
     if (listener) {
       listener();
     }
+  }
+
+  public addKeyListener(keyAndListener: Listener) {
+    this.keyListeners.push(keyAndListener);
   }
 
   public findKeyListener(key: string) {
@@ -146,7 +155,7 @@ export class GameEngine {
     this.startTime = Date.now();
 
     requestAnimationFrame((time) => {
-      this.animate.call(this, time);
+      this.animate(time);
     });
   }
 
@@ -154,7 +163,7 @@ export class GameEngine {
     if (this.paused) {
       setTimeout(() => {
         requestAnimationFrame((time) => {
-          this.animate.call(self, time);
+          this.animate(time);
         });
       }, this.PAUSE_TIMEOUT);
 
@@ -175,23 +184,133 @@ export class GameEngine {
 
     this.lastTime = time;
     requestAnimationFrame((time) => {
-      this.animate.call(self, time);
+      this.animate(time);
     });
   }
 
-  public tick(time: number) {}
+  public tick(time: number) {
+    this.updateFrameRate(time);
+    this.gameTime = Date.now() - this.startTime;
+  }
 
-  public clearScreen() {}
+  public updateFrameRate(time: number) {
+    if (this.lastTime === 0) {
+      this.fps = this.STARTING_FPS;
+    } else {
+      this.fps = 1000 / (time - this.lastTime);
+    }
+  }
+
+  public clearScreen() {
+    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+  }
+
+  public updateSprites(time: number) {
+    for (let i = 0; i < this.sprites.length; ++i) {
+      const sprite = this.sprites[i];
+      sprite.update(this.context, time);
+    }
+  }
+
+  public paintSprites(time: number) {
+    for (let i = 0; i < this.sprites.length; ++i) {
+      const sprite = this.sprites[i];
+      if (sprite.visible) {
+        sprite.paint(this.context);
+      }
+    }
+  }
 
   public startAnimate(time: number) {}
-
+  public endAnimate() {}
+  public paintOverSprites() {}
   public paintUnderSprites() {}
 
-  public updateSprites(time: number) {}
+  public togglePaused() {
+    const now = Date.now();
 
-  public paintSprites(time: number) {}
+    this.paused = !this.paused;
 
-  public paintOverSprites() {}
+    if (this.paused) {
+      this.startedPauseAt = now;
+    } else {
+      this.startTime = this.startTime + now - this.startedPauseAt;
+      this.lastTime = now;
+    }
+  }
 
-  public endAnimate() {}
+  public pixelsPerFrame(time: number, velocity: number) {
+    // Sprites move a certain amount of pixels per frame (pixels/frame).
+    // This methods returns the amount of pixels a sprite should move
+    // for a given frame. Sprite velocity is measured in pixels / second,
+    // so: (pixels/second) * (second/frame) = pixels/frame:
+    return velocity / this.fps;
+  }
+
+  /** -------------------- Scores -------------------- */
+  public getHighScores() {
+    const key = this.gameName + this.HIGH_SCORES_SUFFIX;
+    const highScoresString = localStorage[key];
+
+    if (highScoresString == undefined) {
+      localStorage[key] = JSON.stringify([]);
+    }
+    return JSON.parse(localStorage[key]);
+  }
+
+  public setHighScore(highScore: number) {
+    const key = this.gameName + this.HIGH_SCORES_SUFFIX;
+    const highScoresString = localStorage[key] || '[]';
+    const highScores = JSON.parse(highScoresString);
+    highScores.unshift(highScore);
+    localStorage[key] = JSON.stringify(highScores);
+  }
+
+  public clearHighScores() {
+    localStorage[this.gameName + this.HIGH_SCORES_SUFFIX] = JSON.stringify([]);
+  }
+
+  /** -------------------- Sound -------------------- */
+  public canPlayOggVorbis() {
+    return '' != this.audio.canPlayType('audio/ogg; codecs="vorbis"');
+  }
+
+  public canPlayMp3() {
+    return '' != this.audio.canPlayType('audio/mpeg');
+  }
+
+  public getAvailableSoundChannel() {
+    let audio: HTMLAudioElement;
+
+    for (let i = 0; i < this.NUM_SOUND_CHANNELS; ++i) {
+      audio = this.soundChannels[i];
+      if (audio.played.length === 0 || audio.ended) {
+        return audio;
+      }
+    }
+
+    return undefined;
+  }
+
+  public playSound(id: string) {
+    const channel = this.getAvailableSoundChannel();
+    const element = document.getElementById(id) as HTMLAudioElement;
+
+    if (channel && element) {
+      channel.src = element.src === '' ? element.currentSrc : element.src;
+      channel.load();
+      channel.play();
+    }
+  }
+
+  public addSprite(sprite: Sprite) {
+    this.sprites.push(sprite);
+  }
+
+  public getSprite(name: string) {
+    for (const i in this.sprites) {
+      if (this.sprites[i].name === name) return this.sprites[i];
+    }
+    return null;
+  }
 }
