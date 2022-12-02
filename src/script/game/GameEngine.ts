@@ -90,7 +90,7 @@ export class GameEngine {
 
     const listener = this.findKeyListener(key);
     if (listener) {
-      listener();
+      listener(e);
     }
   }
 
