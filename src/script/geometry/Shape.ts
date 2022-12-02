@@ -102,21 +102,10 @@ export abstract class Shape {
     return new MinimumTranslationVector(axisWithSmallestOverlap, minimumOverlap);
   }
 
-  public move(dx: number, dy: number) {
-    throw 'move(dx, dy) not implemented';
-  }
-
-  public createPath(context: CanvasRenderingContext2D) {
-    throw 'createPath(context) not implemented';
-  }
-
-  public getAxes(): Array<Vector> {
-    throw 'getAxes() not implemented';
-  }
-
-  public project(axis: Vector): Projection {
-    throw 'project(axis) not implemented';
-  }
+  public abstract move(dx: number, dy: number): void;
+  public abstract createPath(context: CanvasRenderingContext2D): void;
+  public abstract getAxes(): Vector[];
+  public abstract project(axis: Vector): Projection;
 
   public abstract centroid(): Point;
   public abstract getBoundingBox(): Rectangle;
