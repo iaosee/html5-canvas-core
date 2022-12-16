@@ -65,5 +65,6 @@ DemoConfigMap.set('Demo.60', () => import(/* webpackChunkName: "Demo.60" */ './d
 DemoConfigMap.set('Demo.61', () => import(/* webpackChunkName: "Demo.61" */ './demo/Demo.61'));
 DemoConfigMap.set('Demo.62', () => import(/* webpackChunkName: "Demo.62" */ './demo/Demo.62'));
 DemoConfigMap.set('Demo.63', () => import(/* webpackChunkName: "Demo.63" */ './demo/Demo.63'));
+DemoConfigMap.set('Demo.64', () => import(/* webpackChunkName: "Demo.64" */ './demo/Demo.64'));
 
 export { DemoConfigMap };
