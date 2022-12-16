@@ -72,8 +72,6 @@ export class App {
   }
 
   public async renderScene(name: string = getDefaultDemo()) {
-    console.log(name);
-
     const getDemoAsyncFn = DemoConfigMap.get(name);
     if (!getDemoAsyncFn) {
       alert(`${name} doesn't exist !`);
