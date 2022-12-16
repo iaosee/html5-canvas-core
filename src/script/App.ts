@@ -1,10 +1,13 @@
+import { Random } from './tools/Random';
 import { BaseDemo } from './base/BaseDemo';
 import { DemoConfigMap } from './DemoConfig';
 
 const getDefaultDemo = () => {
   const reg = /#\/(.+)$/;
   const matchs = window.location.hash.match(reg);
-  return matchs ? matchs[1] : 'Demo.01';
+  const randIndex = Random.init(0, [...DemoConfigMap.keys()].length - 1).getOne();
+  const numStr = randIndex.toString().padStart(2, '0');
+  return matchs ? matchs[1] : `Demo.${numStr}`;
 };
 
 export class App {
@@ -21,9 +24,7 @@ export class App {
 
   public run() {
     (window as any).app = this;
-    this.initMenuList()
-      .listenEvent()
-      .initDemo();
+    this.initMenuList().listenEvent().initDemo();
   }
 
   public createCanvas() {
@@ -66,11 +67,13 @@ export class App {
   }
 
   public listenEvent() {
-    window.addEventListener('hashchange', e => this.renderScene());
+    window.addEventListener('hashchange', (e) => this.renderScene());
     return this;
   }
 
   public async renderScene(name: string = getDefaultDemo()) {
+    console.log(name);
+
     const getDemoAsyncFn = DemoConfigMap.get(name);
     if (!getDemoAsyncFn) {
       alert(`${name} doesn't exist !`);
