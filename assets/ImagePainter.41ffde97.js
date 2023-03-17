@@ -1,1 +1,0 @@
-class m{constructor(h){this.image=new Image,this.image.src=h}paint(h,i){if(!this.image)return;const a=h.x||h.left,e=h.y||h.top;this.image.complete?i.drawImage(this.image,a,e,h.width,h.height):this.image.onload=t=>{h.width=this.image.width,h.height=this.image.height,i.drawImage(this.image,a,e,h.width,h.height)}}}export{m as I};
