@@ -11,6 +11,7 @@
     "server": "./node_modules/.bin/vite --host",
     "prepare": "husky install",
     "lint": "lint-staged",
+    "deploy": "gh-pages -d dist",
     "download-source": "rm -rf ./corehtml5canvas; git clone https://github.com/corehtml5canvas/code.git ./corehtml5canvas"
   },
   "keywords": [
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "gh-pages": "^5.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
     "prettier": "^2.8.4",
