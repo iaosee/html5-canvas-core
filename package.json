@@ -13,17 +13,26 @@
     "lint": "lint-staged",
     "download-source": "rm -rf ./corehtml5canvas; git clone https://github.com/corehtml5canvas/code.git ./corehtml5canvas"
   },
-  "repository": {
-    "type": "git"
-  },
   "keywords": [
     "Canvas",
-    "Graphic"
+    "Graphic",
+    "2D",
+    "Game"
   ],
   "engines": {
     "node": ">= 12.0.0"
   },
-  "author": "iaosee@outlook.com",
+  "author": {
+    "name": "iaosee",
+    "email": "iaosee@outlook.com",
+    "url": "https://iaosee.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iaosee/html5-canvas-core.git"
+  },
+  "homepage": "https://iaosee.com/html5-canvas-core/",
+  "bugs": "https://github.com/iaosee/html5-canvas-core/issues",
   "license": "ISC",
   "dependencies": {
     "lil-gui": "^0.17.0",
@@ -31,11 +40,11 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
-    "typescript": "^4.8.2",
-    "vite": "^3.0.9"
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5",
+    "vite": "^3.2.5"
   },
   "lint-staged": {
     "src/**/*.ts": [
