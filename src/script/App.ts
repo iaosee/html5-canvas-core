@@ -16,6 +16,9 @@ export class App {
   public canvas: HTMLCanvasElement;
   public demo: BaseDemo;
 
+  public menuContianer: HTMLElement;
+  public menuLastActive: HTMLElement;
+
   public constructor() {}
 
   public static init() {
@@ -47,13 +50,14 @@ export class App {
   }
 
   public initMenuList() {
-    const menuContianer = document.querySelector('.menu-bar-container');
+    const menuContianer = document.querySelector('.menu-bar-container') as HTMLElement;
+    const menuToggle = document.querySelector('.menu-toggle');
     const menuListContainer = document.createElement('div');
     menuListContainer.classList.add('menu-list-container');
 
     let menuListString = '';
     DemoConfigMap.forEach((value, key) => {
-      menuListString += `<div class="menu-item">
+      menuListString += `<div class="menu-item" data-name="${key}">
                           <a href="#/${key}">
                             ${key}
                           </a>
@@ -62,7 +66,13 @@ export class App {
 
     menuListContainer.innerHTML = menuListString;
     menuContianer.appendChild(menuListContainer);
+    menuToggle.addEventListener('click', () => {
+      menuContianer.classList.contains('collapsed')
+        ? menuContianer.classList.remove('collapsed')
+        : menuContianer.classList.add('collapsed');
+    });
 
+    this.menuContianer = menuContianer;
     return this;
   }
 
@@ -94,6 +104,17 @@ export class App {
     this.demo = Demo.init(this.canvas).start();
     document.title = this.demo.name || 'Canvas Demo';
     (window as any).demo = this.demo;
+
+    const menuItem = this.menuContianer.querySelector(`[data-name="${name}"]`) as HTMLElement;
+
+    if (this.menuLastActive) {
+      this.menuLastActive.classList.remove('active');
+    }
+    if (menuItem) {
+      menuItem.classList.add('active');
+      menuItem.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      this.menuLastActive = menuItem;
+    }
 
     return this;
   }

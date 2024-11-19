@@ -28,13 +28,15 @@ canvas {
   left: 0;
   top: 0;
   bottom: 0;
-  transform: translateX(-100%);
+  transition: all 0.4s ease;
+  /* transform: translateX(-100%); */
 }
 
-.menu-bar-container::before {
-  content: '>';
-  width: 30px;
-  height: 30px;
+.menu-bar-container .menu-toggle {
+  /* content: '>'; */
+  display: inline-block;
+  width: 25px;
+  height: 35px;
   font-size: 22px;
   line-height: 30px;
   text-align: center;
@@ -51,12 +53,18 @@ canvas {
   transform: translateX(100%);
 }
 
-.menu-bar-container:hover {
-  transition: all 0.4s ease;
-  transform: translateX(0);
+.menu-bar-container .menu-toggle::before {
+  content: '<';
+}
+.menu-bar-container.collapsed .menu-toggle::before {
+  content: '>';
 }
 
-.menu-bar-container:hover .menu-list-container {
+.menu-bar-container.collapsed {
+  transform: translateX(-100%);
+}
+
+.menu-bar-container .menu-list-container {
   max-height: 100vh;
   overflow-y: auto;
 }
