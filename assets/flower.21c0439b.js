@@ -1,1 +1,1 @@
-const a="/html5-canvas-core/assets/flower.a8cb757d.jpg";export{a as i};
+const e="/assets/flower.a8cb757d.jpg";export{e as i};
