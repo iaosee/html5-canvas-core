@@ -48,6 +48,7 @@ export class App {
 
   public initMenuList() {
     const menuContianer = document.querySelector('.menu-bar-container');
+    const menuToggle = document.querySelector('.menu-toggle');
     const menuListContainer = document.createElement('div');
     menuListContainer.classList.add('menu-list-container');
 
@@ -62,6 +63,11 @@ export class App {
 
     menuListContainer.innerHTML = menuListString;
     menuContianer.appendChild(menuListContainer);
+    menuToggle.addEventListener('click', () => {
+      menuContianer.classList.contains('collapsed')
+        ? menuContianer.classList.remove('collapsed')
+        : menuContianer.classList.add('collapsed');
+    });
 
     return this;
   }
