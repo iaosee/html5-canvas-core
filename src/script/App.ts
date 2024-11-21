@@ -112,7 +112,7 @@ export class App {
     }
     if (menuItem) {
       menuItem.classList.add('active');
-      menuItem.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      // menuItem.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
       this.menuLastActive = menuItem;
     }
 
