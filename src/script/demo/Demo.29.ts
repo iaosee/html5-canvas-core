@@ -48,7 +48,7 @@ export class Demo extends Rubberband {
     gui.add(config, 'eraser');
     gui.add(config, 'eraserShape', ['circle', 'rect']);
     gui.add(config, 'eraserSize').min(20).max(150).step(10);
-    gui.addColor(config, 'fillStyle');
+    gui.addColor(config, 'fillStyle', 255);
 
     return this;
   }
@@ -156,14 +156,14 @@ export class Demo extends Rubberband {
         config.eraserSize / 2 + config.ERASER_LINE_WIDTH,
         0,
         Math.PI * 2,
-        false
+        false,
       );
     } else {
       context.rect(
         mouseLastPos.x - config.eraserSize / 2 - config.ERASER_LINE_WIDTH,
         mouseLastPos.y - config.eraserSize / 2 - config.ERASER_LINE_WIDTH,
         config.eraserSize + config.ERASER_LINE_WIDTH * 2,
-        config.eraserSize + config.ERASER_LINE_WIDTH * 2
+        config.eraserSize + config.ERASER_LINE_WIDTH * 2,
       );
     }
 

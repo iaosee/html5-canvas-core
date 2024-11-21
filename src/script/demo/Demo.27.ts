@@ -45,9 +45,9 @@ export class Demo extends Rubberband {
 
     // gui.add(config, 'curveType', ['QuadraticCurve', 'CubeBezier']);
     gui.add(config, 'lineWidth').min(1).max(20).step(1);
-    gui.addColor(config, 'strokeStyle');
-    gui.addColor(config, 'endPointFillStyle');
-    gui.addColor(config, 'ctrlPointFillStyle');
+    gui.addColor(config, 'strokeStyle', 255);
+    gui.addColor(config, 'endPointFillStyle', 255);
+    gui.addColor(config, 'ctrlPointFillStyle', 255);
 
     return this;
   }
@@ -90,7 +90,7 @@ export class Demo extends Rubberband {
       controlPoints[1].x,
       controlPoints[1].y,
       endPoints[1].x,
-      endPoints[1].y
+      endPoints[1].y,
     );
     context.stroke();
 

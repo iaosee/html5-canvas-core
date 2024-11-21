@@ -37,8 +37,8 @@ export class Demo extends Rubberband {
     const { gui } = this;
 
     gui.add(config, 'curveType', ['QuadraticCurve', 'CubeBezier']);
-    gui.addColor(config, 'fillStyle');
-    gui.addColor(config, 'strokeStyle');
+    gui.addColor(config, 'fillStyle', 255);
+    gui.addColor(config, 'strokeStyle', 255);
 
     return this;
   }
@@ -62,7 +62,7 @@ export class Demo extends Rubberband {
       rubberbandRect.x + rubberbandRect.width,
       rubberbandRect.y,
       rubberbandRect.x + rubberbandRect.width,
-      rubberbandRect.y + rubberbandRect.height
+      rubberbandRect.y + rubberbandRect.height,
     );
     context.stroke();
   }
@@ -78,7 +78,7 @@ export class Demo extends Rubberband {
       rubberbandRect.x + rubberbandRect.width,
       rubberbandRect.y,
       rubberbandRect.x + rubberbandRect.width,
-      rubberbandRect.y + rubberbandRect.height
+      rubberbandRect.y + rubberbandRect.height,
     );
     context.stroke();
   }
