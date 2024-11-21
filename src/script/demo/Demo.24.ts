@@ -51,8 +51,8 @@ export class Demo extends Rubberband {
     gui.add(config, 'startAngle').min(0).max(180).step(15);
 
     gui.add(config, 'filled');
-    gui.addColor(config, 'fillStyle');
-    gui.addColor(config, 'strokeStyle');
+    gui.addColor(config, 'fillStyle', 255);
+    gui.addColor(config, 'strokeStyle', 255);
 
     gui.add(config, 'redraw');
 

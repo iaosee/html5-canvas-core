@@ -30,7 +30,7 @@ const compositeModes = [
   'luminosity',
 ] as const;
 
-type CompositeMode = typeof compositeModes[number];
+type CompositeMode = (typeof compositeModes)[number];
 
 /**
  * @description 图像合成
@@ -63,8 +63,8 @@ export class Demo extends BaseDemo {
     this.gui = new GUI();
     const { gui } = this;
 
-    gui.addColor(config, 'textColor').onFinishChange((value: string) => this.draw());
-    gui.addColor(config, 'coverColor');
+    gui.addColor(config, 'textColor', 255).onFinishChange((value: string) => this.draw());
+    gui.addColor(config, 'coverColor', 255);
     gui.add(config, 'globalAlpha').min(0.1).max(1.0).step(0.1);
     gui.add(config, 'compositeMode', compositeModes);
 

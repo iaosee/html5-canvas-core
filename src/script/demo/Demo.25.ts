@@ -54,8 +54,8 @@ export class Demo extends Rubberband {
     gui.add(config, 'startAngle').min(0).max(180).step(15);
 
     gui.add(config, 'filled');
-    gui.addColor(config, 'fillStyle');
-    gui.addColor(config, 'strokeStyle');
+    gui.addColor(config, 'fillStyle', 255);
+    gui.addColor(config, 'strokeStyle', 255);
 
     gui.add(config, 'redraw');
     gui.add(config, 'editing');
@@ -141,7 +141,7 @@ export class Demo extends Rubberband {
       this.draggingPolygon &&
         this.draggingPolygon.move(
           this.mousemovePos.x - this.draggingOffsetPos.x,
-          this.mousemovePos.y - this.draggingOffsetPos.y
+          this.mousemovePos.y - this.draggingOffsetPos.y,
         );
 
       this.clearScreen().drawGrid().drawPolygons();
