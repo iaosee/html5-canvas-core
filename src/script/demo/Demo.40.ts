@@ -5,6 +5,8 @@ import { BlackWhiteFilter } from '../filters/BlackWhiteFilter';
 import { NegativeFilter } from '../filters/NegativeFilter';
 import { EmbossmentFilter } from '../filters/EmbossmentFilter';
 import { SunglassesFilter } from '../filters/SunglassesFilter';
+import { GrayscaleFilter } from '../filters/GrayscaleFilter';
+import { XXXFilter } from '../filters/XXXFilter';
 import image_flower_url from '../../../asset/images/flower.jpg';
 
 /**
@@ -60,10 +62,12 @@ export class Demo extends BaseDemo {
     gui
       .add(config, 'filter', {
         default: 0,
-        negative: 1,
-        black_white: 2,
-        embossment: 3,
-        sunglasses: 4,
+        Negative: 1,
+        BlackWhite: 2,
+        Embossment: 3,
+        Sunglasses: 4,
+        Grayscale: 5,
+        XXXFilter: 6,
       })
       .onFinishChange((v: string) => this.applyFilter(Number(v)));
 
@@ -94,7 +98,7 @@ export class Demo extends BaseDemo {
     this.drawScene();
 
     let filter: IFilter = null;
-    const imagedata = context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    const imagedata = context.getImageData(this.canvas.width / 2, 0, this.canvas.width, this.canvas.height);
 
     switch (type) {
       case 1:
@@ -109,6 +113,12 @@ export class Demo extends BaseDemo {
       case 4:
         filter = new SunglassesFilter(imagedata);
         break;
+      case 5:
+        filter = new GrayscaleFilter(imagedata);
+        break;
+      case 6:
+        filter = new XXXFilter(imagedata);
+        break;
       default:
         filter = null;
     }
@@ -117,6 +127,7 @@ export class Demo extends BaseDemo {
       filter.dye();
     }
 
-    context.putImageData(imagedata, 0, 0);
+    // context.putImageData(imagedata, 0, 0);
+    context.putImageData(imagedata, this.canvas.width / 2, 0);
   }
 }
