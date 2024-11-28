@@ -113,13 +113,13 @@ export class Demo extends BaseDemo {
     const { canvas } = this;
 
     if (
-      circle.position.x + circle.velocityX + circle.radius > canvas.width ||
+      circle.position.x + circle.velocityX + circle.radius > this.width ||
       circle.position.x + circle.velocityX - circle.radius < 0
     ) {
       circle.velocityX = -circle.velocityX;
     }
     if (
-      circle.position.y + circle.velocityY + circle.radius > canvas.height ||
+      circle.position.y + circle.velocityY + circle.radius > this.height ||
       circle.position.y + circle.velocityY - circle.radius < 0
     ) {
       circle.velocityY = -circle.velocityY;
@@ -138,12 +138,12 @@ export class Demo extends BaseDemo {
     // let deltaX = circle.velocityX * (this.elapsedTime / 1000);
     // let deltaY = circle.velocityY * (this.elapsedTime / 1000);
 
-    if (circle.position.x + deltaX + circle.radius > canvas.width || circle.position.x + deltaX - circle.radius < 0) {
+    if (circle.position.x + deltaX + circle.radius > this.width || circle.position.x + deltaX - circle.radius < 0) {
       circle.velocityX = -circle.velocityX;
       deltaX = -deltaX;
     }
 
-    if (circle.position.y + deltaY + circle.radius > canvas.height || circle.position.y + deltaY - circle.radius < 0) {
+    if (circle.position.y + deltaY + circle.radius > this.height || circle.position.y + deltaY - circle.radius < 0) {
       circle.velocityY = -circle.velocityY;
       deltaY = -deltaY;
     }
