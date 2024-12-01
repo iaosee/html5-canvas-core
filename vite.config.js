@@ -2,8 +2,9 @@
 /** @type {import('vite').UserConfig} */
 export default {
   root: './src',
-  base: '/',
+  // base: '/html5-canvas-core',
   mode: 'development',
+  publicDir: '../asset',
   build: {
     outDir: '../dist',
     assetsDir: 'assets',
