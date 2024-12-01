@@ -31,6 +31,7 @@ export class Demo extends BaseDemo {
     flip: false,
     play: () => this.playVideo(),
     pause: () => this.pauseVideo(),
+    camera: () => this.camera(),
   };
 
   public constructor(public canvas: HTMLCanvasElement) {
@@ -74,6 +75,7 @@ export class Demo extends BaseDemo {
     gui.add(config, 'flip');
     gui.add(config, 'play');
     gui.add(config, 'pause');
+    gui.add(config, 'camera');
 
     return this;
   }
@@ -81,6 +83,34 @@ export class Demo extends BaseDemo {
   public createVedio() {
     this.video = document.createElement('video');
     this.video.src = video_url;
+    return this;
+  }
+
+  public async camera() {
+    const { context } = this;
+    this.pauseVideo();
+    this.clearScreen();
+
+    const userMedia = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: false,
+    });
+    // const displayMedia = await navigator.mediaDevices.getDisplayMedia({
+    //   video: true,
+    //   audio: false
+    // });
+
+    const userCapture = new ImageCapture(userMedia.getVideoTracks()?.[0]);
+    const render = async () => {
+      if (!this.video.paused) {
+        return;
+      }
+      const userImageBitMap = await userCapture.grabFrame();
+      context.drawImage(userImageBitMap, 0, 0);
+      requestAnimationFrame(render);
+    };
+    requestAnimationFrame(render);
+
     return this;
   }
 
@@ -94,6 +124,9 @@ export class Demo extends BaseDemo {
     const nextVideoFrame = () => {
       this.offScreenContext.drawImage(this.video, 0, 0);
 
+      if (this.video.paused) {
+        return;
+      }
       if (!config.color) {
         this.removeColor();
       }

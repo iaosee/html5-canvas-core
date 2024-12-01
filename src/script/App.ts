@@ -66,10 +66,12 @@ export class App {
 
     menuListContainer.innerHTML = menuListString;
     menuContianer.appendChild(menuListContainer);
-    menuToggle.addEventListener('click', () => {
-      menuContianer.classList.contains('collapsed')
-        ? menuContianer.classList.remove('collapsed')
-        : menuContianer.classList.add('collapsed');
+
+    menuToggle.addEventListener('click', () => this.toggleMenu());
+    window.addEventListener('keydown', (event) => {
+      if (event.metaKey && event.code === 'KeyB') {
+        this.toggleMenu();
+      }
     });
 
     this.menuContianer = menuContianer;
@@ -105,6 +107,12 @@ export class App {
     document.title = this.demo.name || 'Canvas Demo';
     (window as any).demo = this.demo;
 
+    this.switchActiveMenu();
+
+    return this;
+  }
+
+  public switchActiveMenu() {
     const menuItem = this.menuContianer.querySelector(`[data-name="${name}"]`) as HTMLElement;
 
     if (this.menuLastActive) {
@@ -115,7 +123,12 @@ export class App {
       // menuItem.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
       this.menuLastActive = menuItem;
     }
+  }
 
-    return this;
+  public toggleMenu() {
+    const { menuContianer } = this;
+    menuContianer.classList.contains('collapsed')
+      ? menuContianer.classList.remove('collapsed')
+      : menuContianer.classList.add('collapsed');
   }
 }
