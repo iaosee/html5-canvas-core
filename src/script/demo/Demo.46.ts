@@ -172,7 +172,7 @@ export class Demo extends BaseDemo {
     const mouseHandler = (e: MouseEvent) => {
       const coordinate: Point = this.coordinateTransformation(e.clientX, e.clientY);
       e.type === 'click' && this.circles.splice(0, Math.floor(this.circles.length / 2));
-      this.createCircle(coordinate, 100, false);
+      // this.createCircle(coordinate, 100, false);
     };
 
     canvas.addEventListener('mousemove', this.throttle(mouseHandler, 100), false);
