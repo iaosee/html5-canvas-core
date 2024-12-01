@@ -37,16 +37,24 @@ export class Demo extends BaseDemo {
 
   public draw(timestamp: number) {
     const now = +new Date();
-    this.elapsedTime = timestamp - this.lastTime;
-    const fps = 1000 / (timestamp - this.lastTime);
+
+    this.elapsedTime = timestamp - this.lastTime; // 每帧间隔时间
+    const fps = 1000 / (timestamp - this.lastTime); //每秒渲染多少帧 即帧速率 FPS
     this.fps = fps;
 
     if (now - this.lastFpsUpdateTime > 1000) {
       this.lastFpsUpdate = fps;
       this.lastFpsUpdateTime = now;
+      console.log(new Date().toLocaleString());
     }
 
-    this.clearScreen().drawGrid().drawCircles().drawFpsLabel(this.lastFpsUpdate);
+    this.clearScreen().drawGrid();
+    // let sum = 0;
+    // for (let i = 0; i < 500000; i++) {
+    //   sum += i;
+    // }
+    // console.log(sum)
+    this.drawCircles().drawFpsLabel(this.lastFpsUpdate);
 
     this.stats.update();
     this.lastTime = timestamp;
@@ -83,7 +91,7 @@ export class Demo extends BaseDemo {
         position: point,
         velocityX: Math.random() * (this.random.range(-8, 8).getOne() || 8),
         velocityY: Math.random() * (this.random.range(-8, 8).getOne() || 8),
-        radius: Math.random() * 20,
+        radius: Math.random() * 50,
         color: this.randomRgba(),
       });
     }
@@ -133,10 +141,15 @@ export class Demo extends BaseDemo {
 
   public updatePositionByTime(circle: Circle) {
     const { canvas } = this;
-    let deltaX = (circle.velocityX / this.fps) * 10;
-    let deltaY = (circle.velocityY / this.fps) * 10;
-    // let deltaX = circle.velocityX * (this.elapsedTime / 1000);
-    // let deltaY = circle.velocityY * (this.elapsedTime / 1000);
+    // 计算每帧需要移动的距离
+    // 假设 circle.velocityX/circle.velocityY 表示物体每秒移动的速度：
+    // 速度 / FPS = 每帧要移动的距离
+    // 所以  每帧要移动的距离 = 速度 / (1000 / 每帧间隔时间)
+    // 所以  每帧要移动的距离 = 速度 / 1000 * 每帧间隔时间
+    // let deltaX = (circle.velocityX / this.fps);
+    // let deltaY = (circle.velocityY / this.fps);
+    let deltaX = circle.velocityX * (this.elapsedTime / 1000);
+    let deltaY = circle.velocityY * (this.elapsedTime / 1000);
 
     if (circle.position.x + deltaX + circle.radius > this.width || circle.position.x + deltaX - circle.radius < 0) {
       circle.velocityX = -circle.velocityX;
@@ -159,7 +172,7 @@ export class Demo extends BaseDemo {
     const mouseHandler = (e: MouseEvent) => {
       const coordinate: Point = this.coordinateTransformation(e.clientX, e.clientY);
       e.type === 'click' && this.circles.splice(0, Math.floor(this.circles.length / 2));
-      this.createCircle(coordinate, 100, false);
+      // this.createCircle(coordinate, 100, false);
     };
 
     canvas.addEventListener('mousemove', this.throttle(mouseHandler, 100), false);
