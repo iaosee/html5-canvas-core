@@ -481,6 +481,10 @@ export class CatchBallBehavior implements IBehavior {
       return false;
     }
 
+    // (x1, y1) 小球最后位置（上一帧位置）
+    // (x2, y2) 小球当前位置
+    // (x3, y3) 水桶左边位置
+    // (x4, y4) 水桶右边位置
     const x1 = lastBallPosition.x,
       y1 = lastBallPosition.y,
       x2 = ball.x,
@@ -490,7 +494,7 @@ export class CatchBallBehavior implements IBehavior {
       x4 = bucket.x + bucket.width,
       y4 = y3,
       m1 = (ball.y - lastBallPosition.y) / (ball.x - lastBallPosition.x),
-      m2 = (y4 - y3) / (x4 - x3), // zero, but calculate anyway for illustration
+      m2 = (y4 - y3) / (x4 - x3), // zero, but calculate anyway for illustration 为零，计算以说明
       b1 = y1 - m1 * x1,
       b2 = y3 - m2 * x3;
 
@@ -502,6 +506,33 @@ export class CatchBallBehavior implements IBehavior {
       this.intersectionPoint.x < x4 &&
       ball.y + config.ball.RADIUS > y3 &&
       ball.x + config.ball.RADIUS < x4
+    );
+  }
+
+  // simplify ballInBucket3
+  public ballInBucket4() {
+    const { config, ball, bucket, lastBallPosition } = this.demo;
+
+    // if (lastBallPosition.x === ball.x || lastBallPosition.y === ball.y) {
+    //   return false;
+    // }
+
+    const bucketCenterX = bucket.x + bucket.width / 4,
+      y3 = bucket.y,
+      y4 = y3,
+      k1 = (ball.y - lastBallPosition.y) / (ball.x - lastBallPosition.x),
+      k2 = (y4 - y3) / (bucket.x + bucket.width - bucketCenterX), // zero, but calculate anyway for illustration
+      b1 = ball.y - k1 * ball.x,
+      b2 = bucket.y - k2 * bucketCenterX;
+
+    this.intersectionPoint.x = (b2 - b1) / (k1 - k2);
+    this.intersectionPoint.y = k1 * this.intersectionPoint.x + b1;
+
+    return (
+      this.intersectionPoint.x > bucketCenterX &&
+      this.intersectionPoint.x < bucket.x + bucket.width &&
+      ball.y + config.ball.RADIUS > bucket.y &&
+      ball.x + config.ball.RADIUS < bucket.x + bucket.width
     );
   }
 
