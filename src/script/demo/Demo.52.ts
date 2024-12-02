@@ -123,11 +123,11 @@ export class Demo extends BaseDemo {
     this.bomb.setY(500);
 
     for (let i = 0; i < NUM_FUSE_PAINTERS; ++i) {
-      // this.fuseBurningPainters.push(new ImagePainter(new URL('../../../asset/images/bomb/fuse-0' + i + '.png', import.meta.url).href));
+      this.fuseBurningPainters.push(new ImagePainter('images/bomb/fuse-0' + i + '.png'));
     }
 
     for (let i = 0; i < NUM_EXPLOSION_PAINTERS; ++i) {
-      // this.explosionPainters.push(new ImagePainter(new URL('../../../asset/images/bomb/explosion-0' + i + '.png', import.meta.url).href));
+      this.explosionPainters.push(new ImagePainter('images/bomb/explosion-0' + i + '.png'));
     }
 
     this.fuseBurningAnimator = new SpriteAnimator(this.fuseBurningPainters, () => {
