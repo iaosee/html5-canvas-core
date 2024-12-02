@@ -172,7 +172,7 @@ export class Demo extends BaseDemo {
             config.ball.RADIUS,
             0,
             Math.PI * 2,
-            false
+            false,
           );
           context.clip();
 
@@ -192,7 +192,7 @@ export class Demo extends BaseDemo {
             config.ball.RADIUS / 2,
             0,
             Math.PI * 2,
-            false
+            false,
           );
           context.clip();
 
@@ -205,7 +205,7 @@ export class Demo extends BaseDemo {
           context.restore();
         },
       },
-      []
+      [],
     );
 
     this.bucket = new Sprite('bucket', {
@@ -364,7 +364,7 @@ export class Demo extends BaseDemo {
         // console.log(this.launchAngle, this.launchAngle * 180 / Math.PI, this.launchVelocity);
         const angle = (this.launchAngle * 180) / Math.PI;
 
-        const tips = 'Angle: ' + angle.toFixed(2) + ' m/s, Velocity: ' + this.launchVelocity.toFixed(2) + ' degrees';
+        const tips = 'Angle: ' + angle.toFixed(2) + ' degrees, Velocity: ' + this.launchVelocity.toFixed(2) + ' m/s';
         this.tipsInfo.innerHTML = tips;
       }
     });
