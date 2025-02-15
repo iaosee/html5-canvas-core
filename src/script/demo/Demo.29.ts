@@ -78,6 +78,7 @@ export class Demo extends Rubberband {
     return this;
   }
 
+  /** @override */
   public drawRubberbandShape(loc: Point) {
     const { context, config, mousedownPos, rubberbandRect } = this;
 
