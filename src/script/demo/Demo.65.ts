@@ -159,7 +159,8 @@ export class Demo extends BaseDemo {
   public offset = 0;
   public drawScene(timestamp: number = 0) {
     const { context, config } = this;
-    this.clearScreen(); //.drawGrid();
+    // this.clearScreen(); //.drawGrid();
+    this.clearScreen().drawGrid();
 
     context.save();
     context.lineWidth = 20;
