@@ -4,7 +4,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description Hello World
  */
 export class Demo extends BaseDemo {
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 

@@ -8,7 +8,7 @@ import { Point, Letter } from '../interfaces';
  * @description 字母连接
  */
 export class Demo extends BaseDemo {
-  public name: string = '移动的字符';
+  public override name: string = '移动的字符';
   private letters: Array<Letter> = [];
   private random: Random = Random.init(-5, 5);
   private letterString: string[] = 'abcdefghijklmnopqrstuvwxyz~!@#$%^&*()_+`1234567890-=[];\',./<>?:"{}'.split('');
@@ -254,7 +254,7 @@ export class Demo extends BaseDemo {
     displayLetter: true,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().createLetter(null, this.config.quantity).listenEvents();
@@ -264,7 +264,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawLines().drawLetters();
   }
 

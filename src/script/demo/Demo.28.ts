@@ -36,7 +36,7 @@ type CompositeMode = (typeof compositeModes)[number];
  * @description 图像合成
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像合成';
+  public override name: string = '图像合成';
   public config = {
     globalAlpha: 1.0,
     compositeMode: 'source-over',
@@ -44,7 +44,7 @@ export class Demo extends BaseDemo {
     coverColor: [255, 0, 0, 0.8],
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().listenEvents();
@@ -54,7 +54,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.draw();
   }
 
@@ -71,7 +71,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawText();
   }
 

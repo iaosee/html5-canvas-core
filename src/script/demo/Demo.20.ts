@@ -4,8 +4,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description arcTo 绘制圆角矩形
  */
 export class Demo extends BaseDemo {
-  public name: string = '绘制圆角矩形';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '绘制圆角矩形';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -13,11 +13,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().draw();
   }
 
-  public draw() {
+  public override draw() {
     const { context } = this;
 
     context.beginPath();
@@ -90,7 +90,7 @@ export class Demo extends BaseDemo {
     cornerY: number,
     width: number,
     height: number,
-    cornerRadius: number
+    cornerRadius: number,
   ) {
     const { context } = this;
 

@@ -6,7 +6,7 @@ import { Rubberband } from '../base/Rubberband';
  * @description 拖拽画多边形
  */
 export class Demo extends Rubberband {
-  public name: string = '拖拽画多边形';
+  public override name: string = '拖拽画多边形';
   public config = {
     sides: 5,
     startAngle: 0,
@@ -14,7 +14,7 @@ export class Demo extends Rubberband {
     strokeStyle: [0, 128, 255, 0.8],
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().listenEvents();
@@ -24,11 +24,11 @@ export class Demo extends Rubberband {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

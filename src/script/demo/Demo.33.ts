@@ -10,7 +10,7 @@ enum ShapeStyle {
  * @description 线条波浪抖动
  */
 export class Demo extends BaseDemo {
-  public name: string = '线条摆动';
+  public override name: string = '线条摆动';
 
   public K: number = 2;
   public F: number = 1;
@@ -23,7 +23,7 @@ export class Demo extends BaseDemo {
     speed: 0.2,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl();
@@ -33,7 +33,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawScene();
   }
 

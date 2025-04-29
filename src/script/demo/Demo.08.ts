@@ -5,7 +5,7 @@ import { Point, Polyline } from '../interfaces';
  * @description 线条连接
  */
 export class Demo extends BaseDemo {
-  public name: string = '线条连接';
+  public override name: string = '线条连接';
   private polylineList: Array<Polyline> = [];
   private paths: Polyline = [];
   private mousePosition: Point = { x: 0, y: 0 };
@@ -13,7 +13,7 @@ export class Demo extends BaseDemo {
   private pointColor: string = this.randomRgba();
   private startDraw: boolean = false;
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.listenEvents();
@@ -23,11 +23,8 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawLines()
-      .drawPoint();
+  public override draw() {
+    return this.clearScreen().drawGrid().drawLines().drawPoint();
   }
 
   private drawPoint() {

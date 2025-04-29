@@ -5,8 +5,8 @@ import { Rubberband } from '../base/Rubberband';
  * @description 基础橡皮筋
  */
 export class Demo extends Rubberband {
-  public name: string = '基础橡皮筋';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '基础橡皮筋';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.listenEvents();
@@ -16,11 +16,11 @@ export class Demo extends Rubberband {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

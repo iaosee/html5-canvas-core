@@ -7,7 +7,7 @@ import imageSky from '../../../asset/images/sky.png';
  * @description 动画 —— 背景动画
  */
 export class Demo extends BaseDemo {
-  public name: string = '动画 —— 背景连续动画';
+  public override name: string = '动画 —— 背景连续动画';
 
   public lastTime = 0;
   public sky: HTMLImageElement;
@@ -17,7 +17,7 @@ export class Demo extends BaseDemo {
     SKY_VELOCITY: 100, // pixels/second
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl()
@@ -31,11 +31,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     this.clearScreen().drawGrid().drawScene(timestamp);
 
     this.stats.update();

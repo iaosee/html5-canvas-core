@@ -5,12 +5,12 @@ import { Rubberband } from '../base/Rubberband';
  * @description 拖拽画圆
  */
 export class Demo extends Rubberband {
-  public name: string = '橡皮筋式拖拽画圆';
+  public override name: string = '橡皮筋式拖拽画圆';
   public config: any = {
-    radius: 20
+    radius: 20,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.context.fillStyle = this.randomRgba();
@@ -21,11 +21,11 @@ export class Demo extends Rubberband {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

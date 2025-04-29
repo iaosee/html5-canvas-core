@@ -5,12 +5,12 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 仪表盘
  */
 export class Demo extends BaseDemo {
-  public name: string = '绘制仪表盘';
+  public override name: string = '绘制仪表盘';
   public config = {
     circle: {
       radius: 250,
       x: this.centerX,
-      y: this.centerY
+      y: this.centerY,
     },
     CENTROID_RADIUS: 10,
     CENTROID_STROKE_STYLE: 'rgba(0, 0, 0, 0.5)',
@@ -30,10 +30,10 @@ export class Demo extends BaseDemo {
 
     GUIDEWIRE_STROKE_STYLE: 'goldenrod',
     GUIDEWIRE_FILL_STYLE: 'rgba(250, 250, 0, 0.6)',
-    pointer: Math.PI / 2
+    pointer: Math.PI / 2,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -41,13 +41,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
-    return this.clearScreen()
-      .drawGrid()
-      .draw();
+  public override start() {
+    return this.clearScreen().drawGrid().draw();
   }
 
-  public draw() {
+  public override draw() {
     const { context } = this;
 
     // Initialization
@@ -64,7 +62,7 @@ export class Demo extends BaseDemo {
     const { config } = this;
     const pos = {
       x: config.circle.x,
-      y: config.circle.y
+      y: config.circle.y,
     };
 
     return this.drawCentroid()
@@ -102,11 +100,11 @@ export class Demo extends BaseDemo {
       position.x >= config.circle.x
         ? {
             x: config.circle.x + radius * Math.cos(angle),
-            y: config.circle.y + radius * Math.sin(angle)
+            y: config.circle.y + radius * Math.sin(angle),
           }
         : {
             x: config.circle.x - radius * Math.cos(angle),
-            y: config.circle.y - radius * Math.sin(angle)
+            y: config.circle.y - radius * Math.sin(angle),
           };
 
     context.save();
@@ -142,7 +140,7 @@ export class Demo extends BaseDemo {
       config.circle.radius + config.RING_INNER_RADIUS,
       0,
       Math.PI * 2,
-      false
+      false,
     );
 
     context.fillStyle = 'rgba(100, 140, 230, 0.1)';
@@ -162,7 +160,7 @@ export class Demo extends BaseDemo {
       config.circle.radius + config.RING_INNER_RADIUS - config.TICK_WIDTH,
       0,
       Math.PI * 2,
-      false
+      false,
     );
     context.stroke();
     context.restore();
@@ -193,7 +191,7 @@ export class Demo extends BaseDemo {
     context.beginPath();
     context.moveTo(
       config.circle.x + Math.cos(radian) * (radius - tickWidth),
-      config.circle.y + Math.sin(radian) * (radius - tickWidth)
+      config.circle.y + Math.sin(radian) * (radius - tickWidth),
     );
     context.lineTo(config.circle.x + Math.cos(radian) * radius, config.circle.y + Math.sin(radian) * radius);
     context.strokeStyle = config.TICK_SHORT_STROKE_STYLE;
@@ -215,7 +213,7 @@ export class Demo extends BaseDemo {
       context.fillText(
         ((radian * 180) / Math.PI).toFixed(0),
         config.circle.x + Math.cos(radian) * (radius - config.TICK_WIDTH * 2),
-        config.circle.y - Math.sin(radian) * (radius - config.TICK_WIDTH * 2)
+        config.circle.y - Math.sin(radian) * (radius - config.TICK_WIDTH * 2),
       );
     }
     context.restore();
@@ -237,7 +235,7 @@ export class Demo extends BaseDemo {
       config.circle.radius + config.RING_OUTER_RADIUS,
       0,
       Math.PI * 2,
-      true
+      true,
     );
     context.stroke();
     return this;

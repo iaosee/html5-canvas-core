@@ -6,7 +6,7 @@ import { Point } from '../geometry/Point';
  * @description 拖拽交互 —— 扔球/惯性
  */
 export class Demo extends BaseDemo {
-  public name: string = '拖拽交互 —— 扔球/惯性运动';
+  public override name: string = '拖拽交互 —— 扔球/惯性运动';
 
   public lastTime = 0;
   public ball: Circle = {
@@ -17,7 +17,7 @@ export class Demo extends BaseDemo {
     color: this.randomRgba(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.listenEvents();
@@ -29,11 +29,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawCircle();
   }
 

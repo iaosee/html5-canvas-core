@@ -7,14 +7,14 @@ import IMG_URL from '../../../asset/images/presta_illustration_20.jpg';
  * @description 图像选区
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像选区';
+  public override name: string = '图像选区';
   public dragging: boolean = false;
   public mousedownPosition: Point = { x: 0, y: 0 };
   public rubberbandDiv: HTMLElement = document.createElement('div');
   public rubberbandRectangle: any = {};
   public image: HTMLImageElement;
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.addRubberbandToScene().listenEvents();
@@ -24,13 +24,13 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
+  public override draw() {
     return this;
     // return this.clearScreen()
     //            .drawGrid();
   }
 
-  public destroy() {
+  public override destroy() {
     super.destroy();
     this.rubberbandDiv.remove();
   }
@@ -40,7 +40,7 @@ export class Demo extends BaseDemo {
       position: 'absolute',
       zIndex: '5',
       border: '2px solid red',
-      cursor: 'crosshair'
+      cursor: 'crosshair',
     });
     document.body.appendChild(this.rubberbandDiv);
     return this;
@@ -102,7 +102,7 @@ export class Demo extends BaseDemo {
         0,
         0,
         this.width,
-        this.height
+        this.height,
       );
     } catch (e) {
       console.log(e);

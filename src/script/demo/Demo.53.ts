@@ -10,7 +10,7 @@ import { Sprite, IBehavior } from '../sprite/Sprite';
  * - 地球表面物体下坠 加速度 9.81 m/s
  */
 export class Demo extends BaseDemo {
-  public name: string = '物理效果 —— 物体下落';
+  public override name: string = '物理效果 —— 物体下落';
 
   public ball: Sprite;
   public ledge: Sprite;
@@ -26,7 +26,7 @@ export class Demo extends BaseDemo {
     moveToRight: () => this.pushBallRight(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().initSprite().listenEvents();
@@ -59,7 +59,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
@@ -95,7 +95,7 @@ export class Demo extends BaseDemo {
             config.BALL_RADIUS,
             0,
             Math.PI * 2,
-            false
+            false,
           );
           context.clip();
 
@@ -115,7 +115,7 @@ export class Demo extends BaseDemo {
             config.BALL_RADIUS / 2,
             0,
             Math.PI * 2,
-            false
+            false,
           );
           context.clip();
 
@@ -128,14 +128,14 @@ export class Demo extends BaseDemo {
           context.restore();
         },
       },
-      []
+      [],
     );
 
     const ballBehavior = new MoveBallBehavior(
       this.pushAnimationTimer,
       this.fallingAnimationTimer,
       this.ball,
-      this.ledge
+      this.ledge,
     );
     this.ball.addBehavior(ballBehavior);
 
@@ -208,7 +208,7 @@ export class MoveBallBehavior implements IBehavior {
     private pushAnimationTimer: AnimationTimer,
     private fallingAnimationTimer: AnimationTimer,
     private ball: Sprite,
-    private ledge: Sprite
+    private ledge: Sprite,
   ) {}
 
   public isBallOnLedge() {
