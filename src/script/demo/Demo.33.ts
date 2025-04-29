@@ -37,7 +37,7 @@ export class Demo extends BaseDemo {
     return this.clearScreen().drawGrid().drawScene();
   }
 
-  public clearScreen() {
+  public override clearScreen() {
     const { context } = this;
 
     context.globalCompositeOperation = 'destination-out';
