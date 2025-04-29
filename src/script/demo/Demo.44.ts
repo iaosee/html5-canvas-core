@@ -8,7 +8,7 @@ import image_flower_url from '../../../asset/images/flower.jpg';
  * @description 绘制放大镜效果
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像 —— 放大镜实现2';
+  public override name: string = '图像 —— 放大镜实现2';
   public image: HTMLImageElement;
   public originalImageData: ImageData;
   public magnifyRectangleImageData: ImageData;
@@ -25,7 +25,7 @@ export class Demo extends BaseDemo {
     resetScene: () => this.drawScene(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.initOffScreenCanvas();
@@ -42,11 +42,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 
@@ -110,7 +110,7 @@ export class Demo extends BaseDemo {
       this.magnifyRectangle.x,
       this.magnifyRectangle.y,
       this.magnifyRectangle.width,
-      this.magnifyRectangle.height
+      this.magnifyRectangle.height,
     );
     this.drawScene();
 
@@ -136,7 +136,7 @@ export class Demo extends BaseDemo {
       this.magnifyRectangle.x + this.magnifyRectangle.width / 2 - scaledMagnifyRectangle.width / 2,
       this.magnifyRectangle.y + this.magnifyRectangle.height / 2 - scaledMagnifyRectangle.height / 2,
       scaledMagnifyRectangle.width,
-      scaledMagnifyRectangle.height
+      scaledMagnifyRectangle.height,
     );
     context.stroke();
     context.restore();
@@ -216,7 +216,7 @@ export class Demo extends BaseDemo {
       config.zoomRadius - gradientThickness,
       pos.x,
       pos.y,
-      config.zoomRadius
+      config.zoomRadius,
     );
     gradient.addColorStop(0, 'rgba(0,0,0,0.2)');
     gradient.addColorStop(0.8, 'rgb(235,237,255)');

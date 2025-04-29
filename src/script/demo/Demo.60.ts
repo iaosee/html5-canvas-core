@@ -14,7 +14,7 @@ import golfball from '../../../asset/images/golfball.png';
  * @description 碰撞检测 — 分离轴定理
  */
 export class Demo extends BaseDemo {
-  public name: string = '碰撞检测 — 随机多边形';
+  public override name: string = '碰撞检测 — 随机多边形';
 
   public shapes: Shape[] = [];
   public shapeBeingDragged: Shape;
@@ -38,7 +38,7 @@ export class Demo extends BaseDemo {
     centroid: false,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().initShapes().listenEvents();
@@ -59,11 +59,11 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public start() {
+  public override start() {
     return this.draw();
   }
 
-  public draw() {
+  public override draw() {
     return this.drawScene();
   }
 
@@ -106,7 +106,7 @@ export class Demo extends BaseDemo {
         radius: 72,
         strokeStyle: 'red',
         imageSource: golfball,
-      })
+      }),
     );
 
     return this;

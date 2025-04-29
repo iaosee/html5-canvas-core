@@ -5,12 +5,12 @@ import imgUrl from '../../../asset/images/redball.png';
  * @description 创建图案
  */
 export class Demo extends BaseDemo {
-  public name: string = '创建图案';
+  public override name: string = '创建图案';
   public image: HTMLImageElement;
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
-    this.loadAssets().then(image => {
+    this.loadAssets().then((image) => {
       this.image = image;
       this.draw();
     });
@@ -20,11 +20,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this.drawScene(this.image, 'repeat');
   }
 
@@ -35,7 +35,7 @@ export class Demo extends BaseDemo {
 
   public drawScene(
     image: HTMLImageElement,
-    repeatString: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat' = 'repeat-x'
+    repeatString: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat' = 'repeat-x',
   ) {
     const { context } = this;
 

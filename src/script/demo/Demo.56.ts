@@ -7,7 +7,7 @@ import { IBehavior, Sprite } from '../sprite/Sprite';
  * @description 时间扭曲动画
  */
 export class Demo extends BaseDemo {
-  public name: string = '时间动画-缓动函数';
+  public override name: string = '时间动画-缓动函数';
 
   public ball: Sprite;
   public ledge: Sprite;
@@ -29,7 +29,7 @@ export class Demo extends BaseDemo {
     restartAnimation: () => this.restartAnimationTimer(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     this.pushAnimationTimer.setTimeWarp(this.animationFnMap[this.config.animationFn]);
     this.createControl().initSprite();
@@ -53,7 +53,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     // const now = +new Date();
 
     return this.clearScreen().drawGrid().drawScene(timestamp);
@@ -156,7 +156,11 @@ export class MoveBallBehavior implements IBehavior {
   public lastTime: number;
   public ballLocations: number[] = [];
 
-  public constructor(private ball: Sprite, private ledge: Sprite, private pushAnimationTimer: AnimationTimer) {}
+  public constructor(
+    private ball: Sprite,
+    private ledge: Sprite,
+    private pushAnimationTimer: AnimationTimer,
+  ) {}
 
   public isBallOnLedge() {
     const { ball, ledge } = this;

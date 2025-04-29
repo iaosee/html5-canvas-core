@@ -7,7 +7,7 @@ import { Circle, Point } from '../interfaces';
  * @description 拖拽交互 —— 鼠标路径跟随
  */
 export class Demo extends BaseDemo {
-  public name: string = '拖拽交互 —— 鼠标路径跟随';
+  public override name: string = '拖拽交互 —— 鼠标路径跟随';
 
   public lastTime = 0;
   public circles: Array<Circle> = [];
@@ -20,7 +20,7 @@ export class Demo extends BaseDemo {
     quantity: 50,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     const pos: Point = {
@@ -35,11 +35,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  // public start() {
+  // public override start() {
   //   return this.draw();
   // }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawCircles().updateCircle();
   }
 

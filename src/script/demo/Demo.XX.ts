@@ -4,7 +4,7 @@ import { Canvas2DContext } from '../base/Canvas2DContext';
 export class Demo extends BaseDemo {
   public ctx: Canvas2DContext;
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     this.ctx = new Canvas2DContext(canvas);
   }
@@ -13,11 +13,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().drawScene();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

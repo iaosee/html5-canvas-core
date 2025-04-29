@@ -6,12 +6,12 @@ import imgUrl from '../../../asset/images/presta_illustration_20.jpg';
  * @description 鼠标坐标
  */
 export class Demo extends BaseDemo {
-  public name: string = '鼠标位置';
+  public override name: string = '鼠标位置';
 
   public spritesheet: HTMLImageElement;
   public tips: HTMLDivElement;
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(imgUrl).then((sprite: HTMLImageElement) => {
@@ -26,11 +26,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid();
   }
 
-  public draw() {
+  public override draw() {
     const { context, canvas } = this;
 
     this.clearScreen();
@@ -92,7 +92,7 @@ export class Demo extends BaseDemo {
 
         tips.innerText = coordinate.x + ', ' + coordinate.y;
       }, 50),
-      false
+      false,
     );
   }
 

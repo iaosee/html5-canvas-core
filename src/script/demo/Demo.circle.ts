@@ -10,11 +10,11 @@ export class Demo extends BaseDemo {
   private random: Random = Random.init(-5, 5);
   private mousePosition: Point = null;
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     const pos: Point = {
       x: this.centerX,
-      y: this.centerY
+      y: this.centerY,
     };
     this.createCircle(pos, 50).listenEvents();
   }
@@ -23,10 +23,8 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawCircles();
+  public override draw() {
+    return this.clearScreen().drawGrid().drawCircles();
   }
 
   private createCircle(position: Point, quantity: number = 100) {
@@ -40,7 +38,7 @@ export class Demo extends BaseDemo {
       for (let col = 0; col < col_count; col++) {
         const point = {
           x: (row + 1) * stepX,
-          y: (col + 1) * stepY
+          y: (col + 1) * stepY,
         };
 
         this.circles.push({
@@ -48,7 +46,7 @@ export class Demo extends BaseDemo {
           velocityX: Math.random() * (this.random.range(-1, 1).getOne() || 1),
           velocityY: Math.random() * (this.random.range(-1, 1).getOne() || 1),
           radius: 10,
-          color: this.randomRgba()
+          color: this.randomRgba(),
         });
       }
     }
@@ -58,7 +56,7 @@ export class Demo extends BaseDemo {
 
   private drawCircles() {
     const { context } = this;
-    this.circles.forEach(circle => {
+    this.circles.forEach((circle) => {
       context.beginPath();
       context.arc(circle.position.x, circle.position.y, circle.radius, 0, Math.PI * 2, false);
 

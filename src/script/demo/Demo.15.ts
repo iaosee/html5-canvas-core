@@ -4,7 +4,7 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 坐标轴
  */
 export class Demo extends BaseDemo {
-  public name: string = '坐标轴';
+  public override name: string = '坐标轴';
   public config = {
     AXIS_COLOR: 'blue',
     AXIS_LINEWIDTH: 1.0,
@@ -22,7 +22,7 @@ export class Demo extends BaseDemo {
     AXIS_HEIGHT: this.height - 100 - 100,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -30,11 +30,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().drawCoordinateAxis();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

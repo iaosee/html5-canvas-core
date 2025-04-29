@@ -6,7 +6,7 @@ import image_flower_url from '../../../asset/images/flower.jpg';
  * @description 图像绘制 —— 使用离屏 Canvas 提高性能
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像缩放';
+  public override name: string = '图像缩放';
 
   public image: HTMLImageElement;
   public offScreenCanvas: HTMLCanvasElement;
@@ -18,7 +18,7 @@ export class Demo extends BaseDemo {
     maxScale: 5.0,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     const img = image_flower_url;
     console.log(img);
@@ -41,11 +41,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 
@@ -123,7 +123,7 @@ export class Demo extends BaseDemo {
       -sw / 2 + w / 2,
       -sh / 2 + h / 2,
       sw,
-      sh
+      sh,
     );
 
     return this;

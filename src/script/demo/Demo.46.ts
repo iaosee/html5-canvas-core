@@ -8,7 +8,7 @@ import { Point, Circle } from '../interfaces';
  * @description 动画 —— 基于时间的运动
  */
 export class Demo extends BaseDemo {
-  public name: string = '动画 —— 帧率显示/基于时间动画';
+  public override name: string = '动画 —— 帧率显示/基于时间动画';
   public circles: Array<Circle> = [];
   public random: Random = Random.init(-5, 5);
   public lastTime = 0;
@@ -21,7 +21,7 @@ export class Demo extends BaseDemo {
     timeBased: false,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     const pos: Point = {
       x: this.centerX,
@@ -35,7 +35,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     const now = +new Date();
 
     this.elapsedTime = timestamp - this.lastTime; // 每帧间隔时间

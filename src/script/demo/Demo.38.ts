@@ -7,7 +7,7 @@ import image_flower_url from '../../../asset/images/flower.jpg';
  * @description 图像绘制 —— 选区像素
  */
 export class Demo extends Rubberband {
-  public name: string = '图像拖动裁剪缩放';
+  public override name: string = '图像拖动裁剪缩放';
 
   public image: HTMLImageElement;
 
@@ -16,7 +16,7 @@ export class Demo extends Rubberband {
     resetScene: () => this.drawScene(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(image_flower_url)
@@ -32,11 +32,11 @@ export class Demo extends Rubberband {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 
@@ -92,7 +92,7 @@ export class Demo extends Rubberband {
       0,
       0,
       this.width,
-      this.height
+      this.height,
     );
   }
 

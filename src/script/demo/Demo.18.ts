@@ -7,7 +7,7 @@ import { Point, Circle } from '../interfaces';
  * @description 小球 简单弹跳 与 简单碰撞检测
  */
 export class Demo extends BaseDemo {
-  public name: string = '简单弹跳 与 简单碰撞检测';
+  public override name: string = '简单弹跳 与 简单碰撞检测';
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
   public config = {
@@ -18,7 +18,7 @@ export class Demo extends BaseDemo {
     collisionDetection: false,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     const pos: Point = {
       x: this.centerX,
@@ -32,7 +32,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawCircles();
   }
 
@@ -57,7 +57,7 @@ export class Demo extends BaseDemo {
   private createCircle(
     position: Point = this.center,
     quantity: number = this.config.circleQuantity,
-    clean: boolean = false
+    clean: boolean = false,
   ) {
     const { config } = this;
 

@@ -4,8 +4,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 创建渐变 - 径向渐变
  */
 export class Demo extends BaseDemo {
-  public name: string = '创建渐变 - 径向渐变';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '创建渐变 - 径向渐变';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -13,7 +13,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().createGradient();
   }
 
@@ -26,7 +26,7 @@ export class Demo extends BaseDemo {
       10,
       this.centerX / 2,
       this.height / 4,
-      200
+      200,
     );
     gradient1.addColorStop(0.0, 'blue');
     gradient1.addColorStop(0.25, 'white');
@@ -51,7 +51,7 @@ export class Demo extends BaseDemo {
       20,
       this.centerX / 2,
       (this.height / 2) * 1.5,
-      200
+      200,
     );
     gradient3.addColorStop(0.0, 'blue');
     // gradient3.addColorStop(0.25, 'purple');
@@ -67,7 +67,7 @@ export class Demo extends BaseDemo {
       200,
       this.centerX * 1.5,
       (this.height / 2) * 1.5,
-      20
+      20,
     );
     gradient4.addColorStop(0.0, 'blue');
     // gradient4.addColorStop(0.25, 'purple');

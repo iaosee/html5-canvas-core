@@ -13,6 +13,12 @@
     "isolatedModules": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictNullChecks": false,
+    "noImplicitOverride": true,
+    "useDefineForClassFields": false,
+    "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": false,
+    "noPropertyAccessFromIndexSignature": true,
     "lib": [
       "es2017", "es2015.core", "dom"
     ],

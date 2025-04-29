@@ -11,7 +11,7 @@ import image_grass2 from '../../../asset/images/grass2.png';
  * @description 动画 —— 视差滚动
  */
 export class Demo extends BaseDemo {
-  public name: string = '动画 —— 视差滚动';
+  public override name: string = '动画 —— 视差滚动';
 
   public lastTime = 0;
 
@@ -35,7 +35,7 @@ export class Demo extends BaseDemo {
     GRASS_VELOCITY: 100,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl()
@@ -55,11 +55,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     this.clearScreen().drawGrid().drawScene(timestamp);
 
     this.stats.update();

@@ -12,7 +12,7 @@ import tennisBall from '../../../asset/images/tennis-ball.png';
  * @description 碰撞检测 — 分离轴定理
  */
 export class Demo extends BaseDemo {
-  public name: string = '碰撞检测 — 分离轴定理';
+  public override name: string = '碰撞检测 — 分离轴定理';
 
   public shapes: Shape[] = [];
   public shapeBeingDragged: Shape;
@@ -25,7 +25,7 @@ export class Demo extends BaseDemo {
     [new Point(500, 100), new Point(475, 200), new Point(600, 200), new Point(625, 100)],
   ];
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.initShapes().listenEvents();
@@ -35,11 +35,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.draw();
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawScene();
   }
 
@@ -66,7 +66,7 @@ export class Demo extends BaseDemo {
 
     this.shapes.push(new ImageShape({ name: 'golfball', imageSource: golfball, x: 50, y: 300 }));
     this.shapes.push(
-      new SpriteShape({ name: 'spriteBall', sprite: ballSprite, x: ballSprite.left, y: ballSprite.top })
+      new SpriteShape({ name: 'spriteBall', sprite: ballSprite, x: ballSprite.left, y: ballSprite.top }),
     );
     return this;
   }

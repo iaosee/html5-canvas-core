@@ -7,7 +7,6 @@ import Stats from 'stats.js';
  */
 export class BaseDemo {
   public name: string = 'Canvas Demo';
-  public config: any = {};
   public player: number = null;
   public context: CanvasRenderingContext2D;
   public dpr: number = window.devicePixelRatio || 1;

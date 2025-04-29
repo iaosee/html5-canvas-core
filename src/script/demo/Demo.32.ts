@@ -16,7 +16,7 @@ enum BackgroundColor {
  * @description 星星，围绕鼠标转圈，鼠标跟随，带拖尾效果
  */
 export class Demo extends BaseDemo {
-  public name: string = '星空轨迹';
+  public override name: string = '星空轨迹';
 
   public stars: Star[] = [];
   public mousePos: Point = new Point(this.centerX, this.height);
@@ -29,7 +29,7 @@ export class Demo extends BaseDemo {
     backgroundColor: BackgroundColor.Dark,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().generatePoint().listenEvents();
@@ -48,7 +48,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawScene();
   }
 
@@ -105,8 +105,8 @@ export class Demo extends BaseDemo {
           Math.random() * config.maxStarRadius,
           this.randomRgba(),
           Math.random() / 100 + 0.001,
-          Math.random() * config.maxRangeRadius + 10
-        )
+          Math.random() * config.maxRangeRadius + 10,
+        ),
       );
     }
 
@@ -138,7 +138,7 @@ class Star {
     public radius: number,
     public color: string,
     public speed: number = 0.01,
-    public maxRangeRadius: number = Math.random() * 500 + 10
+    public maxRangeRadius: number = Math.random() * 500 + 10,
   ) {}
 
   public set x(v: number) {
@@ -157,7 +157,7 @@ class Star {
     return this.position.y;
   }
 
-  public draw(demo: Demo) {
+  public override draw(demo: Demo) {
     const { context, mousePos, config } = demo;
     const old = { x: this.x, y: this.y };
     this.theta += this.speed;

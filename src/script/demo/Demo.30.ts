@@ -4,8 +4,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 裁剪动画
  */
 export class Demo extends BaseDemo {
-  public name: string = '裁剪实现动画';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '裁剪实现动画';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.listenEvents();
@@ -15,11 +15,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().drawText();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

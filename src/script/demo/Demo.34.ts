@@ -11,12 +11,12 @@ enum ShapeStyle {
  * @description 文本 —— 填充背景
  */
 export class Demo extends BaseDemo {
-  public name: string = '文字填充';
+  public override name: string = '文字填充';
   public config = {
     text: 'Hello, Canvas',
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl();
@@ -26,11 +26,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.clearScreen().drawGrid().drawScene();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

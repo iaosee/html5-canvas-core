@@ -12,7 +12,7 @@ import running_sprite_sheet from '../../../asset/images/running-sprite-sheet.png
  * @description 精灵绘制器 —— 精灵表绘制器
  */
 export class Demo extends BaseDemo {
-  public name: string = '精灵绘制器 —— 精灵表绘制器/帧动画';
+  public override name: string = '精灵绘制器 —— 精灵表绘制器/帧动画';
 
   public sprite: Sprite<SpriteSheetPainter>;
   public sprite2: Sprite<SpriteSheetPainter>;
@@ -41,7 +41,7 @@ export class Demo extends BaseDemo {
     explode: () => this.bombExplode(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().initSprite().initBombSprite();
@@ -64,7 +64,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 

@@ -6,7 +6,7 @@ import { Sprite, IBehavior, IPainter } from '../sprite/Sprite';
  * @description 物理效果 —— 钟摆运动
  */
 export class Demo extends BaseDemo {
-  public name: string = '钟摆运动';
+  public override name: string = '钟摆运动';
 
   public pendulum: PendulumSprite;
   public startTime: number = 0;
@@ -19,7 +19,7 @@ export class Demo extends BaseDemo {
     ROD_LENGTH_IN_PIXELS: 300,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     this.createControl().initSprite();
   }
@@ -55,7 +55,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     // const now = +new Date();
 
     return this.clearScreen().drawGrid().drawScene(timestamp);
@@ -163,12 +163,12 @@ export class PendulumPainter implements IPainter {
     // 画连接先，只画到圆的边缘，分别用 正弦、余弦 求圆上坐标
     context.moveTo(
       pendulum.x, // + pendulum.pivotRadius + pendulum.pivotRadius * Math.sin(pendulum.angle),
-      pendulum.y // + pendulum.pivotRadius * Math.cos(pendulum.angle)
+      pendulum.y, // + pendulum.pivotRadius * Math.cos(pendulum.angle)
     );
 
     context.lineTo(
       pendulum.weightX, // - pendulum.weightRadius * Math.sin(pendulum.angle),
-      pendulum.weightY // - pendulum.weightRadius * Math.cos(pendulum.angle)
+      pendulum.weightY, // - pendulum.weightRadius * Math.cos(pendulum.angle)
     );
 
     context.stroke();

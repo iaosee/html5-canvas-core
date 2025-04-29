@@ -80,7 +80,7 @@ enum BackgroundColor {
  * @description 管道绘制 — 流动管道
  */
 export class Demo extends BaseDemo {
-  public name: string = '管道绘制 — 简单流动管道';
+  public override name: string = '管道绘制 — 简单流动管道';
 
   public lastTime = 0;
 
@@ -112,7 +112,7 @@ export class Demo extends BaseDemo {
     [850, 600],
   ];
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl(); //.listenEvents();
@@ -134,7 +134,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number = 0) {
+  public override draw(timestamp: number = 0) {
     if (!this.lastTime) {
       this.lastTime = timestamp;
     }
