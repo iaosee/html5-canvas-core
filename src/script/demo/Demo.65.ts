@@ -145,7 +145,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public clearScreen() {
+  public override clearScreen() {
     const { context, canvas, config } = this;
     context.clearRect(0, 0, this.width, this.height);
 

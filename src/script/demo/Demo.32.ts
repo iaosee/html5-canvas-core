@@ -39,7 +39,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public clearScreen() {
+  public override clearScreen() {
     const { context, canvas, config } = this;
     context.globalAlpha = 0.8;
     context.fillStyle =
