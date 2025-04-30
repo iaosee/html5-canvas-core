@@ -96,7 +96,7 @@ export class Demo extends BaseDemo {
     );
   }
 
-  public destroy() {
+  public override destroy() {
     super.destroy();
     this.tips.remove();
   }
