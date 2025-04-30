@@ -52,7 +52,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public destroy() {
+  public override destroy() {
     super.destroy();
     this.pauseVideo();
   }

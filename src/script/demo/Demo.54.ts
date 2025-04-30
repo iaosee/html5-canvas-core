@@ -122,7 +122,7 @@ export class Demo extends BaseDemo {
     return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
-  public destroy() {
+  public override destroy() {
     super.destroy();
     this.tipsInfo.remove();
   }

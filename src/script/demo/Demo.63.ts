@@ -47,7 +47,7 @@ export class Demo extends BaseDemo {
     return this.draw();
   }
 
-  public destroy() {
+  public override destroy() {
     this.game.endAnimate();
     this.progressbar.domElement?.parentElement.removeChild(this.progressbar.domElement);
     return this;

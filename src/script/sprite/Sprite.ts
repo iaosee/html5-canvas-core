@@ -21,16 +21,16 @@ export interface IBehavior {
  */
 export class Sprite<P extends IPainter = IPainter> {
   public name: string;
-  public x = 0;
-  public y = 0;
-  public left = 0;
-  public top = 0;
-  public width = 10;
-  public height = 10;
-  public velocityX = 0;
-  public velocityY = 0;
-  public visible = true;
-  public animating = false;
+  public x: number = 0;
+  public y: number = 0;
+  public left: number = 0;
+  public top: number = 0;
+  public width: number = 0;
+  public height: number = 0;
+  public velocityX: number = 0;
+  public velocityY: number = 0;
+  public visible: boolean = true;
+  public animating: boolean = false;
   public painter: P = null;
   public behaviors: IBehavior[] = [];
 

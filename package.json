@@ -7,8 +7,8 @@
     "vite": "vite",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run server",
-    "build": "cross-env MODE_ENV=true ./node_modules/.bin/vite build",
-    "server": "./node_modules/.bin/vite --host",
+    "build": "cross-env MODE_ENV=true vite build",
+    "server": "vite --host",
     "prepare": "husky",
     "lint": "lint-staged",
     "deploy": "gh-pages -d dist",
@@ -37,9 +37,11 @@
   "license": "ISC",
   "dependencies": {
     "lil-gui": "^0.20.0",
+    "omggif": "^1.0.10",
     "stats.js": "^0.17.0"
   },
   "devDependencies": {
+    "@types/omggif": "^1.0.5",
     "cross-env": "^7.0.3",
     "gh-pages": "^6.2.0",
     "husky": "^9.1.7",
