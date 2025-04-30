@@ -23,7 +23,7 @@ export class Circle extends Shape {
   }
 
   /** @override */
-  public collidesWith(shape: Shape) {
+  public override collidesWith(shape: Shape) {
     const axes = shape.getAxes();
     if (axes === undefined && shape instanceof Circle) {
       // circle

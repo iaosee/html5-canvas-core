@@ -1,6 +1,12 @@
 import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
+import { Sprite, ImagePainter } from '../sprite';
+import { GifPainter } from '../sprite/GifPainter';
+
+import tennisBall from '../../../asset/images/tennis-ball.png';
+import runRabbit from '../../../asset/images/run-rabbit.gif';
+
 
 export interface PipeConfig {
   outerWidth: number;
@@ -111,11 +117,12 @@ export class Demo extends BaseDemo {
     [850, 100],
     [850, 600],
   ];
+  public ballSprite: Sprite;
 
   public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl(); //.listenEvents();
+    this.createControl().createSprite();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -134,12 +141,26 @@ export class Demo extends BaseDemo {
     return this;
   }
 
+  public createSprite() {
+    const ballSprite = new Sprite('ball', new GifPainter(runRabbit));
+
+    ballSprite.left = 1000;
+    ballSprite.top = 200;
+    ballSprite.width = 79;
+    ballSprite.height = 79;
+
+    this.ballSprite = ballSprite;
+  }
+
   public override draw(timestamp: number = 0) {
     if (!this.lastTime) {
       this.lastTime = timestamp;
     }
 
     this.drawScene(timestamp);
+
+    this.ballSprite.update(this.context, timestamp);
+    this.ballSprite.paint(this.context);
 
     this.lastTime = timestamp;
     return this;

@@ -22,7 +22,7 @@ export class CircleImage extends Circle {
         this.imageLoaded = true;
         this.radius = this.image.width / 2;
       },
-      false
+      false,
     );
   }
 
@@ -31,16 +31,16 @@ export class CircleImage extends Circle {
   }
 
   /** @override */
-  public move(dx: number, dy: number): void {
+  public override move(dx: number, dy: number): void {
     this.x += dx;
     this.y += dy;
   }
 
-  public fill(context: CanvasRenderingContext2D) {
+  public override fill(context: CanvasRenderingContext2D) {
     return this;
   }
 
-  public stroke(context: CanvasRenderingContext2D) {
+  public override stroke(context: CanvasRenderingContext2D) {
     super.stroke(context);
 
     if (this.imageLoaded) {
