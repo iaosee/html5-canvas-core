@@ -1,5 +1,4 @@
 import { Frame, GifReader } from 'omggif';
-import { ImagePainter } from './ImagePainter';
 import { Sprite, IPainter } from './Sprite';
 
 export interface GifFrame {
@@ -9,23 +8,23 @@ export interface GifFrame {
   bufferCanvas: HTMLCanvasElement;
 }
 
-export class GifImagePainter extends ImagePainter implements IPainter {
+export class GifImagePainter implements IPainter {
+  public image = new Image();
   private imageUrl: string;
   public frameIndex: number = 0;
   public frames: Array<GifFrame> = [];
 
   public constructor(imageUrl: string) {
-    super(imageUrl);
-
+    this.image.src = imageUrl;
     this.imageUrl = imageUrl;
 
-    this.loadImage().then((data) => this.decodeFrame(data));
+    this.loadImage(imageUrl).then((data) => this.decodeFrame(data));
   }
 
-  private loadImage(): Promise<ArrayBuffer> {
+  private loadImage(url: string): Promise<ArrayBuffer> {
     const promise = new Promise<ArrayBuffer>((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', this.imageUrl, true);
+      xhr.open('GET', url, true);
       xhr.responseType = 'arraybuffer';
       xhr.onreadystatechange = (e) => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -80,16 +79,16 @@ export class GifImagePainter extends ImagePainter implements IPainter {
     }
   }
 
-  public override async paint(sprite: Sprite, context: CanvasRenderingContext2D) {
+  public async paint(sprite: Sprite, context: CanvasRenderingContext2D) {
     if (!this.frames || !this.frames.length) {
       return;
     }
 
     const x = sprite.x || sprite.left;
     const y = sprite.y || sprite.top;
+    const frame = this.frames[this.frameIndex];
     const width = sprite.width || this.image.width;
     const height = sprite.height || this.image.height;
-    const frame = this.frames[this.frameIndex];
 
     if (!this.image.complete) {
       this.image.onload = (e) => {
