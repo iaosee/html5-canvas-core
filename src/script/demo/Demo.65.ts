@@ -2,12 +2,6 @@ import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
 import { Sprite, ImagePainter } from '../sprite';
-import { GifImagePainter } from '../sprite/GifImagePainter';
-
-import tennisBall from '../../../asset/images/tennis-ball.png';
-import runRabbit from '../../../asset/images/run-rabbit.gif';
-import yoda from '../../../asset/images/yoda.gif';
-
 export interface PipeConfig {
   outerWidth: number;
   innerWidth: number;
@@ -117,12 +111,11 @@ export class Demo extends BaseDemo {
     [850, 100],
     [850, 600],
   ];
-  public ballSprite: Sprite;
 
   public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
-    this.createControl().createSprite();
+    this.createControl();
   }
 
   public static init(canvas: HTMLCanvasElement): Demo {
@@ -141,24 +134,12 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public createSprite() {
-    const ballSprite = new Sprite('ball', new GifImagePainter(runRabbit));
-    ballSprite.addBehavior(new RunningBehavior());
-    ballSprite.x = 900;
-    ballSprite.y = 200;
-
-    this.ballSprite = ballSprite;
-  }
-
   public override draw(timestamp: number = 0) {
     if (!this.lastTime) {
       this.lastTime = timestamp;
     }
 
     this.drawScene(timestamp);
-
-    this.ballSprite.update(this.context, timestamp);
-    this.ballSprite.paint(this.context);
 
     this.lastTime = timestamp;
     return this;
@@ -224,21 +205,5 @@ export class Demo extends BaseDemo {
     const elapsedTime = timestamp - this.lastTime;
     const delta = (config.moveSpeed / 1000) * elapsedTime;
     this.offset -= delta;
-  }
-}
-
-export class RunningBehavior {
-  public lastAdvance: number = 0;
-  public PAGEFLIP_INTERVAL: number = 70;
-
-  public constructor(interval?: number) {
-    this.PAGEFLIP_INTERVAL = interval || this.PAGEFLIP_INTERVAL;
-  }
-
-  public execute(sprite: Sprite<GifImagePainter>, context: CanvasRenderingContext2D, time: number) {
-    if (time - this.lastAdvance > this.PAGEFLIP_INTERVAL) {
-      sprite.painter.advance();
-      this.lastAdvance = time;
-    }
   }
 }
