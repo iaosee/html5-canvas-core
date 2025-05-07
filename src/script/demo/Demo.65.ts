@@ -1,7 +1,7 @@
 import { GUI } from 'lil-gui';
 import { BaseDemo } from '../base/BaseDemo';
 import { Random } from '../tools/Random';
-import { Sprite, ImagePainter } from '../sprite';
+
 export interface PipeConfig {
   outerWidth: number;
   innerWidth: number;
