@@ -1,5 +1,5 @@
 import { Frame, GifReader } from 'omggif';
-import { Sprite, IPainter } from './Sprite';
+import { Sprite, IPainter, IBehavior } from './Sprite';
 
 export interface GifFrame {
   frame: Frame;
@@ -8,15 +8,17 @@ export interface GifFrame {
   bufferCanvas: HTMLCanvasElement;
 }
 
+/**
+ * @reference - https://themadcreator.github.io/gifler/
+ */
 export class GifImagePainter implements IPainter {
+  private lastTime = Date.now();
   public image = new Image();
-  private imageUrl: string;
   public frameIndex: number = 0;
   public frames: Array<GifFrame> = [];
 
   public constructor(imageUrl: string) {
     this.image.src = imageUrl;
-    this.imageUrl = imageUrl;
 
     this.loadImage(imageUrl).then((data) => this.decodeFrame(data));
   }
@@ -68,7 +70,7 @@ export class GifImagePainter implements IPainter {
     }
 
     this.frames = frames;
-    console.log(reader, frames);
+    // console.log(reader, frames);
   }
 
   public advance() {
@@ -86,7 +88,7 @@ export class GifImagePainter implements IPainter {
 
     const x = sprite.x || sprite.left;
     const y = sprite.y || sprite.top;
-    const frame = this.frames[this.frameIndex];
+    const frameInfo = this.frames[this.frameIndex];
     const width = sprite.width || this.image.width;
     const height = sprite.height || this.image.height;
 
@@ -98,7 +100,30 @@ export class GifImagePainter implements IPainter {
         context.drawImage(this.image, x, y, sprite.width, sprite.height);
       };
     } else {
-      context.drawImage(frame.bufferCanvas, x, y, width, height);
+      context.drawImage(frameInfo.bufferCanvas, x, y, width, height);
+    }
+  }
+}
+
+export class GifPlayBehavior implements IBehavior {
+  public lastAdvance: number = 0;
+
+  public constructor() {}
+
+  public execute(sprite: Sprite<GifImagePainter>, context: CanvasRenderingContext2D, time: number) {
+    const frameInfo = sprite.painter.frames[sprite.painter.frameIndex];
+
+    if (!frameInfo) {
+      return;
+    }
+
+    const delay = time - this.lastAdvance;
+    const frameDelay = frameInfo.frame.delay * 10;
+
+    if (delay >= frameDelay) {
+      // console.log('frameDelay', frameDelay, delay);
+      sprite.painter.advance();
+      this.lastAdvance = time;
     }
   }
 }
