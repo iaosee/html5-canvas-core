@@ -12,7 +12,7 @@ import image_flower_url from '../../../asset/images/flower.jpg';
  * @description 像素处理与裁剪
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像处理 —— 裁剪应用部分滤镜';
+  public override name: string = '图像处理 —— 裁剪应用部分滤镜';
   public image: HTMLImageElement;
   public offScreenCanvas: HTMLCanvasElement;
   public offScreenContext: CanvasRenderingContext2D;
@@ -26,7 +26,7 @@ export class Demo extends BaseDemo {
     putFilterOn: () => this.putFilterOn(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.initOffScreenCanvas();
@@ -43,11 +43,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

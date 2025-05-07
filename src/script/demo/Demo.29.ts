@@ -6,7 +6,7 @@ import { Rubberband } from '../base/Rubberband';
  * @description 剪辑区域 —— 实现橡皮檫
  */
 export class Demo extends Rubberband {
-  public name: string = '剪辑区域-实现橡皮檫';
+  public override name: string = '剪辑区域-实现橡皮檫';
   public mouseLastPos: Point;
   public config = {
     eraser: false,
@@ -22,7 +22,7 @@ export class Demo extends Rubberband {
     ERASER_SHADOW_BLUR: 20,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().listenEvents();
@@ -32,11 +32,11 @@ export class Demo extends Rubberband {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().drawText();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 
@@ -78,6 +78,7 @@ export class Demo extends Rubberband {
     return this;
   }
 
+  /** @override */
   public drawRubberbandShape(loc: Point) {
     const { context, config, mousedownPos, rubberbandRect } = this;
 

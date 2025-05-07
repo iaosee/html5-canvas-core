@@ -4,8 +4,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 创建渐变 - 线性渐变
  */
 export class Demo extends BaseDemo {
-  public name: string = '创建渐变 - 线性渐变';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '创建渐变 - 线性渐变';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -13,7 +13,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
+  public override draw() {
     return this.createGradient();
   }
 

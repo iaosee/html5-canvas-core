@@ -7,7 +7,7 @@ import image_flower_url from '../../../asset/images/flower.jpg';
  * @description 图像绘制
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像绘制';
+  public override name: string = '图像绘制';
 
   public image: HTMLImageElement;
   public config = {
@@ -16,7 +16,7 @@ export class Demo extends BaseDemo {
     maxScale: 5.0,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(image_flower_url)
@@ -30,11 +30,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

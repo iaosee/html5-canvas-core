@@ -10,14 +10,14 @@ enum ShapeStyle {
  * @description 文本 — 绕圈绘制
  */
 export class Demo extends BaseDemo {
-  public name: string = '文字路径环绕';
+  public override name: string = '文字路径环绕';
   public config = {
     radius: 300,
     fontSize: 50,
     text: "Hello canvas, hello world. It's so funny. ",
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl();
@@ -27,11 +27,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.clearScreen().drawGrid().drawScene();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 
@@ -78,7 +78,7 @@ export class Demo extends BaseDemo {
 
       context.translate(
         this.center.x + Math.cos(startAngle) * config.radius,
-        this.center.y - Math.sin(startAngle) * config.radius
+        this.center.y - Math.sin(startAngle) * config.radius,
       );
       context.rotate(Math.PI / 2 - startAngle);
 

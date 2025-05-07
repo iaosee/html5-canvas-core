@@ -5,8 +5,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 贝塞尔曲线
  */
 export class Demo extends BaseDemo {
-  public name: string = '绘制-贝塞尔曲线';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '绘制-贝塞尔曲线';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -14,11 +14,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().draw();
   }
 
-  public draw() {
+  public override draw() {
     return this.drawQuadraticBezier().drawCubeBezier();
   }
 
@@ -61,11 +61,11 @@ export class Demo extends BaseDemo {
     const { context } = this;
     const endPoints = [
       { x: this.centerX, y: this.centerY },
-      { x: 430, y: 270 }
+      { x: 430, y: 270 },
     ];
     const controlPoints = [
       { x: this.centerX, y: 250 },
-      { x: 450, y: this.centerY }
+      { x: 450, y: this.centerY },
     ];
 
     context.fillStyle = this.randomRgba();
@@ -79,7 +79,7 @@ export class Demo extends BaseDemo {
       controlPoints[1].x,
       controlPoints[1].y,
       endPoints[1].x,
-      endPoints[1].y
+      endPoints[1].y,
     );
     context.stroke();
 
@@ -105,7 +105,7 @@ export class Demo extends BaseDemo {
     context.strokeStyle = strokeStyle;
     context.fillStyle = fillStyle;
 
-    points.forEach(point => {
+    points.forEach((point) => {
       context.beginPath();
       context.arc(point.x, point.y, 5, 0, Math.PI * 2, false);
       context.stroke();

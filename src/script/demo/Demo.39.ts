@@ -6,7 +6,7 @@ import image_flower_url from '../../../asset/images/flower.jpg';
  * @description 像素处理 - 负片滤镜
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像处理 —— 反色';
+  public override name: string = '图像处理 —— 反色';
   public image: HTMLImageElement;
 
   public config = {
@@ -15,7 +15,7 @@ export class Demo extends BaseDemo {
     negative: () => this.updatePixel(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(image_flower_url)
@@ -31,11 +31,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

@@ -7,8 +7,8 @@ import '../base/Extension';
  * @description 绘制虚线
  */
 export class Demo extends BaseDemo {
-  public name: string = '绘制虚线';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '绘制虚线';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -16,11 +16,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().draw();
   }
 
-  public draw() {
+  public override draw() {
     const { canvas, context } = this;
 
     context.lineWidth = 2;
@@ -31,12 +31,12 @@ export class Demo extends BaseDemo {
     this.drawDashLine(
       {
         x: 0,
-        y: 0
+        y: 0,
       },
       {
         x: this.width,
-        y: this.height
-      }
+        y: this.height,
+      },
     );
     context.closePath();
 
@@ -47,12 +47,12 @@ export class Demo extends BaseDemo {
     this.drawDashLine(
       {
         x: 0,
-        y: this.height
+        y: this.height,
       },
       {
         x: this.width,
-        y: 0
-      }
+        y: 0,
+      },
     );
     context.closePath();
 

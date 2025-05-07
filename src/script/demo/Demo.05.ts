@@ -5,7 +5,7 @@ import { Point, Rectangle } from '../interfaces';
  * @description 拖拽绘制矩形
  */
 export class Demo extends BaseDemo {
-  public name: string = '拖拽绘制矩形';
+  public override name: string = '拖拽绘制矩形';
   public dragging: boolean = false;
   public rectangles: Array<Rectangle> = [];
   public mousedownPosition: Point = { x: 0, y: 0 };
@@ -14,10 +14,10 @@ export class Demo extends BaseDemo {
     y: 0,
     width: 0,
     height: 0,
-    color: this.randomRgba()
+    color: this.randomRgba(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.listenEvents();
@@ -27,11 +27,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.draw().drawRectangles();
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid();
   }
 
@@ -132,10 +132,7 @@ export class Demo extends BaseDemo {
   private mouseupHandler() {
     return (e: MouseEvent) => {
       e.preventDefault();
-      this.clearScreen()
-        .drawGrid()
-        .draggingEnd()
-        .drawRectangles();
+      this.clearScreen().drawGrid().draggingEnd().drawRectangles();
     };
   }
 
@@ -143,9 +140,7 @@ export class Demo extends BaseDemo {
     return (e: KeyboardEvent) => {
       e.preventDefault();
       this.rectangles.splice(0, this.rectangles.length);
-      this.clearScreen()
-        .drawGrid()
-        .drawRectangles();
+      this.clearScreen().drawGrid().drawRectangles();
     };
   }
 }

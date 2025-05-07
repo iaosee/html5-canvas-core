@@ -8,7 +8,7 @@ const SUN_LEFT = 450;
 const SUN_RADIUS = 80;
 
 export class Demo extends BaseDemo {
-  public name: string = '简单游戏引擎';
+  public override name: string = '简单游戏引擎';
   public game: GameEngine;
   public progressbar: Progressbar;
 
@@ -17,7 +17,7 @@ export class Demo extends BaseDemo {
   public gameOver = false;
   public livesLeft = 3;
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     this.game = new GameEngine('ungame', this.canvas);
     this.progressbar = new Progressbar({
@@ -43,17 +43,17 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.draw();
   }
 
-  public destroy() {
+  public override destroy() {
     this.game.endAnimate();
     this.progressbar.domElement?.parentElement.removeChild(this.progressbar.domElement);
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawScene();
   }
 

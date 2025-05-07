@@ -21,7 +21,7 @@ import video_url from '../../../asset/videos/video-01.mp4';
  *
  */
 export class Demo extends BaseDemo {
-  public name: string = '视频 —— 视频渲染绘制';
+  public override name: string = '视频 —— 视频渲染绘制';
   public video: HTMLVideoElement = null;
   public offScreenCanvas: HTMLCanvasElement;
   public offScreenContext: CanvasRenderingContext2D;
@@ -34,7 +34,7 @@ export class Demo extends BaseDemo {
     camera: () => this.camera(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createVedio().createControl().initOffScreenCanvas().listenEvents();
@@ -44,15 +44,15 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 
-  public destroy() {
+  public override destroy() {
     super.destroy();
     this.pauseVideo();
   }

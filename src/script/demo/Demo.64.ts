@@ -19,7 +19,7 @@ interface MotionShape {
  * @description 碰撞检测 — 分离轴定理
  */
 export class Demo extends BaseDemo {
-  public name: string = '碰撞检测 — 多物体运动检测';
+  public override name: string = '碰撞检测 — 多物体运动检测';
 
   // public shapes: Shape[] = [];
   public shapes: MotionShape[] = [];
@@ -44,7 +44,7 @@ export class Demo extends BaseDemo {
     count: 10,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().initShapes(); //.listenEvents();
@@ -64,11 +64,11 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  // public start() {
+  // public override start() {
   //   return this.draw();
   // }
 
-  public draw(timestamp: number = 0) {
+  public override draw(timestamp: number = 0) {
     if (!this.lastTime) {
       this.lastTime = timestamp;
     }

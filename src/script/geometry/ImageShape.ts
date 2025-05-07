@@ -22,7 +22,7 @@ export class ImageShape extends Polygon {
         this.setPolygonPoints();
         this.imageLoaded = true;
       },
-      false
+      false,
     );
   }
 
@@ -36,11 +36,11 @@ export class ImageShape extends Polygon {
     context.drawImage(this.image, this.points[0].x, this.points[0].y);
   }
 
-  public fill(context: CanvasRenderingContext2D) {
+  public override fill(context: CanvasRenderingContext2D) {
     return this;
   }
 
-  public stroke(context: CanvasRenderingContext2D) {
+  public override stroke(context: CanvasRenderingContext2D) {
     if (this.imageLoaded) {
       context.drawImage(this.image, this.points[0].x, this.points[0].y);
     } else {

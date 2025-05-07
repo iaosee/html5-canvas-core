@@ -4,8 +4,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 创建阴影
  */
 export class Demo extends BaseDemo {
-  public name: string = '创建阴影';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '创建阴影';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -13,11 +13,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().createShadow();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

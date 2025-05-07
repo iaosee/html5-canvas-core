@@ -4,15 +4,15 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 时钟
  */
 export class Demo extends BaseDemo {
-  public name: string = '时钟';
+  public override name: string = '时钟';
 
   public config = {
     FONT_HEIGHT: 15,
     MARGIN: 40,
-    NUMERAL_SPACING: 20
+    NUMERAL_SPACING: 20,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -20,12 +20,8 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
-    return this.clearScreen()
-      .drawCircle()
-      .drawNumerals()
-      .drawCenter()
-      .drawHands();
+  public override draw() {
+    return this.clearScreen().drawCircle().drawNumerals().drawCenter().drawHands();
   }
 
   private drawCircle() {
@@ -49,7 +45,7 @@ export class Demo extends BaseDemo {
 
     context.font = '20px Palatino';
     context.fillStyle = 'rgba(35, 154, 59, 1.0)';
-    numerals.map(numeral => {
+    numerals.map((numeral) => {
       const radian = (Math.PI / 6) * (numeral - 3);
       const textNumeral = numeral.toString();
       const numeralWidth = context.measureText(textNumeral).width;

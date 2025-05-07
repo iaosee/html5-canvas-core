@@ -26,7 +26,7 @@ export class SpriteShape extends Polygon {
     this.points.push(new Point(this.x, this.y + this.sprite.height));
   }
 
-  public move(dx: number, dy: number) {
+  public override move(dx: number, dy: number) {
     for (var i = 0; i < this.points.length; ++i) {
       const point = this.points[i];
       point.x += dx;
@@ -38,11 +38,11 @@ export class SpriteShape extends Polygon {
     return this;
   }
 
-  public fill(context: CanvasRenderingContext2D) {
+  public override fill(context: CanvasRenderingContext2D) {
     return this;
   }
 
-  public stroke(context: CanvasRenderingContext2D) {
+  public override stroke(context: CanvasRenderingContext2D) {
     this.sprite.paint(context);
     return this;
   }

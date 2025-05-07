@@ -15,7 +15,7 @@ const INITIAL_LAUNCH_ANGLE = Math.PI / 4;
  * - 地球表面物体下坠 加速度 9.81 m/s
  */
 export class Demo extends BaseDemo {
-  public name: string = '抛射物体';
+  public override name: string = '抛射物体';
 
   public ball: Sprite;
   public ledge: Sprite;
@@ -50,7 +50,7 @@ export class Demo extends BaseDemo {
     launchTime: undefined as any,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl()
@@ -114,15 +114,15 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     return this.clearScreen().drawGrid().drawScene(timestamp);
   }
 
-  public destroy() {
+  public override destroy() {
     super.destroy();
     this.tipsInfo.remove();
   }

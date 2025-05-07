@@ -7,7 +7,6 @@ import Stats from 'stats.js';
  */
 export class BaseDemo {
   public name: string = 'Canvas Demo';
-  public config: any = {};
   public player: number = null;
   public context: CanvasRenderingContext2D;
   public dpr: number = window.devicePixelRatio || 1;
@@ -99,7 +98,7 @@ export class BaseDemo {
     context.font = '50px Palatino';
     context.textAlign = 'center';
     context.fillStyle = 'rgba(64,158,255,1.0)';
-    context.fillText('Hello World, Hello Canvas 😀😂😄 !', this.centerX, this.centerY);
+    context.fillText(this.name || 'Hello World, Hello Canvas 😀😂😄 !', this.centerX, this.centerY);
 
     return this;
   }

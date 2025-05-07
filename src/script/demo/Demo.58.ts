@@ -8,7 +8,7 @@ import { Colorable, Point, Velocity } from '../interfaces';
  * @reference https://generativeartistry.com/tutorials/triangular-mesh/
  */
 export class Demo extends BaseDemo {
-  public name: string = '绘制动态三角网格';
+  public override name: string = '绘制动态三角网格';
 
   public pointOfLine: MeshPoint[][] = [];
   public triangleOfLine: MeshPoint[][] = [];
@@ -20,7 +20,7 @@ export class Demo extends BaseDemo {
     count: 10,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.context.lineCap = 'round';
@@ -60,7 +60,7 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw(timestamp: number) {
+  public override draw(timestamp: number) {
     this.stats.update();
     this.lastTime = timestamp;
     return this.clearScreen().drawGrid().updatePosition().drawScene(timestamp);

@@ -5,13 +5,13 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 实现波浪效果
  */
 export class Demo extends BaseDemo {
-  public name: string = '波浪效果';
+  public override name: string = '波浪效果';
   public points: any[] = [];
   public config = {
     fluctuateRange: 10, // 波动幅度
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     this.createControl().createPoints();
   }
@@ -20,7 +20,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().update().drawScene();
   }
   private createControl() {

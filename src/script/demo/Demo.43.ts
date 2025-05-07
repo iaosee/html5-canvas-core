@@ -8,7 +8,7 @@ import image_flower_url from '../../../asset/images/flower.jpg';
  * @description 图像淡入淡出动画
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像 —— 放大镜实现';
+  public override name: string = '图像 —— 放大镜实现';
   public image: HTMLImageElement;
   public originalImageData: ImageData;
   public offScreenCanvas: HTMLCanvasElement;
@@ -24,7 +24,7 @@ export class Demo extends BaseDemo {
     resetScene: () => this.drawScene(),
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.initOffScreenCanvas();
@@ -41,11 +41,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 
@@ -124,7 +124,7 @@ export class Demo extends BaseDemo {
       pos.x - config.zoomRadius - (config.zoomRadius * 2 * config.zoomScale - config.zoomRadius * 2) / 2,
       pos.y - config.zoomRadius - (config.zoomRadius * 2 * config.zoomScale - config.zoomRadius * 2) / 2,
       config.zoomRadius * 2 * config.zoomScale,
-      config.zoomRadius * 2 * config.zoomScale
+      config.zoomRadius * 2 * config.zoomScale,
     );
     context.stroke();
     context.restore();

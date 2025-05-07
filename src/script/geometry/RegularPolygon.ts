@@ -38,7 +38,7 @@ export class RegularPolygon extends Polygon {
     return points;
   }
 
-  public move(x: number, y: number) {
+  public override move(x: number, y: number) {
     this.x = x;
     this.y = y;
     this.generatePoints();

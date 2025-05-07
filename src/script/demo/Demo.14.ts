@@ -5,8 +5,8 @@ import { BaseDemo } from '../base/BaseDemo';
  * @description 路径、描边、填充
  */
 export class Demo extends BaseDemo {
-  public name: string = '路径、描边、填充';
-  public constructor(public canvas: HTMLCanvasElement) {
+  public override name: string = '路径、描边、填充';
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
   }
 
@@ -14,11 +14,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().drawScene();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 
@@ -34,23 +34,23 @@ export class Demo extends BaseDemo {
     this.drawAnnulus(
       {
         ...this.center,
-        y: this.centerY / 2
+        y: this.centerY / 2,
       },
-      'rgba(19, 160, 223, 0.5)'
+      'rgba(19, 160, 223, 0.5)',
     )
       .drawAnnulus(
         {
           x: this.centerX / 2,
-          y: this.centerY / 2
+          y: this.centerY / 2,
         },
-        'rgba(86, 129, 178, 0.5)'
+        'rgba(86, 129, 178, 0.5)',
       )
       .drawAnnulus(
         {
           x: this.centerX * 1.5,
-          y: this.centerY / 2
+          y: this.centerY / 2,
         },
-        'rgba(229, 79, 119, 0.5)'
+        'rgba(229, 79, 119, 0.5)',
       )
       .drawCutouts();
 

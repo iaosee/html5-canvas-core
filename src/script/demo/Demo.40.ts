@@ -13,7 +13,7 @@ import image_flower_url from '../../../asset/images/flower.jpg';
  * @description 像素处理与裁剪
  */
 export class Demo extends BaseDemo {
-  public name: string = '图像处理 —— 基础滤镜实现';
+  public override name: string = '图像处理 —— 基础滤镜实现';
 
   public image: HTMLImageElement;
 
@@ -23,7 +23,7 @@ export class Demo extends BaseDemo {
     filter: 0,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.loadImage(image_flower_url)
@@ -39,11 +39,11 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this;
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

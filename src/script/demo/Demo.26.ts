@@ -6,14 +6,14 @@ import { Rubberband } from '../base/Rubberband';
  * @description 拖拽绘制二/三次次贝塞尔曲线
  */
 export class Demo extends Rubberband {
-  public name: string = '拖拽绘制二/三次次贝塞尔曲线';
+  public override name: string = '拖拽绘制二/三次次贝塞尔曲线';
   public config = {
     fillStyle: [71, 163, 56, 0.2],
     strokeStyle: [0, 128, 255, 0.8],
     curveType: 'QuadraticCurve',
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().listenEvents();
@@ -23,11 +23,11 @@ export class Demo extends Rubberband {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

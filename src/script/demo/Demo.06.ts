@@ -8,7 +8,7 @@ import { Point, Circle } from '../interfaces';
  * @description 小球连接
  */
 export class Demo extends BaseDemo {
-  public name: string = '移动的小球';
+  public override name: string = '移动的小球';
   private circles: Array<Circle> = [];
   private random: Random = Random.init(-5, 5);
   private mousePosition: Point = { x: 0, y: 0 };
@@ -17,7 +17,7 @@ export class Demo extends BaseDemo {
     lineType: 1,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
     const pos: Point = {
       x: this.centerX,
@@ -31,7 +31,7 @@ export class Demo extends BaseDemo {
     return new Demo(canvas);
   }
 
-  public draw() {
+  public override draw() {
     return this.clearScreen().drawGrid().drawLines().drawCircles();
   }
 

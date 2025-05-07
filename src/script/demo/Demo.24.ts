@@ -8,7 +8,7 @@ import { RegularPolygon } from '../geometry/RegularPolygon';
  * @description 使用多边形对象保存绘制
  */
 export class Demo extends Rubberband {
-  public name: string = '多边形对象-保存绘制';
+  public override name: string = '多边形对象-保存绘制';
   public polygons: RegularPolygon[] = [];
 
   public config = {
@@ -23,7 +23,7 @@ export class Demo extends Rubberband {
     },
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.createControl().listenEvents();
@@ -33,11 +33,11 @@ export class Demo extends Rubberband {
     return new Demo(canvas);
   }
 
-  public start() {
+  public override start() {
     return this.drawGrid().drawPolygons();
   }
 
-  public draw() {
+  public override draw() {
     return this;
   }
 

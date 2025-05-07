@@ -39,7 +39,7 @@ export class BallPainter implements IPainter {
  * 一个对象表示多个概念 —— 享元模式
  */
 export class Demo extends BaseDemo {
-  public name: string = '精灵绘制器 —— 描边与填充/图像图像精灵';
+  public override name: string = '精灵绘制器 —— 描边与填充/图像图像精灵';
 
   public ball1: Sprite;
   public ball2: Sprite;
@@ -50,10 +50,10 @@ export class Demo extends BaseDemo {
 
   public config = {
     CLOCK_RADIUS: this.viewMin / 2 - 15,
-    HOUR_HAND_TRUNCATION: 30
+    HOUR_HAND_TRUNCATION: 30,
   };
 
-  public constructor(public canvas: HTMLCanvasElement) {
+  public constructor(canvas: HTMLCanvasElement) {
     super(canvas);
 
     this.initSprite();
@@ -83,7 +83,7 @@ export class Demo extends BaseDemo {
         context.fill();
         context.stroke();
         context.restore();
-      }
+      },
     });
 
     this.ball1.setX(100);
@@ -101,10 +101,8 @@ export class Demo extends BaseDemo {
     return this;
   }
 
-  public draw() {
-    return this.clearScreen()
-      .drawGrid()
-      .drawScene();
+  public override draw() {
+    return this.clearScreen().drawGrid().drawScene();
   }
 
   public drawScene() {
@@ -172,7 +170,7 @@ export class Demo extends BaseDemo {
     const handRadius = isHour ? config.CLOCK_RADIUS - config.HOUR_HAND_TRUNCATION : config.CLOCK_RADIUS;
     const lineEnd = {
       x: this.centerX + Math.cos(angle) * (handRadius - ball2.width / 2),
-      y: this.centerY + Math.sin(angle) * (handRadius - ball2.width / 2)
+      y: this.centerY + Math.sin(angle) * (handRadius - ball2.width / 2),
     };
 
     context.strokeStyle = 'rgba(100,100,255,0.5)';
