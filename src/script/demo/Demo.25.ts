@@ -63,7 +63,7 @@ export class Demo extends Rubberband {
     return this;
   }
 
-  public drawRubberbandShape(loc: Point) {
+  public override drawRubberbandShape(loc: Point) {
     const { context, config, mousedownPos, mousemovePos, rubberbandRect } = this;
     const radius = Math.sqrt(Math.pow(rubberbandRect.width, 2) + Math.pow(rubberbandRect.height, 2));
 
@@ -100,14 +100,14 @@ export class Demo extends Rubberband {
     return this;
   }
 
-  public listenEvents() {
+  public override listenEvents() {
     super.listenEvents();
     window.addEventListener('keydown', (e) => e.key === 'c' && (this.polygons = []));
 
     return this;
   }
 
-  protected onMousedownHandler(event: MouseEvent) {
+  protected override onMousedownHandler(event: MouseEvent) {
     const { context, config, dpr } = this;
 
     event.preventDefault();
@@ -131,7 +131,7 @@ export class Demo extends Rubberband {
     }
   }
 
-  protected onMousemoveHandler(event: MouseEvent) {
+  protected override onMousemoveHandler(event: MouseEvent) {
     const { context, config } = this;
 
     event.preventDefault();
@@ -152,7 +152,7 @@ export class Demo extends Rubberband {
     }
   }
 
-  protected onMouseupHandler(event: MouseEvent) {
+  protected override onMouseupHandler(event: MouseEvent) {
     const { config } = this;
 
     event.preventDefault();
